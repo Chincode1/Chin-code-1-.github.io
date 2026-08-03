@@ -2,11 +2,18 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Chin Code - รับทำเว็บไซต์</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons & Animation CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -23,92 +30,87 @@
             }
         }
     </script>
+
+    <!-- CSS ป้องกันหน้าเว็บหด/เบี้ยวใน In-App Browser -->
     <style type="text/tailwindcss">
         @layer utilities {
-            .text-shadow {
-                text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            }
-            .section-padding {
-                @apply py-16 px-4 md:px-8 lg:px-16;
-            }
-            .card-hover {
-                @apply transition-all duration-500 hover:shadow-xl hover:-translate-y-2;
-            }
+            .text-shadow { text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+            .section-padding { @apply py-16 px-4 md:px-8 lg:px-16; }
+            .card-hover { @apply transition-all duration-500 hover:shadow-xl hover:-translate-y-2; }
             @keyframes float {
                 0%, 100% { transform: translateY(0); }
                 50% { transform: translateY(-10px); }
             }
-            .animate-float {
-                animation: float 3s ease-in-out infinite;
-            }
+            .animate-float { animation: float 3s ease-in-out infinite; }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* บังคับให้โครงสร้างหลักเต็มหน้าจอเสมอ ป้องกันการหดชิดซ้าย */
+        html, body {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden !important;
+            font-family: 'Kanit', sans-serif;
+        }
+        nav, section, footer {
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+    </style>
 </head>
-<body class="font-sans bg-gray-50 text-gray-800 overflow-x-hidden pt-20">
+<body class="bg-gray-50 text-gray-800 pt-16 md:pt-20">
+
     <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 bg-white/95 backdrop-blur-md shadow-md">
-        <div class="container mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
+        <div class="w-full max-w-7xl mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <img src="https://cdn.phototourl.com/member/2026-08-03-3fddf4d8-ec64-4f44-aea2-7b8c83fd8a6a.png" alt="ร้านรับทำเว็บไซต์" class="w-[60px] md:w-[75px] h-auto object-contain">
-                <a href="#" class="text-[clamp(1.2rem,3vw,1.5rem)] font-bold text-primary hover:scale-105 transition-transform duration-300">Chin Code</a>
+                <img src="https://cdn.phototourl.com/member/2026-08-03-3fddf4d8-ec64-4f44-aea2-7b8c83fd8a6a.png" alt="ร้านรับทำเว็บไซต์" class="w-[50px] md:w-[65px] h-auto object-contain">
+                <a href="#" class="text-xl md:text-2xl font-bold text-primary">Chin Code</a>
             </div>
             
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-8 items-center">
-                <a href="#home" class="font-medium hover:text-primary transition-all duration-300 hover:scale-110 relative group">หน้าแรก
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-                <a href="#about" class="font-medium hover:text-primary transition-all duration-300 hover:scale-110 relative group">เกี่ยวกับเรา
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-                <a href="#services" class="font-medium hover:text-primary transition-all duration-300 hover:scale-110 relative group">บริการ
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-                <a href="#portfolio" class="font-medium hover:text-primary transition-all duration-300 hover:scale-110 relative group">ผลงาน
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-                <a href="#contact" class="font-medium hover:text-primary transition-all duration-300 hover:scale-110 relative group">ติดต่อ
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                <a href="#home" class="font-medium hover:text-primary transition-colors">หน้าแรก</a>
+                <a href="#about" class="font-medium hover:text-primary transition-colors">เกี่ยวกับเรา</a>
+                <a href="#services" class="font-medium hover:text-primary transition-colors">บริการ</a>
+                <a href="#portfolio" class="font-medium hover:text-primary transition-colors">ผลงาน</a>
+                <a href="#contact" class="font-medium hover:text-primary transition-colors">ติดต่อ</a>
             </div>
             
             <!-- Mobile Menu Button -->
-            <button id="menuBtn" class="md:hidden text-2xl p-2 focus:outline-none">
+            <button id="menuBtn" class="md:hidden text-2xl text-dark p-2 focus:outline-none">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
         
         <!-- Mobile Menu -->
         <div id="mobileMenu" class="md:hidden hidden bg-white w-full shadow-lg border-t border-gray-100">
-            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
-                <a href="#home" class="mobile-link font-medium py-1 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">หน้าแรก</a>
-                <a href="#about" class="mobile-link font-medium py-1 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">เกี่ยวกับเรา</a>
-                <a href="#services" class="mobile-link font-medium py-1 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">บริการ</a>
-                <a href="#portfolio" class="mobile-link font-medium py-1 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">ผลงาน</a>
-                <a href="#contact" class="mobile-link font-medium py-1 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">ติดต่อ</a>
+            <div class="px-4 py-3 flex flex-col space-y-3">
+                <a href="#home" class="mobile-link font-medium py-1 hover:text-primary pl-2 border-l-2 border-transparent hover:border-primary">หน้าแรก</a>
+                <a href="#about" class="mobile-link font-medium py-1 hover:text-primary pl-2 border-l-2 border-transparent hover:border-primary">เกี่ยวกับเรา</a>
+                <a href="#services" class="mobile-link font-medium py-1 hover:text-primary pl-2 border-l-2 border-transparent hover:border-primary">บริการ</a>
+                <a href="#portfolio" class="mobile-link font-medium py-1 hover:text-primary pl-2 border-l-2 border-transparent hover:border-primary">ผลงาน</a>
+                <a href="#contact" class="mobile-link font-medium py-1 hover:text-primary pl-2 border-l-2 border-transparent hover:border-primary">ติดต่อ</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-[85vh] flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 relative overflow-hidden py-12">
-        <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute -top-20 -left-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-secondary/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
-        </div>
-        <div class="container mx-auto px-4 md:px-6 text-center relative z-10">
-            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-dark mb-6 leading-tight text-shadow" data-aos="fade-up">
+    <section id="home" class="w-full min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 relative overflow-hidden py-12 px-4">
+        <div class="w-full max-w-4xl mx-auto text-center relative z-10">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-dark mb-6 leading-tight" data-aos="fade-up">
                 สร้างเว็บไซต์ที่ทันสมัย รวดเร็ว <br class="hidden md:block">และตอบโจทย์คุณ
             </h1>
-            <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-10" data-aos="fade-up" data-aos-delay="200">
+            <p class="text-base md:text-xl text-gray-600 max-w-2xl mx-auto mb-10" data-aos="fade-up" data-aos-delay="200">
                 เราพร้อมให้บริการออกแบบและพัฒนาเว็บไซต์ 
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="400">
-                <a href="#portfolio" class="px-8 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 shadow-lg hover:shadow-primary/20 transition-all duration-300 hover:-translate-y-1 hover:scale-105">
+            <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto" data-aos="fade-up" data-aos-delay="400">
+                <a href="#portfolio" class="w-full sm:w-auto px-8 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 shadow-lg text-center">
                     ดูผลงาน
                 </a>
-                <a href="#contact" class="px-8 py-3 bg-white text-primary border border-primary rounded-lg font-medium hover:bg-gray-50 transition-all duration-300 hover:-translate-y-1 hover:scale-105">
+                <a href="#contact" class="w-full sm:w-auto px-8 py-3 bg-white text-primary border border-primary rounded-lg font-medium hover:bg-gray-50 text-center">
                     ติดต่อเรา
                 </a>
             </div>
@@ -116,51 +118,51 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="section-padding bg-white">
-        <div class="container mx-auto">
-            <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-center mb-16 relative" data-aos="fade-up">
+    <section id="about" class="w-full section-padding bg-white">
+        <div class="w-full max-w-7xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 relative" data-aos="fade-up">
                 เกี่ยวกับเรา
                 <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
             </h2>
             
             <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div data-aos="fade-right" data-aos-duration="1000">
+                <div data-aos="fade-right">
                     <h3 class="text-xl md:text-2xl font-semibold mb-4">Chin Code - รับทำเว็บไซต์</h3>
                     <p class="text-gray-600 mb-6">
                         ให้บริการออกแบบและพัฒนาเว็บไซต์ที่ตอบโจทย์ธุรกิจของคุณ
                     </p>
                     
                     <div class="space-y-3">
-                        <div class="flex items-center group">
-                            <i class="fa-solid fa-check-circle text-secondary text-xl mr-3 group-hover:scale-125 transition-transform duration-300"></i>
-                            <span class="group-hover:pl-2 transition-all duration-300">ออกแบบตามต้องการ ทุกหน้าที่สร้างขึ้นอย่างพิถีพิถัน</span>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-check-circle text-secondary text-xl mr-3"></i>
+                            <span>ออกแบบตามต้องการ ทุกหน้าที่สร้างขึ้นอย่างพิถีพิถัน</span>
                         </div>
-                        <div class="flex items-center group">
-                            <i class="fa-solid fa-check-circle text-secondary text-xl mr-3 group-hover:scale-125 transition-transform duration-300"></i>
-                            <span class="group-hover:pl-2 transition-all duration-300">รองรับการแสดงผลบนมือถือทุกขนาดหน้าจอ</span>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-check-circle text-secondary text-xl mr-3"></i>
+                            <span>รองรับการแสดงผลบนมือถือทุกขนาดหน้าจอ</span>
                         </div>
-                        <div class="flex items-center group">
-                            <i class="fa-solid fa-check-circle text-secondary text-xl mr-3 group-hover:scale-125 transition-transform duration-300"></i>
-                            <span class="group-hover:pl-2 transition-all duration-300">เว็บไซต์โหลดเร็ว เพิ่มประสบการณ์การใช้งานที่ดี</span>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-check-circle text-secondary text-xl mr-3"></i>
+                            <span>เว็บไซต์โหลดเร็ว เพิ่มประสบการณ์การใช้งานที่ดี</span>
                         </div>
-                        <div class="flex items-center group">
-                            <i class="fa-solid fa-check-circle text-secondary text-xl mr-3 group-hover:scale-125 transition-transform duration-300"></i>
-                            <span class="group-hover:pl-2 transition-all duration-300">SEO Friendly ช่วยให้ติดอันดับค้นหาได้ง่ายขึ้น</span>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-check-circle text-secondary text-xl mr-3"></i>
+                            <span>SEO Friendly ช่วยให้ติดอันดับค้นหาได้ง่ายขึ้น</span>
                         </div>
                     </div>
                 </div>
                 
-                <div data-aos="fade-left" data-aos-duration="1000" class="bg-gray-100 rounded-xl p-8 h-[300px] md:h-[400px] flex items-center justify-center shadow-inner hover:shadow-lg transition-all duration-500">
-                    <i class="fa-solid fa-code text-[80px] md:text-[100px] text-primary/20 animate-float"></i>
+                <div data-aos="fade-left" class="bg-gray-100 rounded-xl p-8 h-[250px] md:h-[350px] flex items-center justify-center shadow-inner">
+                    <i class="fa-solid fa-code text-6xl md:text-8xl text-primary/20 animate-float"></i>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="section-padding bg-gray-50">
-        <div class="container mx-auto">
-            <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-center mb-16 relative" data-aos="fade-up">
+    <section id="services" class="w-full section-padding bg-gray-50">
+        <div class="w-full max-w-7xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 relative" data-aos="fade-up">
                 บริการของเรา
                 <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
             </h2>
@@ -210,20 +212,20 @@
     </section>
 
     <!-- Portfolio Section -->
-    <section id="portfolio" class="section-padding bg-white">
-        <div class="container mx-auto">
-            <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-center mb-16 relative" data-aos="fade-up">
+    <section id="portfolio" class="w-full section-padding bg-white">
+        <div class="w-full max-w-7xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 relative" data-aos="fade-up">
                 ผลงานของเรา
                 <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
             </h2>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div data-aos="flip-up" class="bg-gray-50 rounded-xl overflow-hidden shadow-md card-hover group border border-gray-100">
+                <div data-aos="flip-up" class="bg-gray-50 rounded-xl overflow-hidden shadow-md card-hover border border-gray-100">
                     <div class="h-52 bg-gray-200 flex items-center justify-center relative overflow-hidden">
-                        <img src="https://cdn.phototourl.com/member/2026-08-03-e79741e9-3bcd-46a5-85e4-fdbaefbcd072.jpg" alt="ร้านรับทำเว็บไซต์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <img src="https://cdn.phototourl.com/member/2026-08-03-e79741e9-3bcd-46a5-85e4-fdbaefbcd072.jpg" alt="ร้านรับทำเว็บไซต์" class="w-full h-full object-cover">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">เว็บไซต์(ตัวอย่าง)</h3>
+                        <h3 class="text-xl font-semibold mb-2">เว็บไซต์ (ตัวอย่าง)</h3>
                         <p class="text-gray-600">ออกแบบทันสมัย รองรับทุกอุปกรณ์</p>
                     </div>
                 </div>
@@ -232,35 +234,33 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section-padding bg-gray-50">
-        <div class="container mx-auto">
-            <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-center mb-16 relative" data-aos="fade-up">
+    <section id="contact" class="w-full section-padding bg-gray-50">
+        <div class="w-full max-w-xl mx-auto text-center">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 relative" data-aos="fade-up">
                 ติดต่อเรา
                 <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
             </h2>
             
-            <div class="max-w-xl mx-auto text-center">
-                <p data-aos="fade-up" class="mb-10 text-gray-600">สนใจใช้บริการหรือมีคำถามใดๆ ติดต่อเราผ่านช่องทางด้านล่างได้เลยครับ</p>
-                
-                <div class="flex justify-center space-x-8">
-                    <!-- Instagram -->
-                    <a href="https://www.instagram.com/chin_code.io?igsh=MXFlZTMxY3JrM2I3bA==" target="_blank" data-aos="fade-right" data-aos-delay="200" 
-                       class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-full shadow-lg hover:shadow-xl hover:-translate-y-2 hover:rotate-6 transition-all duration-500">
-                        <i class="fa-brands fa-instagram text-2xl"></i>
-                    </a>
-                    <!-- Discord -->
-                    <a href="https://discord.gg/aMyXKBzad" target="_blank" data-aos="fade-left" data-aos-delay="200" 
-                       class="flex items-center justify-center w-16 h-16 bg-indigo-600 text-white rounded-full shadow-lg hover:shadow-xl hover:-translate-y-2 hover:-rotate-6 transition-all duration-500">
-                        <i class="fa-brands fa-discord text-2xl"></i>
-                    </a>
-                </div>
+            <p data-aos="fade-up" class="mb-10 text-gray-600">สนใจใช้บริการหรือมีคำถามใดๆ ติดต่อเราผ่านช่องทางด้านล่างได้เลยครับ</p>
+            
+            <div class="flex justify-center space-x-8">
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/chin_code.io?igsh=MXFlZTMxY3JrM2I3bA==" target="_blank" data-aos="fade-right" data-aos-delay="200" 
+                   class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-full shadow-lg">
+                    <i class="fa-brands fa-instagram text-2xl"></i>
+                </a>
+                <!-- Discord -->
+                <a href="https://discord.gg/aMyXKBzad" target="_blank" data-aos="fade-left" data-aos-delay="200" 
+                   class="flex items-center justify-center w-16 h-16 bg-indigo-600 text-white rounded-full shadow-lg">
+                    <i class="fa-brands fa-discord text-2xl"></i>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-10 relative overflow-hidden">
-        <div class="container mx-auto px-4 text-center relative z-10">
+    <footer class="w-full bg-dark text-white py-10 text-center">
+        <div class="w-full max-w-7xl mx-auto px-4">
             <p>© 2026 <span class="font-semibold">Chin Code</span></p>
         </div>
     </footer>
@@ -268,20 +268,13 @@
     <!-- JavaScript -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // เริ่มทำงานอนิเมชั่น
-        AOS.init({ 
-            once: false, // ตั้งเป็น false เพื่อให้เวลารูดขึ้นลงอนิเมชั่นเล่นซ้ำได้
-            offset: 80, 
-            duration: 800 
-        });
+        AOS.init({ once: true, offset: 50, duration: 800 });
 
         const menuBtn = document.getElementById('menuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         
         if (menuBtn && mobileMenu) {
-            menuBtn.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
+            menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
         }
 
         document.querySelectorAll('.mobile-link').forEach(link => {
@@ -305,4 +298,3 @@
     </script>
 </body>
 </html>
-
