@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chin Code - รับทำเว็บไซต์</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- เปลี่ยนเป็น Font Awesome ที่ใหม่กว่า เพื่อรองรับไอคอน Discord -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script>
@@ -46,12 +45,14 @@
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="font-sans bg-gray-50 text-gray-800 overflow-x-hidden">
+<body class="font-sans bg-gray-50 text-gray-800 overflow-x-hidden pt-20 md:pt-24">
     <!-- Navigation -->
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 bg-white/95 shadow-md">
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 bg-white/95 backdrop-blur-md shadow-md">
         <div class="container mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
-          <img src="https://cdn.phototourl.com/member/2026-08-03-3fddf4d8-ec64-4f44-aea2-7b8c83fd8a6a.png" alt="ร้านรับทำเว็บไซต์" class="w-[75px] h-auto">
-            <a href="#" class="text-[clamp(1.2rem,3vw,1.5rem)] font-bold text-primary hover:scale-105 transition-transform duration-300">Chin Code</a>
+            <div class="flex items-center space-x-3">
+                <img src="https://cdn.phototourl.com/member/2026-08-03-3fddf4d8-ec64-4f44-aea2-7b8c83fd8a6a.png" alt="ร้านรับทำเว็บไซต์" class="w-[50px] md:w-[65px] h-auto object-contain">
+                <a href="#" class="text-[clamp(1.2rem,3vw,1.5rem)] font-bold text-primary hover:scale-105 transition-transform duration-300">Chin Code</a>
+            </div>
             
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-8 items-center">
@@ -66,8 +67,6 @@
                 </a>
                 <a href="#portfolio" class="font-medium hover:text-primary transition-all duration-300 hover:scale-110 relative group">ผลงาน
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                
-                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
                 </a>
                 <a href="#contact" class="font-medium hover:text-primary transition-all duration-300 hover:scale-110 relative group">ติดต่อ
                     <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
@@ -75,26 +74,25 @@
             </div>
             
             <!-- Mobile Menu Button -->
-            <button id="menuBtn" class="md:hidden text-xl transition-transform duration-300 hover:rotate-90">
+            <button id="menuBtn" class="md:hidden text-2xl text-dark p-2 focus:outline-none">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
         
         <!-- Mobile Menu -->
-        <div id="mobileMenu" class="md:hidden hidden bg-white w-full absolute shadow-lg transition-all duration-500 ease-in-out">
-            <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
-                <a href="#home" class="font-medium py-2 hover:text-primary transition-all duration-300 pl-2 hover:pl-4 border-l-2 border-transparent hover:border-primary">หน้าแรก</a>
-                <a href="#about" class="font-medium py-2 hover:text-primary transition-all duration-300 pl-2 hover:pl-4 border-l-2 border-transparent hover:border-primary">เกี่ยวกับเรา</a>
-                <a href="#services" class="font-medium py-2 hover:text-primary transition-all duration-300 pl-2 hover:pl-4 border-l-2 border-transparent hover:border-primary">บริการ</a>
-                <a href="#portfolio" class="font-medium py-2 hover:text-primary transition-all duration-300 pl-2 hover:pl-4 border-l-2 border-transparent hover:border-primary">ผลงาน</a>
-                
-                <a href="#contact" class="font-medium py-2 hover:text-primary transition-all duration-300 pl-2 hover:pl-4 border-l-2 border-transparent hover:border-primary">ติดต่อ</a>
+        <div id="mobileMenu" class="md:hidden hidden bg-white w-full shadow-lg border-t border-gray-100">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-2">
+                <a href="#home" class="mobile-link font-medium py-2 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">หน้าแรก</a>
+                <a href="#about" class="mobile-link font-medium py-2 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">เกี่ยวกับเรา</a>
+                <a href="#services" class="mobile-link font-medium py-2 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">บริการ</a>
+                <a href="#portfolio" class="mobile-link font-medium py-2 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">ผลงาน</a>
+                <a href="#contact" class="mobile-link font-medium py-2 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">ติดต่อ</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 pt-16 relative overflow-hidden">
+    <section id="home" class="min-h-[85vh] flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 relative overflow-hidden py-12">
         <div class="absolute inset-0 overflow-hidden">
             <div class="absolute -top-20 -left-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
             <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-secondary/5 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
@@ -129,7 +127,7 @@
                 <div data-aos="fade-right" data-aos-duration="1000">
                     <h3 class="text-xl md:text-2xl font-semibold mb-4">Chin Code - รับทำเว็บไซต์</h3>
                     <p class="text-gray-600 mb-6">
-                        
+                        ให้บริการพัฒนาเว็บไซต์ครบวงจร เน้นการดีไซน์ที่ทันสมัย ใช้งานง่าย และรองรับทุกอุปกรณ์
                     </p>
                     
                     <div class="space-y-3">
@@ -152,8 +150,8 @@
                     </div>
                 </div>
                 
-                <div data-aos="fade-left" data-aos-duration="1000" class="bg-gray-100 rounded-xl p-8 h-[400px] flex items-center justify-center shadow-inner hover:shadow-lg transition-all duration-500">
-                    <i class="fa-solid fa-code text-[100px] text-primary/20 animate-float"></i>
+                <div data-aos="fade-left" data-aos-duration="1000" class="bg-gray-100 rounded-xl p-8 h-[300px] md:h-[400px] flex items-center justify-center shadow-inner hover:shadow-lg transition-all duration-500">
+                    <i class="fa-solid fa-code text-[80px] md:text-[100px] text-primary/20 animate-float"></i>
                 </div>
             </div>
         </div>
@@ -172,38 +170,35 @@
                     <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl mb-6">
                         <i class="fa-solid fa-building"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">เว็บไซต์ไบไอแนะนำข้อมูลตัวเอง</h3>
+                    <h3 class="text-xl font-semibold mb-3">เว็บไซต์บริษัท / แนะนำธุรกิจ</h3>
                     <p class="text-gray-600">สร้างภาพลักษณ์ที่เป็นมืออาชีพให้กับธุรกิจของคุณ</p>
                 </div>
                 
                 <div data-aos="zoom-in" data-aos-delay="100" class="bg-white p-8 rounded-xl shadow-md card-hover">
                     <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl mb-6">
-                        <i class="fa-solid fa-shopping-cart"></i>
-                    
-                
-              
+                        <i class="fa-solid fa-briefcase"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-3">เว็บไซต์ Portfolio</h3>
                     <p class="text-gray-600">แสดงผลงานและความสามารถของคุณอย่างโดดเด่น</p>
                 </div>
                 
-                <div data-aos="zoom-in" data-aos-delay="300" class="bg-white p-8 rounded-xl shadow-md card-hover">
+                <div data-aos="zoom-in" data-aos-delay="200" class="bg-white p-8 rounded-xl shadow-md card-hover">
                     <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl mb-6">
-                        <i class="fa-solid fa-file-text"></i>
+                        <i class="fa-solid fa-file-lines"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-3">Landing Page</h3>
                     <p class="text-gray-600">หน้าเดียวครบครัน เพื่อการตลาดและเพิ่มยอดขาย</p>
                 </div>
                 
-                <div data-aos="zoom-in" data-aos-delay="400" class="bg-white p-8 rounded-xl shadow-md card-hover">
+                <div data-aos="zoom-in" data-aos-delay="300" class="bg-white p-8 rounded-xl shadow-md card-hover">
                     <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl mb-6">
-                        <i class="fa-solid fa-calendar"></i>
+                        <i class="fa-solid fa-calendar-check"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-3">ระบบจอง</h3>
                     <p class="text-gray-600">ระบบจองคิว นัดหมาย หรือจองที่พักออนไลน์</p>
                 </div>
                 
-                <div data-aos="zoom-in" data-aos-delay="500" class="bg-white p-8 rounded-xl shadow-md card-hover">
+                <div data-aos="zoom-in" data-aos-delay="400" class="bg-white p-8 rounded-xl shadow-md card-hover">
                     <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl mb-6">
                         <i class="fa-solid fa-users"></i>
                     </div>
@@ -223,31 +218,18 @@
             </h2>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div data-aos="flip-up" class="bg-gray-100 rounded-xl overflow-hidden card-hover group">
-                    <div class="h-48 bg-primary/5 flex items-center justify-center relative overflow-hidden">
-                     
-                      <img src="https://cdn.phototourl.com/member/2026-08-03-e79741e9-3bcd-46a5-85e4-fdbaefbcd072.jpg" alt="ร้านรับทำเว็บไซต์" width="400" height="100">
+                <div data-aos="flip-up" class="bg-gray-50 rounded-xl overflow-hidden shadow-md card-hover group border border-gray-100">
+                    <div class="h-52 bg-gray-200 flex items-center justify-center relative overflow-hidden">
+                        <img src="https://cdn.phototourl.com/member/2026-08-03-e79741e9-3bcd-46a5-85e4-fdbaefbcd072.jpg" alt="ร้านรับทำเว็บไซต์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">เว็บไซต์(ตัวอย่าง)</h3>
-                        <p class="text-gray-600 mb-4">ออกแบบทันสมัย รองรับทุกอุปกรณ์</p>
-                        
+                        <h3 class="text-xl font-semibold mb-2">เว็บไซต์ (ตัวอย่าง)</h3>
+                        <p class="text-gray-600">ออกแบบทันสมัย รองรับทุกอุปกรณ์</p>
                     </div>
                 </div>
-                
-                
             </div>
         </div>
     </section>
-
-                                    
-                        
-                  
-                
-                
-                        
-
-    
 
     <!-- Contact Section -->
     <section id="contact" class="section-padding bg-gray-50">
@@ -291,20 +273,32 @@
         const menuBtn = document.getElementById('menuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         
-        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('shadow-lg', window.scrollY > 50);
+        // Toggle Mobile Menu
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
         });
 
+        // Hide Mobile Menu on Link Click
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
                 e.preventDefault();
-                mobileMenu.classList.add('hidden');
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
             });
         });
     </script>
 </body>
-  </html>
+</html>
+
