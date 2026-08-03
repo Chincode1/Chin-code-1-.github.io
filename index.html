@@ -45,12 +45,12 @@
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="font-sans bg-gray-50 text-gray-800 overflow-x-hidden pt-20 md:pt-24">
+<body class="font-sans bg-gray-50 text-gray-800 overflow-x-hidden pt-20">
     <!-- Navigation -->
     <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 bg-white/95 backdrop-blur-md shadow-md">
         <div class="container mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <img src="https://cdn.phototourl.com/member/2026-08-03-3fddf4d8-ec64-4f44-aea2-7b8c83fd8a6a.png" alt="ร้านรับทำเว็บไซต์" class="w-[50px] md:w-[65px] h-auto object-contain">
+                <img src="https://cdn.phototourl.com/member/2026-08-03-3fddf4d8-ec64-4f44-aea2-7b8c83fd8a6a.png" alt="ร้านรับทำเว็บไซต์" class="w-[60px] md:w-[75px] h-auto object-contain">
                 <a href="#" class="text-[clamp(1.2rem,3vw,1.5rem)] font-bold text-primary hover:scale-105 transition-transform duration-300">Chin Code</a>
             </div>
             
@@ -74,19 +74,19 @@
             </div>
             
             <!-- Mobile Menu Button -->
-            <button id="menuBtn" class="md:hidden text-2xl text-dark p-2 focus:outline-none">
+            <button id="menuBtn" class="md:hidden text-2xl p-2 focus:outline-none">
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
         
         <!-- Mobile Menu -->
         <div id="mobileMenu" class="md:hidden hidden bg-white w-full shadow-lg border-t border-gray-100">
-            <div class="container mx-auto px-4 py-3 flex flex-col space-y-2">
-                <a href="#home" class="mobile-link font-medium py-2 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">หน้าแรก</a>
-                <a href="#about" class="mobile-link font-medium py-2 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">เกี่ยวกับเรา</a>
-                <a href="#services" class="mobile-link font-medium py-2 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">บริการ</a>
-                <a href="#portfolio" class="mobile-link font-medium py-2 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">ผลงาน</a>
-                <a href="#contact" class="mobile-link font-medium py-2 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">ติดต่อ</a>
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#home" class="mobile-link font-medium py-1 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">หน้าแรก</a>
+                <a href="#about" class="mobile-link font-medium py-1 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">เกี่ยวกับเรา</a>
+                <a href="#services" class="mobile-link font-medium py-1 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">บริการ</a>
+                <a href="#portfolio" class="mobile-link font-medium py-1 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">ผลงาน</a>
+                <a href="#contact" class="mobile-link font-medium py-1 hover:text-primary transition-all duration-300 pl-2 border-l-2 border-transparent hover:border-primary">ติดต่อ</a>
             </div>
         </div>
     </nav>
@@ -118,7 +118,7 @@
     <!-- About Section -->
     <section id="about" class="section-padding bg-white">
         <div class="container mx-auto">
-            <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-center mb-16 relative">
+            <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-center mb-16 relative" data-aos="fade-up">
                 เกี่ยวกับเรา
                 <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
             </h2>
@@ -127,7 +127,7 @@
                 <div data-aos="fade-right" data-aos-duration="1000">
                     <h3 class="text-xl md:text-2xl font-semibold mb-4">Chin Code - รับทำเว็บไซต์</h3>
                     <p class="text-gray-600 mb-6">
-                        ให้บริการพัฒนาเว็บไซต์ครบวงจร เน้นการดีไซน์ที่ทันสมัย ใช้งานง่าย และรองรับทุกอุปกรณ์
+                        ให้บริการออกแบบและพัฒนาเว็บไซต์ที่ตอบโจทย์ธุรกิจของคุณ
                     </p>
                     
                     <div class="space-y-3">
@@ -160,7 +160,7 @@
     <!-- Services Section -->
     <section id="services" class="section-padding bg-gray-50">
         <div class="container mx-auto">
-            <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-center mb-16 relative">
+            <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-center mb-16 relative" data-aos="fade-up">
                 บริการของเรา
                 <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
             </h2>
@@ -170,7 +170,7 @@
                     <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl mb-6">
                         <i class="fa-solid fa-building"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-3">เว็บไซต์บริษัท / แนะนำธุรกิจ</h3>
+                    <h3 class="text-xl font-semibold mb-3">เว็บไซต์แนะนำตัวเอง / ธุรกิจ</h3>
                     <p class="text-gray-600">สร้างภาพลักษณ์ที่เป็นมืออาชีพให้กับธุรกิจของคุณ</p>
                 </div>
                 
@@ -212,7 +212,7 @@
     <!-- Portfolio Section -->
     <section id="portfolio" class="section-padding bg-white">
         <div class="container mx-auto">
-            <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-center mb-16 relative">
+            <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-center mb-16 relative" data-aos="fade-up">
                 ผลงานของเรา
                 <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
             </h2>
@@ -223,7 +223,7 @@
                         <img src="https://cdn.phototourl.com/member/2026-08-03-e79741e9-3bcd-46a5-85e4-fdbaefbcd072.jpg" alt="ร้านรับทำเว็บไซต์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">เว็บไซต์ (ตัวอย่าง)</h3>
+                        <h3 class="text-xl font-semibold mb-2">เว็บไซต์(ตัวอย่าง)</h3>
                         <p class="text-gray-600">ออกแบบทันสมัย รองรับทุกอุปกรณ์</p>
                     </div>
                 </div>
@@ -234,7 +234,7 @@
     <!-- Contact Section -->
     <section id="contact" class="section-padding bg-gray-50">
         <div class="container mx-auto">
-            <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-center mb-16 relative">
+            <h2 class="text-[clamp(1.8rem,3vw,2.5rem)] font-bold text-center mb-16 relative" data-aos="fade-up">
                 ติดต่อเรา
                 <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
             </h2>
@@ -268,24 +268,28 @@
     <!-- JavaScript -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ once: true, offset: 100, duration: 800 });
+        // เริ่มทำงานอนิเมชั่น
+        AOS.init({ 
+            once: false, // ตั้งเป็น false เพื่อให้เวลารูดขึ้นลงอนิเมชั่นเล่นซ้ำได้
+            offset: 80, 
+            duration: 800 
+        });
 
         const menuBtn = document.getElementById('menuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         
-        // Toggle Mobile Menu
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
 
-        // Hide Mobile Menu on Link Click
         document.querySelectorAll('.mobile-link').forEach(link => {
             link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
+                if (mobileMenu) mobileMenu.classList.add('hidden');
             });
         });
 
-        // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const targetId = this.getAttribute('href');
