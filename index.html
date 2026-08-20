@@ -1,300 +1,845 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Chin Code - รับทำเว็บไซต์</title>
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Icons & Animation CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บริการรับทำเว็บไซต์ - Chin Code</title>
+    <!-- นำเข้าฟอนต์ Prompt -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- นำเข้า Font Awesome สำหรับไอคอน -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#2563eb',
-                        secondary: '#10b981',
-                        dark: '#1e293b',
-                    },
-                    fontFamily: {
-                        sans: ['Kanit', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- CSS ป้องกันหน้าเว็บหด/เบี้ยวใน In-App Browser -->
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .text-shadow { text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
-            .section-padding { @apply py-16 px-4 md:px-8 lg:px-16; }
-            .card-hover { @apply transition-all duration-500 hover:shadow-xl hover:-translate-y-2; }
-            @keyframes float {
-                0%, 100% { transform: translateY(0); }
-                50% { transform: translateY(-10px); }
-            }
-            .animate-float { animation: float 3s ease-in-out infinite; }
-        }
-    </style>
+    
     <style>
-        /* บังคับให้โครงสร้างหลักเต็มหน้าจอเสมอ ป้องกันการหดชิดซ้าย */
-        html, body {
-            width: 100% !important;
-            max-width: 100% !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            overflow-x: hidden !important;
-            font-family: 'Kanit', sans-serif;
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        nav, section, footer {
-            width: 100% !important;
-            box-sizing: border-box !important;
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #FFFFFF;
+            color: #0018F9;
+            overflow-x: hidden;
+        }
+
+        /* Intro Splash Screen */
+        .intro-splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .intro-logo {
+            width: 220px;
+            height: auto;
+            position: absolute;
+            animation: pulseLogo 1s infinite alternate;
+        }
+
+        @keyframes pulseLogo {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.08); }
+        }
+
+        /* --- Popup Advertisement Modal Styling (คงเดิม ไม่แตะต้อง) --- */
+        .ad-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .ad-modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .ad-modal-box {
+            background-color: #FFFFFF;
+            border: 3px solid #0018F9;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 420px;
+            padding: 25px 20px 20px 20px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0, 24, 249, 0.25);
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .ad-modal-overlay.show .ad-modal-box {
+            transform: scale(1);
+        }
+
+        .ad-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: 2px solid #0018F9;
+            color: #0018F9;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .ad-close-btn:hover {
+            background-color: #0018F9;
+            color: #FFFFFF;
+            transform: scale(1.1);
+        }
+
+        .ad-modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0018F9;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .ad-image-container {
+            width: 100%;
+            height: 280px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            background-color: #f0f2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ad-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 15px;
+        }
+
+        .ad-counter {
+            text-align: center;
+            font-size: 13px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        /* --- Product Detail Modal Styling (กล่องรายละเอียดสินค้าเมื่อกดที่รูป) --- */
+        .product-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .product-modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .product-modal-box {
+            background-color: #FFFFFF;
+            border: 3px solid #0018F9;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 420px;
+            padding: 25px 20px 20px 20px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(0, 24, 249, 0.25);
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+
+        .product-modal-overlay.show .product-modal-box {
+            transform: scale(1);
+        }
+
+        .product-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: transparent;
+            border: 2px solid #0018F9;
+            color: #0018F9;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .product-close-btn:hover {
+            background-color: #0018F9;
+            color: #FFFFFF;
+            transform: scale(1.1);
+        }
+
+        .product-modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0018F9;
+            margin-bottom: 15px;
+        }
+
+        .product-modal-img-container {
+            width: 100%;
+            height: 250px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            background-color: #f0f2ff;
+            position: relative;
+        }
+
+        .product-modal-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-price-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: #0018F9;
+            color: #FFFFFF;
+            padding: 6px 14px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 24, 249, 0.3);
+            z-index: 5;
+        }
+
+        .product-modal-desc {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .product-contact-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #0018F9;
+            margin-bottom: 12px;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 80px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* ปุ่ม 3 ขีดสีน้ำเงิน */
+        .menu-toggle-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #0018F9;
+            font-size: 26px;
+            cursor: pointer;
+            z-index: 100;
+            transition: transform 0.2s ease;
+        }
+
+        .menu-toggle-btn:hover {
+            transform: scale(1.15);
+        }
+
+        /* เมนูดรอปดาวน์ */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 55px;
+            right: 20px;
+            background-color: #FFFFFF;
+            border: 2px solid #0018F9;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 24, 249, 0.15);
+            overflow: hidden;
+            z-index: 99;
+            width: 180px;
+            animation: fadeInMenu 0.3s ease;
+        }
+
+        .contact-menu-trigger {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            color: #0018F9;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .contact-menu-trigger:hover {
+            background-color: #0018F9;
+            color: #FFFFFF;
+        }
+
+        .arrow-icon {
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-dropdown {
+            display: none;
+            padding: 15px;
+            background-color: #f4f6ff;
+            text-align: center;
+            border-top: 1px solid #e0e5ff;
+        }
+
+        .social-circles-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-circle-btn {
+            width: 42px;
+            height: 42px;
+            background-color: #0018F9;
+            color: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0, 24, 249, 0.3);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease;
+        }
+
+        .social-circle-btn:hover {
+            transform: scale(1.2);
+            background-color: #0013cb;
+        }
+
+        @keyframes fadeInMenu {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Top Banner */
+        .top-banner {
+            background-color: #07156B;
+            width: 100%;
+            height: 70px;
+            position: relative;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-start;
+            padding-top: 10px;
+        }
+
+        .logo-pattern-strip {
+            display: flex;
+            white-space: nowrap;
+            width: 100%;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        .mini-logo {
+            height: 22px;
+            width: auto;
+            object-fit: contain;
+            opacity: 0.85;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 60px;
+        }
+
+        .main-logo-container {
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .main-logo {
+            width: 200px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .main-title {
+            font-size: 38px;
+            font-weight: 700;
+            color: #0018F9;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .social-icons-container {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .social-icon-btn {
+            color: #0018F9;
+            font-size: 50px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-icon-btn:hover {
+            transform: scale(1.2) rotate(5deg);
+            filter: drop-shadow(0 5px 10px rgba(0, 24, 249, 0.3));
+        }
+
+        /* Portfolio Section (ส่วนสินค้า) */
+        .portfolio-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0018F9;
+            margin-bottom: 35px;
+            text-align: left;
+        }
+
+        .portfolio-cards-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+        }
+
+        .portfolio-card {
+            width: 100%;
+            height: 380px;
+            border: 4px solid #0018F9;
+            border-radius: 35px;
+            overflow: hidden;
+            background-color: #FFFFFF;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 8px 20px rgba(0, 24, 249, 0.05);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 24, 249, 0.15);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .portfolio-card:hover .portfolio-img {
+            transform: scale(1.03);
+        }
+
+        .product-price-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #0018F9;
+            color: #FFFFFF;
+            padding: 8px 18px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0, 24, 249, 0.4);
+            z-index: 10;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .top-banner {
+                height: 55px;
+                border-bottom-left-radius: 25px;
+                border-bottom-right-radius: 25px;
+            }
+
+            .main-logo {
+                width: 150px;
+            }
+
+            .main-title {
+                font-size: 28px;
+            }
+
+            .social-icon-btn {
+                font-size: 40px;
+            }
+
+            .section-title {
+                font-size: 24px;
+                margin-bottom: 25px;
+            }
+
+            .portfolio-card {
+                height: 220px;
+                border-radius: 20px;
+                border-width: 3px;
+            }
+
+            .product-price-badge {
+                top: 12px;
+                right: 12px;
+                padding: 5px 12px;
+                font-size: 13px;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 pt-16 md:pt-20">
+<body>
 
-    <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
-        <div class="w-full max-w-7xl mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <img src="https://cdn.phototourl.com/member/2026-08-03-3fddf4d8-ec64-4f44-aea2-7b8c83fd8a6a.png" alt="ร้านรับทำเว็บไซต์" class="w-[50px] md:w-[65px] h-auto object-contain">
-                <a href="#" class="text-xl md:text-2xl font-bold text-primary">Chin Code</a>
-            </div>
-            
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex space-x-8 items-center">
-                <a href="#home" class="font-medium hover:text-primary transition-colors">หน้าแรก</a>
-                <a href="#about" class="font-medium hover:text-primary transition-colors">เกี่ยวกับเรา</a>
-                <a href="#services" class="font-medium hover:text-primary transition-colors">บริการ</a>
-                <a href="#portfolio" class="font-medium hover:text-primary transition-colors">ผลงาน</a>
-                <a href="#contact" class="font-medium hover:text-primary transition-colors">ติดต่อ</a>
-            </div>
-            
-            <!-- Mobile Menu Button -->
-            <button id="menuBtn" class="md:hidden text-2xl text-dark p-2 focus:outline-none">
-                <i class="fa-solid fa-bars"></i>
+    <!-- Intro Animation Overlay -->
+    <div id="intro-splash" class="intro-splash">
+        <img src="https://cdn.phototourl.com/free/2026-08-18-2b12c8b4-e50b-4169-b89b-580dbde96f9b.png" alt="Intro Logo" class="intro-logo" id="introLogo">
+    </div>
+
+    <!-- Popup Advertisement Modal (โฆษณาตอนเปิดเว็บ - คงเดิม ไม่แตะต้อง) -->
+    <div id="adModal" class="ad-modal-overlay">
+        <div class="ad-modal-box">
+            <button class="ad-close-btn" onclick="nextAd()" aria-label="Close Advertisement">
+                <i class="fa-solid fa-xmark"></i>
             </button>
+
+            <h3 class="ad-modal-title" id="adTitle"></h3>
+
+            <div class="ad-image-container">
+                <img id="adImage" src="" alt="Advertisement" class="ad-img">
+            </div>
+
+            <div class="ad-counter" id="adCounter"></div>
         </div>
+    </div>
+
+    <!-- Product Detail Modal (กล่องรายละเอียดสินค้า เมื่อคลิกที่รูปสินค้า) -->
+    <div id="productModal" class="product-modal-overlay">
+        <div class="product-modal-box">
+            <button class="product-close-btn" onclick="closeProductModal()" aria-label="Close Details">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h3 class="product-modal-title" id="modalProductTitle">Chin code </h3>
+
+            <div class="product-modal-img-container">
+                <div class="modal-price-badge" id="modalProductPrice">70.-</div>
+                <img id="modalProductImg" src="" alt="Product Detail" class="product-modal-img">
+            </div>
+
+            <p class="product-modal-desc" id="modalProductDesc">ทำเว็บbio link ราคาเพียง70บาท สนใจติดต่อใด้ทุกช่องทาง </p>
+
+            <div class="product-contact-title">ช่องทางการติดต่อ</div>
+            <div class="social-circles-container">
+                <a href="https://www.instagram.com/chin_code.io?igsh=MXFlZTMxY3JrM2I3bA==" target="_blank" class="social-circle-btn" title="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://discord.gg/aMyXKBzad" target="_blank" class="social-circle-btn" title="Discord">
+                    <i class="fa-brands fa-discord"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Logo Pattern Section -->
+    <header class="top-banner">
+        <div class="logo-pattern-strip" id="logoPatternStrip"></div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
         
-        <!-- Mobile Menu -->
-        <div id="mobileMenu" class="md:hidden hidden bg-white w-full shadow-lg border-t border-gray-100">
-            <div class="px-4 py-3 flex flex-col space-y-3">
-                <a href="#home" class="mobile-link font-medium py-1 hover:text-primary pl-2 border-l-2 border-transparent hover:border-primary">หน้าแรก</a>
-                <a href="#about" class="mobile-link font-medium py-1 hover:text-primary pl-2 border-l-2 border-transparent hover:border-primary">เกี่ยวกับเรา</a>
-                <a href="#services" class="mobile-link font-medium py-1 hover:text-primary pl-2 border-l-2 border-transparent hover:border-primary">บริการ</a>
-                <a href="#portfolio" class="mobile-link font-medium py-1 hover:text-primary pl-2 border-l-2 border-transparent hover:border-primary">ผลงาน</a>
-                <a href="#contact" class="mobile-link font-medium py-1 hover:text-primary pl-2 border-l-2 border-transparent hover:border-primary">ติดต่อ</a>
+        <!-- ปุ่ม 3 ขีดสีน้ำเงิน -->
+        <button class="menu-toggle-btn" onclick="toggleMenu()" aria-label="Menu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <!-- เมนูดรอปดาวน์ -->
+        <div id="dropdownMenu" class="dropdown-menu">
+            <a href="#" onclick="toggleContact(event)" class="contact-menu-trigger">
+                <span>ติดต่อ</span>
+                <i class="fa-solid fa-chevron-down arrow-icon" id="arrowIcon"></i>
+            </a>
+            
+            <div id="contactDropdown" class="contact-dropdown">
+                <div class="social-circles-container">
+                    <a href="https://www.instagram.com/chin_code.io?igsh=MXFlZTMxY3JrM2I3bA==" target="_blank" class="social-circle-btn" title="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://discord.gg/aMyXKBzad" target="_blank" class="social-circle-btn" title="Discord">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                </div>
             </div>
         </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="w-full min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 relative overflow-hidden py-12 px-4">
-        <div class="w-full max-w-4xl mx-auto text-center relative z-10">
-            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-dark mb-6 leading-tight" data-aos="fade-up">
-                สร้างเว็บไซต์ที่ทันสมัย รวดเร็ว <br class="hidden md:block">และตอบโจทย์คุณ
-            </h1>
-            <p class="text-base md:text-xl text-gray-600 max-w-2xl mx-auto mb-10" data-aos="fade-up" data-aos-delay="200">
-                เราพร้อมให้บริการออกแบบและพัฒนาเว็บไซต์ 
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto" data-aos="fade-up" data-aos-delay="400">
-                <a href="#portfolio" class="w-full sm:w-auto px-8 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 shadow-lg text-center">
-                    ดูผลงาน
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="main-logo-container" id="targetMainLogo">
+                <img src="https://cdn.phototourl.com/free/2026-08-18-2b12c8b4-e50b-4169-b89b-580dbde96f9b.png" alt="Chin Code Logo" class="main-logo">
+            </div>
+
+            <h1 class="main-title">บริการรับทำเว็บไซต์</h1>
+
+            <div class="social-icons-container">
+                <a href="https://www.instagram.com/chin_code.io?igsh=MXFlZTMxY3JrM2I3bA==" target="_blank" class="social-icon-btn" aria-label="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
                 </a>
-                <a href="#contact" class="w-full sm:w-auto px-8 py-3 bg-white text-primary border border-primary rounded-lg font-medium hover:bg-gray-50 text-center">
-                    ติดต่อเรา
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="w-full section-padding bg-white">
-        <div class="w-full max-w-7xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 relative" data-aos="fade-up">
-                เกี่ยวกับเรา
-                <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
-            </h2>
-            
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div data-aos="fade-right">
-                    <h3 class="text-xl md:text-2xl font-semibold mb-4">Chin Code - รับทำเว็บไซต์</h3>
-                    <p class="text-gray-600 mb-6">
-                        ให้บริการออกแบบและพัฒนาเว็บไซต์ที่ตอบโจทย์ธุรกิจของคุณ
-                    </p>
-                    
-                    <div class="space-y-3">
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-check-circle text-secondary text-xl mr-3"></i>
-                            <span>ออกแบบตามต้องการ ทุกหน้าที่สร้างขึ้นอย่างพิถีพิถัน</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-check-circle text-secondary text-xl mr-3"></i>
-                            <span>รองรับการแสดงผลบนมือถือทุกขนาดหน้าจอ</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-check-circle text-secondary text-xl mr-3"></i>
-                            <span>เว็บไซต์โหลดเร็ว เพิ่มประสบการณ์การใช้งานที่ดี</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-check-circle text-secondary text-xl mr-3"></i>
-                            <span>SEO Friendly ช่วยให้ติดอันดับค้นหาได้ง่ายขึ้น</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div data-aos="fade-left" class="bg-gray-100 rounded-xl p-8 h-[250px] md:h-[350px] flex items-center justify-center shadow-inner">
-                    <i class="fa-solid fa-code text-6xl md:text-8xl text-primary/20 animate-float"></i>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="w-full section-padding bg-gray-50">
-        <div class="w-full max-w-7xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 relative" data-aos="fade-up">
-                บริการของเรา
-                <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
-            </h2>
-            
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div data-aos="zoom-in" class="bg-white p-8 rounded-xl shadow-md card-hover">
-                    <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl mb-6">
-                        <i class="fa-solid fa-building"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">เว็บไซต์แนะนำตัวเอง / ธุรกิจ</h3>
-                    <p class="text-gray-600">สร้างภาพลักษณ์ที่เป็นมืออาชีพให้กับธุรกิจของคุณ</p>
-                </div>
-                
-                <div data-aos="zoom-in" data-aos-delay="100" class="bg-white p-8 rounded-xl shadow-md card-hover">
-                    <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl mb-6">
-                        <i class="fa-solid fa-briefcase"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">เว็บไซต์ Portfolio</h3>
-                    <p class="text-gray-600">แสดงผลงานและความสามารถของคุณอย่างโดดเด่น</p>
-                </div>
-                
-                <div data-aos="zoom-in" data-aos-delay="200" class="bg-white p-8 rounded-xl shadow-md card-hover">
-                    <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl mb-6">
-                        <i class="fa-solid fa-file-lines"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">Landing Page</h3>
-                    <p class="text-gray-600">หน้าเดียวครบครัน เพื่อการตลาดและเพิ่มยอดขาย</p>
-                </div>
-                
-                <div data-aos="zoom-in" data-aos-delay="300" class="bg-white p-8 rounded-xl shadow-md card-hover">
-                    <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl mb-6">
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">ระบบจอง</h3>
-                    <p class="text-gray-600">ระบบจองคิว นัดหมาย หรือจองที่พักออนไลน์</p>
-                </div>
-                
-                <div data-aos="zoom-in" data-aos-delay="400" class="bg-white p-8 rounded-xl shadow-md card-hover">
-                    <div class="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center text-primary text-xl mb-6">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-3">ระบบสมาชิก</h3>
-                    <p class="text-gray-600">ลงทะเบียน เข้าสู่ระบบ และจัดการผู้ใช้งาน</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="w-full section-padding bg-white">
-        <div class="w-full max-w-7xl mx-auto">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 relative" data-aos="fade-up">
-                ผลงานของเรา
-                <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
-            </h2>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div data-aos="flip-up" class="bg-gray-50 rounded-xl overflow-hidden shadow-md card-hover border border-gray-100">
-                    <div class="h-52 bg-gray-200 flex items-center justify-center relative overflow-hidden">
-                        <img src="https://cdn.phototourl.com/member/2026-08-03-e79741e9-3bcd-46a5-85e4-fdbaefbcd072.jpg" alt="ร้านรับทำเว็บไซต์" class="w-full h-full object-cover">
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">เว็บไซต์ (ตัวอย่าง)</h3>
-                        <p class="text-gray-600">ออกแบบทันสมัย รองรับทุกอุปกรณ์</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="w-full section-padding bg-gray-50">
-        <div class="w-full max-w-xl mx-auto text-center">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-16 relative" data-aos="fade-up">
-                ติดต่อเรา
-                <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-primary rounded-full"></span>
-            </h2>
-            
-            <p data-aos="fade-up" class="mb-10 text-gray-600">สนใจใช้บริการหรือมีคำถามใดๆ ติดต่อเราผ่านช่องทางด้านล่างได้เลยครับ</p>
-            
-            <div class="flex justify-center space-x-8">
-                <!-- Instagram -->
-                <a href="https://www.instagram.com/chin_code.io?igsh=MXFlZTMxY3JrM2I3bA==" target="_blank" data-aos="fade-right" data-aos-delay="200" 
-                   class="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-full shadow-lg">
-                    <i class="fa-brands fa-instagram text-2xl"></i>
-                </a>
-                <!-- Discord -->
-                <a href="https://discord.gg/aMyXKBzad" target="_blank" data-aos="fade-left" data-aos-delay="200" 
-                   class="flex items-center justify-center w-16 h-16 bg-indigo-600 text-white rounded-full shadow-lg">
-                    <i class="fa-brands fa-discord text-2xl"></i>
+                <a href="https://discord.gg/aMyXKBzad" target="_blank" class="social-icon-btn" aria-label="Discord">
+                    <i class="fa-brands fa-discord"></i>
                 </a>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="w-full bg-dark text-white py-10 text-center">
-        <div class="w-full max-w-7xl mx-auto px-4">
-            <p>© 2026 <span class="font-semibold">Chin Code</span></p>
-        </div>
-    </footer>
+        <!-- Portfolio Section (ส่วนสินค้า: คลิกที่รูปเพื่อเปิดดูรายละเอียดและปุ่มติดต่อ) -->
+        <section class="portfolio-section">
+            <h2 class="section-title">สินค้า</h2>
 
-    <!-- JavaScript -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+            <div class="portfolio-cards-wrapper">
+                <!-- สินค้าชิ้นที่ 1 -->
+                <div class="portfolio-card" onclick="openProductModal('https://cdn.phototourl.com/free/2026-08-19-cbdaeafd-f399-4fd2-9114-28a65252e61f.png', '1,500.-', 'แพ็กเกจเว็บไซต์ดีไซน์เบื้องต้น เหมาะสำหรับเริ่มต้นธุรกิจ')">
+                    <div class="product-price-badge">70.-</div>
+                    <img src="https://cdn.phototourl.com/free/2026-08-19-cbdaeafd-f399-4fd2-9114-28a65252e61f.png" alt="Chin code" class="portfolio-img">
+                </div>
+
+                <!-- สินค้าชิ้นที่ 2 -->
+                <div class="portfolio-card" onclick="openProductModal('https://cdn.phototourl.com/free/2026-08-19-e4aa6f1e-2f6d-41dc-9497-7f37d49b7147.png', '2,500.-', 'แพ็กเกจเว็บไซต์มาตรฐาน พร้อมระบบฟังก์ชันการใช้งานครบถ้วน')">
+                    <div class="product-price-badge">70.-</div>
+                    <img src="https://cdn.phototourl.com/free/2026-08-19-e4aa6f1e-2f6d-41dc-9497-7f37d49b7147.png" alt="Chin code" class="portfolio-img">
+                </div>
+
+                <!-- สินค้าชิ้นที่ 3 -->
+                <div class="portfolio-card" onclick="openProductModal('https://cdn.phototourl.com/free/2026-08-19-ec5a52f4-f9c9-46d3-9d90-8510365f1619.png', '3,500.-', 'แพ็กเกจเว็บไซต์พรีเมียม ดีไซน์ล้ำสมัย ระบบจัดเต็ม')">
+                    <div class="product-price-badge">150.-</div>
+                    <img src="https://cdn.phototourl.com/free/2026-08-19-ec5a52f4-f9c9-46d3-9d90-8510365f1619.png" alt="Chin code" class="portfolio-img">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
     <script>
-        AOS.init({ once: true, offset: 50, duration: 800 });
-
-        const menuBtn = document.getElementById('menuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
+        // รายชื่อรูปภาพโฆษณาตอนเปิดเว็บ (คงเดิมตามต้นฉบับ ไม่แตะต้อง)
+        const adImagesList = [
+            "https://cdn.phototourl.com/free/2026-08-18-8aac3d24-5fb6-4ca9-af05-f0e72fb5cd20.jpg",
+            "https://cdn.phototourl.com/free/2026-08-18-9af73a5b-aed4-479d-b2c4-3a8bfffa1400.png",
+            "https://cdn.phototourl.com/free/2026-08-18-0b8770d4-c147-4547-a3e8-1d3945bd83c1.jpg"
+        ];
         
-        if (menuBtn && mobileMenu) {
-            menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-        }
+        let currentAdIndex = 0;
 
-        document.querySelectorAll('.mobile-link').forEach(link => {
-            link.addEventListener('click', () => {
-                if (mobileMenu) mobileMenu.classList.add('hidden');
-            });
+        document.addEventListener("DOMContentLoaded", function() {
+            const strip = document.getElementById("logoPatternStrip");
+            const logoUrl = "https://cdn.phototourl.com/free/2026-08-18-2b12c8b4-e50b-4169-b89b-580dbde96f9b.png";
+            
+            const screenWidth = window.innerWidth;
+            const logoCount = screenWidth < 768 ? 12 : 25; 
+
+            for (let i = 0; i < logoCount; i++) {
+                const img = document.createElement("img");
+                img.src = logoUrl;
+                img.alt = "Mini Logo";
+                img.className = "mini-logo";
+                strip.appendChild(img);
+            }
+
+            const splash = document.getElementById("intro-splash");
+            const introLogo = document.getElementById("introLogo");
+            const targetLogo = document.getElementById("targetMainLogo");
+            const adModal = document.getElementById("adModal");
+
+            if (splash && introLogo && targetLogo) {
+                setTimeout(() => {
+                    const targetRect = targetLogo.getBoundingClientRect();
+                    const introRect = introLogo.getBoundingClientRect();
+
+                    const deltaX = targetRect.left - introRect.left + (targetRect.width - introRect.width) / 2;
+                    const deltaY = targetRect.top - introRect.top + (targetRect.height - introRect.height) / 2;
+
+                    introLogo.style.transition = "transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease";
+                    const scaleFactor = targetRect.width / introRect.width;
+                    introLogo.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleFactor})`;
+                    
+                    setTimeout(() => {
+                        splash.style.opacity = "0";
+                    }, 600);
+
+                    setTimeout(() => {
+                        splash.style.display = "none";
+                        
+                        setTimeout(() => {
+                            if (adModal) {
+                                showCurrentAd();
+                                adModal.classList.add("show");
+                            }
+                        }, 1000);
+
+                    }, 900);
+                }, 800);
+            }
         });
 
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                e.preventDefault();
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
+        function showCurrentAd() {
+            const adImage = document.getElementById("adImage");
+            const adCounter = document.getElementById("adCounter");
+            if (adImage && adCounter) {
+                adImage.src = adImagesList[currentAdIndex];
+                adCounter.innerText = `โฆษณา ${currentAdIndex + 1} จาก ${adImagesList.length}`;
+            }
+        }
+
+        function nextAd() {
+            const adModal = document.getElementById("adModal");
+            currentAdIndex++;
+
+            if (currentAdIndex < adImagesList.length) {
+                showCurrentAd();
+            } else {
+                if (adModal) {
+                    adModal.classList.remove("show");
                 }
-            });
+            }
+        }
+
+        // ฟังก์ชันเปิด-ปิดกล่องรายละเอียดสินค้า
+        function openProductModal(imgSrc, price, desc) {
+            const modal = document.getElementById("productModal");
+            document.getElementById("modalProductImg").src = imgSrc;
+            document.getElementById("modalProductPrice").innerText = price;
+            document.getElementById("modalProductDesc").innerText = desc;
+            if (modal) {
+                modal.classList.add("show");
+            }
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById("productModal");
+            if (modal) {
+                modal.classList.remove("show");
+            }
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById("dropdownMenu");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+        }
+
+        function toggleContact(event) {
+            event.preventDefault();
+            const contactBox = document.getElementById("contactDropdown");
+            const arrowIcon = document.getElementById("arrowIcon");
+
+            if (contactBox.style.display === "block") {
+                contactBox.style.display = "none";
+                arrowIcon.style.transform = "rotate(0deg)";
+            } else {
+                contactBox.style.display = "block";
+                arrowIcon.style.transform = "rotate(180deg)";
+            }
+        }
+
+        window.addEventListener("click", function(event) {
+            const menu = document.getElementById("dropdownMenu");
+            const btn = document.querySelector(".menu-toggle-btn");
+            const productModal = document.getElementById("productModal");
+            
+            if (menu && btn && !menu.contains(event.target) && !btn.contains(event.target)) {
+                menu.style.display = "none";
+                const contactBox = document.getElementById("contactDropdown");
+                const arrowIcon = document.getElementById("arrowIcon");
+                if (contactBox) contactBox.style.display = "none";
+                if (arrowIcon) arrowIcon.style.transform = "rotate(0deg)";
+            }
+
+            // ปิด modal สินค้าเมื่อคลิกพื้นที่ด้านนอกกล่อง
+            if (event.target === productModal) {
+                closeProductModal();
+            }
         });
     </script>
 </body>
-</html>
+</html>    
+
