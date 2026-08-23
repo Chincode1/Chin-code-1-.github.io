@@ -14,23 +14,17 @@ body { font-family: 'Prompt', sans-serif; background-color: #FFFFFF; color: #001
 .product-modal-box { text-align: center; }
 .ad-modal-overlay.show .ad-modal-box, .product-modal-overlay.show .product-modal-box { transform: scale(1); }
 
-/* ปุ่มกากบาทโฆษณา และซ่อนกากบาทอื่นๆ */
 .ad-close-btn { position: absolute; top: 15px; right: 15px; background: transparent; border: 2px solid #0018F9; color: #0018F9; width: 34px; height: 34px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; z-index: 10; }
 .ad-close-btn:hover { background-color: #0018F9; color: #FFFFFF; transform: scale(1.1); }
 
 .product-close-btn { display: none !important; }
 
-/* ซ่อนปุ่มกากบาทหน้าพรีวิวเว็บลูกค้าเรียบร้อย */
-.close-full-bio-btn { display: none !important; }
-
 .ad-modal-title, .product-modal-title { font-size: 18px; font-weight: 700; color: #0018F9; text-align: center; margin-bottom: 15px; }
 .product-modal-title { font-size: 20px; }
 
-/* แบนเนอร์โฆษณา เต็ม 100% */
 .ad-image-container { width: 100%; height: auto; max-height: none; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background-color: #f0f2ff; display: flex; align-items: center; justify-content: center; }
 .ad-img { width: 100%; height: auto; object-fit: contain; border-radius: 15px; display: block; }
 
-/* หน้าต่างกดดูรายละเอียดสินค้า (แสดงผลเต็ม 100%) */
 .product-modal-img-container { width: 100%; height: auto; max-height: none; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background-color: #f0f2ff; position: relative; display: flex; align-items: center; justify-content: center; }
 .product-modal-img { width: 100%; height: auto; object-fit: contain; border-radius: 15px; display: block; }
 
@@ -111,10 +105,6 @@ body { font-family: 'Prompt', sans-serif; background-color: #FFFFFF; color: #001
 .preview-link-btn.iphone-glass-dome:hover, .preview-link-btn.iphone-glass-dome:active { transform: translateY(-2px) scale(1.01); background: rgba(255, 255, 255, 0.25) !important; border-color: rgba(255, 255, 255, 0.7); box-shadow: 0 12px 25px -4px rgba(0, 0, 0, 0.4); }
 .preview-link-btn.flat-btn { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); border-radius: 16px; }
 
-.preview-circles-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; width: 100%; margin: 10px 0; }
-.preview-circle-btn { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: #FFFFFF; font-size: 22px; background: rgba(255, 255, 255, 0.18) !important; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.45); box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.3); transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); position: relative; }
-.preview-circle-btn:hover { transform: translateY(-4px) scale(1.1); background: rgba(255, 255, 255, 0.3) !important; border-color: rgba(255, 255, 255, 0.8); box-shadow: 0 12px 25px -4px rgba(0, 0, 0, 0.4); }
-
 .dome-settings-panel { background: #f0f4ff; border: 2px dashed #0018F9; border-radius: 15px; padding: 12px 15px; margin-bottom: 18px; }
 .flex-between { display: flex; justify-content: space-between; align-items: center; }
 
@@ -132,10 +122,10 @@ input:checked + .slider:before { transform: translateX(20px); }
 
 .generated-result-container { margin-top: 20px; background-color: #eef2ff; border: 2px dashed #0018F9; border-radius: 15px; padding: 15px; text-align: center; display: none; }
 
+/* หน้าแสดงผลเต็มจอของลูกค้า (เอาปุ่มกากบาทออกแล้ว) */
 #viewBioFullPage { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-size: cover; background-position: center; z-index: 100000; align-items: center; justify-content: center; }
 #viewBioFullPage::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1; }
 .bio-display-box { position: relative; z-index: 2; width: 90%; max-width: 400px; display: flex; flex-direction: column; }
-.close-full-bio-btn { position: absolute; top: 20px; right: 20px; z-index: 10; background: rgba(255,255,255,0.8); border: none; color: #0018F9; width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; }
 
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 850px) { .bio-creator-container { grid-template-columns: 1fr; } .preview-wrapper { margin-top: 30px; } }
