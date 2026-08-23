@@ -4,811 +4,201 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chin Code - บริการรับทำเว็บไซต์ & Bio Link ฟรี</title>
-    <!-- นำเข้าฟอนต์ Prompt -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- นำเข้า Font Awesome สำหรับไอคอน -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Prompt', sans-serif;
-            background-color: #FFFFFF;
-            color: #0018F9;
-            overflow-x: hidden;
-        }
-
-        /* Intro Splash Screen */
-        .intro-splash {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-
-        .intro-logo {
-            width: 220px;
-            height: auto;
-            position: absolute;
-            animation: pulseLogo 1s infinite alternate;
-        }
-
-        @keyframes pulseLogo {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.08); }
-        }
-
-        /* Popup Advertisement Modal Styling */
-        .ad-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9998;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .ad-modal-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .ad-modal-box {
-            background-color: #FFFFFF;
-            border: 3px solid #0018F9;
-            border-radius: 25px;
-            width: 90%;
-            max-width: 420px;
-            padding: 25px 20px 20px 20px;
-            position: relative;
-            box-shadow: 0 15px 35px rgba(0, 24, 249, 0.25);
-            transform: scale(0.8);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .ad-modal-overlay.show .ad-modal-box {
-            transform: scale(1);
-        }
-
-        .ad-close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: transparent;
-            border: 2px solid #0018F9;
-            color: #0018F9;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            z-index: 10;
-        }
-
-        .ad-close-btn:hover {
-            background-color: #0018F9;
-            color: #FFFFFF;
-            transform: scale(1.1);
-        }
-
-        .ad-modal-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #0018F9;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .ad-image-container {
-            width: 100%;
-            height: 280px;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            background-color: #f0f2ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .ad-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 15px;
-        }
-
-        .ad-counter {
-            text-align: center;
-            font-size: 13px;
-            color: #555;
-            font-weight: 600;
-        }
-
-        /* Product Modal Styling */
-        .product-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .product-modal-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .product-modal-box {
-            background-color: #FFFFFF;
-            border: 3px solid #0018F9;
-            border-radius: 25px;
-            width: 90%;
-            max-width: 420px;
-            padding: 25px 20px 20px 20px;
-            position: relative;
-            box-shadow: 0 15px 35px rgba(0, 24, 249, 0.25);
-            transform: scale(0.8);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: center;
-        }
-
-        .product-modal-overlay.show .product-modal-box {
-            transform: scale(1);
-        }
-
-        .product-close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: transparent;
-            border: 2px solid #0018F9;
-            color: #0018F9;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            z-index: 10;
-        }
-
-        .product-close-btn:hover {
-            background-color: #0018F9;
-            color: #FFFFFF;
-            transform: scale(1.1);
-        }
-
-        .product-modal-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #0018F9;
-            margin-bottom: 15px;
-        }
-
-        .product-modal-img-container {
-            width: 100%;
-            height: 250px;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            background-color: #f0f2ff;
-            position: relative;
-        }
-
-        .product-modal-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .modal-price-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background-color: #0018F9;
-            color: #FFFFFF;
-            padding: 6px 14px;
-            font-size: 14px;
-            font-weight: 700;
-            border-radius: 20px;
-            box-shadow: 0 4px 10px rgba(0, 24, 249, 0.3);
-            z-index: 5;
-        }
-
-        .product-modal-desc {
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: 400;
-        }
-
-        .product-contact-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: #0018F9;
-            margin-bottom: 12px;
-        }
-
-        /* Main Container */
-        .main-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px 80px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
-
-        .menu-toggle-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: transparent;
-            border: none;
-            color: #0018F9;
-            font-size: 26px;
-            cursor: pointer;
-            z-index: 100;
-            transition: transform 0.2s ease;
-        }
-
-        .menu-toggle-btn:hover {
-            transform: scale(1.15);
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 55px;
-            right: 20px;
-            background-color: #FFFFFF;
-            border: 2px solid #0018F9;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 24, 249, 0.15);
-            overflow: hidden;
-            z-index: 99;
-            width: 200px;
-            animation: fadeInMenu 0.3s ease;
-        }
-
-        .menu-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 18px;
-            color: #0018F9;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            border-bottom: 1px solid #f0f2ff;
-            transition: background-color 0.2s, color 0.2s;
-            cursor: pointer;
-        }
-
-        .menu-item:last-child {
-            border-bottom: none;
-        }
-
-        .menu-item:hover {
-            background-color: #0018F9;
-            color: #FFFFFF;
-        }
-
-        .arrow-icon {
-            font-size: 12px;
-            transition: transform 0.3s ease;
-        }
-
-        .contact-dropdown {
-            display: none;
-            padding: 15px;
-            background-color: #f4f6ff;
-            text-align: center;
-            border-top: 1px solid #e0e5ff;
-        }
-
-        .social-circles-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .social-circle-btn {
-            width: 42px;
-            height: 42px;
-            background-color: #0018F9;
-            color: #FFFFFF;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            font-size: 18px;
-            box-shadow: 0 4px 10px rgba(0, 24, 249, 0.3);
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease;
-        }
-
-        .social-circle-btn:hover {
-            transform: scale(1.2);
-            background-color: #0013cb;
-        }
-
-        @keyframes fadeInMenu {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Top Banner */
-        .top-banner {
-            background-color: #07156B;
-            width: 100%;
-            height: 70px;
-            position: relative;
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            overflow: hidden;
-            display: flex;
-            align-items: flex-start;
-            padding-top: 10px;
-        }
-
-        .logo-pattern-strip {
-            display: flex;
-            white-space: nowrap;
-            width: 100%;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 10px;
-        }
-
-        .mini-logo {
-            height: 22px;
-            width: auto;
-            object-fit: contain;
-            opacity: 0.85;
-            filter: brightness(0) invert(1);
-        }
-
-        /* Hero Section */
-        .hero-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            width: 100%;
-            margin-bottom: 60px;
-        }
-
-        .main-logo-container {
-            margin-top: 20px;
-            margin-bottom: 30px;
-        }
-
-        .main-logo {
-            width: 200px;
-            height: auto;
-            object-fit: contain;
-        }
-
-        .main-title {
-            font-size: 38px;
-            font-weight: 700;
-            color: #0018F9;
-            margin-bottom: 25px;
-            letter-spacing: -0.5px;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        .social-icons-container {
-            display: flex;
-            gap: 25px;
-            justify-content: center;
-            align-items: center;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .social-icon-btn {
-            color: #0018F9;
-            font-size: 50px;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .social-icon-btn:hover {
-            transform: scale(1.2) rotate(5deg);
-            filter: drop-shadow(0 5px 10px rgba(0, 24, 249, 0.3));
-        }
-
-        /* Portfolio Section */
-        .portfolio-section {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .section-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #0018F9;
-            margin-bottom: 35px;
-            text-align: left;
-        }
-
-        .portfolio-cards-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-            width: 100%;
-        }
-
-        .portfolio-card {
-            width: 100%;
-            height: 380px;
-            border: 4px solid #0018F9;
-            border-radius: 35px;
-            overflow: hidden;
-            background-color: #FFFFFF;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            box-shadow: 0 8px 20px rgba(0, 24, 249, 0.05);
-            cursor: pointer;
-            position: relative;
-        }
-
-        .portfolio-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 24, 249, 0.15);
-        }
-
-        .portfolio-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .portfolio-card:hover .portfolio-img {
-            transform: scale(1.03);
-        }
-
-        .product-price-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #0018F9;
-            color: #FFFFFF;
-            padding: 8px 18px;
-            font-size: 16px;
-            font-weight: 700;
-            border-radius: 25px;
-            box-shadow: 0 4px 15px rgba(0, 24, 249, 0.4);
-            z-index: 10;
-        }
-
-        /* FULL PAGE BIO LINK CREATOR STYLES */
-        #bioPage {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #f8f9ff;
-            z-index: 10000;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .bio-page-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1100px;
-            margin: 0 auto 20px auto;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e0e5ff;
-        }
-
-        .btn-back-home {
-            background-color: #0018F9;
-            color: #FFFFFF;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-family: 'Prompt', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.2s;
-        }
-
-        .btn-back-home:hover {
-            transform: scale(1.05);
-        }
-
-        .bio-creator-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 30px;
-        }
-
-        .bio-editor-card {
-            background: #FFFFFF;
-            border: 3px solid #0018F9;
-            border-radius: 25px;
-            padding: 25px;
-            box-shadow: 0 10px 25px rgba(0,24,249,0.08);
-        }
-
-        .editor-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #0018F9;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .form-group-custom {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .form-group-custom label {
-            display: block;
-            font-size: 14px;
-            font-weight: 600;
-            color: #0018F9;
-            margin-bottom: 6px;
-        }
-
-        .input-custom {
-            width: 100%;
-            padding: 10px 14px;
-            border: 2px solid #ccd5ff;
-            border-radius: 12px;
-            font-family: 'Prompt', sans-serif;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .input-custom:focus {
-            border-color: #0018F9;
-        }
-
-        .video-notice-box {
-            background-color: #fff0f0;
-            border: 1px solid #ff4d4d;
-            border-radius: 12px;
-            padding: 10px;
-            font-size: 12px;
-            color: #d90000;
-            margin-top: 8px;
-            line-height: 1.4;
-        }
-
-        /* Phone Preview Container */
-        .preview-wrapper {
-            position: sticky;
-            top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .preview-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #0018F9;
-            margin-bottom: 10px;
-        }
-
-        .phone-mockup {
-            width: 320px;
-            height: 580px;
-            background-color: #111;
-            border-radius: 40px;
-            border: 8px solid #333;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .phone-screen {
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px 20px 20px;
-            box-sizing: border-box;
-            background-color: #1a1a2e;
-            position: relative;
-        }
-
-        .phone-screen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.35);
-            z-index: 1;
-        }
-
-        .screen-content {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .preview-avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            border: 3px solid #FFFFFF;
-            object-fit: cover;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            margin-bottom: 12px;
-            background-color: #fff;
-        }
-
-        .preview-name-text {
-            color: #FFFFFF;
-            font-size: 18px;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .preview-links-list {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .preview-link-btn {
-            width: 100%;
-            padding: 10px 15px;
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #0018F9;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
-        }
-
-        .generated-result-container {
-            margin-top: 20px;
-            background-color: #eef2ff;
-            border: 2px dashed #0018F9;
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-            display: none;
-        }
-
-        /* DISPLAY BIO LINK FULL PAGE VIEW */
-        #viewBioFullPage {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-size: cover;
-            background-position: center;
-            z-index: 100000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #viewBioFullPage::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4);
-            z-index: 1;
-        }
-
-        .bio-display-box {
-            position: relative;
-            z-index: 2;
-            width: 90%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 850px) {
-            .bio-creator-container {
-                grid-template-columns: 1fr;
-            }
-            .preview-wrapper {
-                margin-top: 30px;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Prompt', sans-serif; background-color: #FFFFFF; color: #0018F9; overflow-x: hidden; }
+        .intro-splash { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease, visibility 0.5s ease; }
+        .intro-logo { width: 220px; height: auto; position: absolute; animation: pulseLogo 1s infinite alternate; }
+        @keyframes pulseLogo { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
+        .ad-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 9998; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .ad-modal-overlay.show { opacity: 1; visibility: visible; }
+        .ad-modal-box { background-color: #FFFFFF; border: 3px solid #0018F9; border-radius: 25px; width: 90%; max-width: 420px; padding: 25px 20px 20px 20px; position: relative; box-shadow: 0 15px 35px rgba(0, 24, 249, 0.25); transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .ad-modal-overlay.show .ad-modal-box { transform: scale(1); }
+        .ad-close-btn { position: absolute; top: 15px; right: 15px; background: transparent; border: 2px solid #0018F9; color: #0018F9; width: 34px; height: 34px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; z-index: 10; }
+        .ad-close-btn:hover { background-color: #0018F9; color: #FFFFFF; transform: scale(1.1); }
+        .ad-modal-title { font-size: 18px; font-weight: 700; color: #0018F9; text-align: center; margin-bottom: 15px; }
+        .ad-image-container { width: 100%; height: 280px; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background-color: #f0f2ff; display: flex; align-items: center; justify-content: center; }
+        .ad-img { width: 100%; height: 100%; object-fit: contain; border-radius: 15px; }
+        .ad-counter { text-align: center; font-size: 13px; color: #555; font-weight: 600; }
+        .product-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 9999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .product-modal-overlay.show { opacity: 1; visibility: visible; }
+        .product-modal-box { background-color: #FFFFFF; border: 3px solid #0018F9; border-radius: 25px; width: 90%; max-width: 420px; padding: 25px 20px 20px 20px; position: relative; box-shadow: 0 15px 35px rgba(0, 24, 249, 0.25); transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; }
+        .product-modal-overlay.show .product-modal-box { transform: scale(1); }
+        .product-close-btn { position: absolute; top: 15px; right: 15px; background: transparent; border: 2px solid #0018F9; color: #0018F9; width: 34px; height: 34px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; z-index: 10; }
+        .product-close-btn:hover { background-color: #0018F9; color: #FFFFFF; transform: scale(1.1); }
+        .product-modal-title { font-size: 20px; font-weight: 700; color: #0018F9; margin-bottom: 15px; }
+        .product-modal-img-container { width: 100%; height: 250px; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background-color: #f0f2ff; position: relative; }
+        .product-modal-img { width: 100%; height: 100%; object-fit: cover; }
+        .modal-price-badge { position: absolute; top: 12px; right: 12px; background-color: #0018F9; color: #FFFFFF; padding: 6px 14px; font-size: 14px; font-weight: 700; border-radius: 20px; box-shadow: 0 4px 10px rgba(0, 24, 249, 0.3); z-index: 5; }
+        .product-modal-desc { font-size: 14px; color: #333; margin-bottom: 20px; font-weight: 400; }
+        .product-contact-title { font-size: 15px; font-weight: 600; color: #0018F9; margin-bottom: 12px; }
+        .main-container { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px 20px; display: flex; flex-direction: column; align-items: center; position: relative; }
+        .menu-toggle-btn { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: #0018F9; font-size: 26px; cursor: pointer; z-index: 100; transition: transform 0.2s ease; }
+        .menu-toggle-btn:hover { transform: scale(1.15); }
+        .dropdown-menu { display: none; position: absolute; top: 55px; right: 20px; background-color: #FFFFFF; border: 2px solid #0018F9; border-radius: 15px; box-shadow: 0 10px 25px rgba(0, 24, 249, 0.15); overflow: hidden; z-index: 99; width: 200px; animation: fadeInMenu 0.3s ease; }
+        .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; color: #0018F9; text-decoration: none; font-weight: 600; font-size: 14px; border-bottom: 1px solid #f0f2ff; transition: background-color 0.2s, color 0.2s; cursor: pointer; }
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item:hover { background-color: #0018F9; color: #FFFFFF; }
+        .arrow-icon { font-size: 12px; transition: transform 0.3s ease; }
+        .contact-dropdown { display: none; padding: 15px; background-color: #f4f6ff; text-align: center; border-top: 1px solid #e0e5ff; }
+        .social-circles-container { display: flex; justify-content: center; gap: 15px; }
+        .social-circle-btn { width: 42px; height: 42px; background-color: #0018F9; color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 18px; box-shadow: 0 4px 10px rgba(0, 24, 249, 0.3); transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease; }
+        .social-circle-btn:hover { transform: scale(1.2); background-color: #0013cb; }
+        @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .top-banner { background-color: #07156B; width: 100%; height: 70px; position: relative; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; overflow: hidden; display: flex; align-items: flex-start; padding-top: 10px; }
+        .logo-pattern-strip { display: flex; white-space: nowrap; width: 100%; justify-content: space-around; align-items: center; padding: 0 10px; }
+        .mini-logo { height: 22px; width: auto; object-fit: contain; opacity: 0.85; filter: brightness(0) invert(1); }
+        .hero-section { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; margin-bottom: 60px; }
+        .main-logo-container { margin-top: 20px; margin-bottom: 30px; }
+        .main-logo { width: 200px; height: auto; object-fit: contain; }
+        .main-title { font-size: 38px; font-weight: 700; color: #0018F9; margin-bottom: 25px; letter-spacing: -0.5px; animation: fadeInUp 0.8s ease-out; }
+        .social-icons-container { display: flex; gap: 25px; justify-content: center; align-items: center; animation: fadeInUp 1s ease-out; }
+        .social-icon-btn { color: #0018F9; font-size: 50px; text-decoration: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; justify-content: center; }
+        .social-icon-btn:hover { transform: scale(1.2) rotate(5deg); filter: drop-shadow(0 5px 10px rgba(0, 24, 249, 0.3)); }
+        .portfolio-section { width: 100%; display: flex; flex-direction: column; align-items: flex-start; }
+        .section-title { font-size: 28px; font-weight: 700; color: #0018F9; margin-bottom: 35px; text-align: left; }
+        .portfolio-cards-wrapper { display: flex; flex-direction: column; gap: 30px; width: 100%; }
+        .portfolio-card { width: 100%; height: 380px; border: 4px solid #0018F9; border-radius: 35px; overflow: hidden; background-color: #FFFFFF; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); box-shadow: 0 8px 20px rgba(0, 24, 249, 0.05); cursor: pointer; position: relative; }
+        .portfolio-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 24, 249, 0.15); }
+        .portfolio-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .portfolio-card:hover .portfolio-img { transform: scale(1.03); }
+        .product-price-badge { position: absolute; top: 20px; right: 20px; background-color: #0018F9; color: #FFFFFF; padding: 8px 18px; font-size: 16px; font-weight: 700; border-radius: 25px; box-shadow: 0 4px 15px rgba(0, 24, 249, 0.4); z-index: 10; }
+        #bioPage { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #f8f9ff; z-index: 10000; overflow-y: auto; padding: 20px; }
+        .bio-page-header { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto 20px auto; padding-bottom: 15px; border-bottom: 2px solid #e0e5ff; }
+        .btn-back-home { background-color: #0018F9; color: #FFFFFF; border: none; padding: 8px 18px; border-radius: 20px; font-family: 'Prompt', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: transform 0.2s; }
+        .btn-back-home:hover { transform: scale(1.05); }
+        .bio-creator-container { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 380px; gap: 30px; }
+        .bio-editor-card { background: #FFFFFF; border: 3px solid #0018F9; border-radius: 25px; padding: 25px; box-shadow: 0 10px 25px rgba(0,24,249,0.08); }
+        .editor-title { font-size: 22px; font-weight: 700; color: #0018F9; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .form-group-custom { margin-bottom: 15px; text-align: left; }
+        .form-group-custom label { display: block; font-size: 14px; font-weight: 600; color: #0018F9; margin-bottom: 6px; }
+        .input-custom { width: 100%; padding: 10px 14px; border: 2px solid #ccd5ff; border-radius: 12px; font-family: 'Prompt', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        .input-custom:focus { border-color: #0018F9; }
+        .video-notice-box { background-color: #eef2ff; border: 1px solid #0018F9; border-radius: 12px; padding: 10px; font-size: 12px; color: #0018F9; margin-top: 8px; line-height: 1.4; }
+        .preview-wrapper { position: sticky; top: 20px; display: flex; flex-direction: column; align-items: center; }
+        .preview-title { font-size: 16px; font-weight: 700; color: #0018F9; margin-bottom: 10px; }
+        .phone-mockup { width: 320px; height: 580px; background-color: #111; border-radius: 40px; border: 8px solid #333; box-shadow: 0 15px 30px rgba(0,0,0,0.2); overflow: hidden; position: relative; }
+        .phone-screen { width: 100%; height: 100%; background-size: cover; background-position: center; display: flex; flex-direction: column; align-items: center; padding: 40px 20px 20px 20px; box-sizing: border-box; background-color: #1a1a2e; position: relative; }
+        .phone-screen::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.35); z-index: 1; }
+        .screen-content { position: relative; z-index: 2; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .preview-avatar { width: 90px; height: 90px; border-radius: 50%; border: 3px solid #FFFFFF; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.3); margin-bottom: 12px; background-color: #fff; }
+        .preview-name-text { color: #FFFFFF; font-size: 18px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.6); margin-bottom: 25px; text-align: center; }
+        .preview-links-list { width: 100%; display: flex; flex-direction: column; gap: 12px; }
+        .preview-link-btn { width: 100%; padding: 10px 15px; background-color: rgba(255, 255, 255, 0.9); color: #0018F9; border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.2s; }
+        .generated-result-container { margin-top: 20px; background-color: #eef2ff; border: 2px dashed #0018F9; border-radius: 15px; padding: 15px; text-align: center; display: none; }
+        #viewBioFullPage { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-size: cover; background-position: center; z-index: 100000; align-items: center; justify-content: center; }
+        #viewBioFullPage::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1; }
+        .bio-display-box { position: relative; z-index: 2; width: 90%; max-width: 400px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 850px) { .bio-creator-container { grid-template-columns: 1fr; } .preview-wrapper { margin-top: 30px; } }
+
+/* Custom Alert Style */
+.custom-alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.custom-alert-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.custom-alert-box {
+    background: #FFFFFF;
+    border: 3px solid #0018F9;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 360px;
+    padding: 30px 20px 20px 20px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 24, 249, 0.3);
+    transform: scale(0.7) translateY(20px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.custom-alert-overlay.show .custom-alert-box {
+    transform: scale(1) translateY(0);
+}
+
+.custom-alert-icon {
+    width: 60px;
+    height: 60px;
+    background: #eef2ff;
+    color: #0018F9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 15px auto;
+    border: 2px solid #0018F9;
+    animation: pulseIcon 1.5s infinite;
+}
+
+@keyframes pulseIcon {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 24, 249, 0.4); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(0, 24, 249, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 24, 249, 0); }
+}
+
+.custom-alert-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0018F9;
+    margin-bottom: 8px;
+}
+
+.custom-alert-message {
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.custom-alert-btn {
+    width: 100%;
+    padding: 12px;
+    background: #0018F9;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 15px;
+    font-family: 'Prompt', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 24, 249, 0.3);
+    transition: all 0.2s ease;
+}
+
+.custom-alert-btn:hover {
+    background: #0013cb;
+    transform: translateY(-2px);
+}
+
+      
     </style>
 </head>
 <body>
 
-    <!-- Intro Animation Overlay -->
     <div id="intro-splash" class="intro-splash">
         <img src="https://cdn.phototourl.com/free/2026-08-18-2b12c8b4-e50b-4169-b89b-580dbde96f9b.png" alt="Intro Logo" class="intro-logo" id="introLogo">
     </div>
 
-    <!-- Popup Advertisement Modal -->
     <div id="adModal" class="ad-modal-overlay">
         <div class="ad-modal-box">
             <button class="ad-close-btn" onclick="nextAd()" aria-label="Close Advertisement">
@@ -822,7 +212,6 @@
         </div>
     </div>
 
-    <!-- Product Detail Modal -->
     <div id="productModal" class="product-modal-overlay">
         <div class="product-modal-box">
             <button class="product-close-btn" onclick="closeProductModal()" aria-label="Close Details">
@@ -846,7 +235,6 @@
         </div>
     </div>
 
-    <!-- MAIN HOMEPAGE CONTENT -->
     <header class="top-banner">
         <div class="logo-pattern-strip" id="logoPatternStrip"></div>
     </header>
@@ -914,7 +302,6 @@
         </section>
     </main>
 
-    <!-- FULL PAGE BIO LINK CREATOR SECTION -->
     <div id="bioPage">
         <div class="bio-page-header">
             <button class="btn-back-home" onclick="closeBioPage()">
@@ -934,16 +321,21 @@
                     <input type="text" id="inputName" class="input-custom" placeholder="เช่น Chin Code" oninput="updatePreview()">
                 </div>
 
+                <!-- เปลี่ยนเป็นช่องเลือกรูปไฟล์เพื่ออัปโหลดไป ImgBB ได้ทันที -->
                 <div class="form-group-custom">
-                    <label>ลิงก์ URL รูปโปรไฟล์ (Image URL)</label>
-                    <input type="url" id="inputProfileUrl" class="input-custom" placeholder="https://example.com/my-photo.jpg" oninput="updatePreview()">
+                    <label>รูปโปรไฟล์ (อัปโหลดรูปภาพ)</label>
+                    <input type="file" id="fileProfile" accept="image/*" class="input-custom" onchange="uploadImageToImgBB('fileProfile', 'inputProfileUrl')">
+                    <input type="hidden" id="inputProfileUrl">
+                    <span id="statusProfile" style="font-size: 12px; color: #0018F9;"></span>
                 </div>
 
                 <div class="form-group-custom">
-                    <label>ลิงก์ URL รูปพื้นหลัง (Background URL)</label>
-                    <input type="url" id="inputBgUrl" class="input-custom" placeholder="https://example.com/my-bg.jpg" oninput="updatePreview()">
+                    <label>รูปพื้นหลัง (อัปโหลดรูปภาพ)</label>
+                    <input type="file" id="fileBg" accept="image/*" class="input-custom" onchange="uploadImageToImgBB('fileBg', 'inputBgUrl')">
+                    <input type="hidden" id="inputBgUrl">
+                    <span id="statusBg" style="font-size: 12px; color: #0018F9;"></span>
                     <div class="video-notice-box">
-                        <i class="fa-solid fa-circle-exclamation"></i> <strong>คำแนะนำ:</strong> นำลิงก์รูปภาพมาใส่เพื่อช่วยให้ URL สั้นลงและเปิดได้เร็ว ไม่ค้างครับ!
+                        <i class="fa-solid fa-cloud-arrow-up"></i> <strong>Chin code :</strong>
                     </div>
                 </div>
 
@@ -987,7 +379,6 @@
                 </div>
             </div>
 
-            <!-- Preview -->
             <div class="preview-wrapper">
                 <div class="preview-title"><i class="fa-solid fa-mobile-screen"></i> แสดงผลตัวอย่างแบบเรียลไทม์</div>
                 <div class="phone-mockup">
@@ -1003,7 +394,6 @@
         </div>
     </div>
 
-    <!-- DISPLAY BIO PAGE -->
     <div id="viewBioFullPage">
         <div class="bio-display-box">
             <img id="displayAvatar" src="" class="preview-avatar" style="width:110px; height:110px;" alt="Profile">
@@ -1011,268 +401,21 @@
             <div id="displayLinks" class="preview-links-list" style="gap:15px;"></div>
         </div>
     </div>
+  <!-- Custom Alert Modal (กล่องแจ้งเตือนสุดเท่) -->
+<div id="customAlert" class="custom-alert-overlay">
+    <div class="custom-alert-box">
+        <div class="custom-alert-icon" id="alertIcon">
+            <i class="fa-solid fa-circle-info"></i>
+        </div>
+        <div class="custom-alert-title" id="alertTitle">แจ้งเตือน</div>
+        <div class="custom-alert-message" id="alertMessage">ข้อความแจ้งเตือนจะแสดงที่นี่</div>
+        <button class="custom-alert-btn" onclick="closeCustomAlert()">ตกลง</button>
+    </div>
+</div>
 
-    <script>
-        const adImagesList = [
-            "https://cdn.phototourl.com/free/2026-08-18-8aac3d24-5fb6-4ca9-af05-f0e72fb5cd20.jpg",
-            "https://cdn.phototourl.com/free/2026-08-18-9af73a5b-aed4-479d-b2c4-3a8bfffa1400.png",
-            "https://cdn.phototourl.com/free/2026-08-18-0b8770d4-c147-4547-a3e8-1d3945bd83c1.jpg"
-        ];
-        
-        let currentAdIndex = 0;
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has("bio_name")) {
-                renderFullBioPageFromUrl(urlParams);
-                return;
-            }
-
-            const strip = document.getElementById("logoPatternStrip");
-            const logoUrl = "https://cdn.phototourl.com/free/2026-08-18-2b12c8b4-e50b-4169-b89b-580dbde96f9b.png";
-            const screenWidth = window.innerWidth;
-            const logoCount = screenWidth < 768 ? 12 : 25; 
-
-            for (let i = 0; i < logoCount; i++) {
-                const img = document.createElement("img");
-                img.src = logoUrl;
-                img.alt = "Mini Logo";
-                img.className = "mini-logo";
-                strip.appendChild(img);
-            }
-
-            const splash = document.getElementById("intro-splash");
-            const introLogo = document.getElementById("introLogo");
-            const targetLogo = document.getElementById("targetMainLogo");
-            const adModal = document.getElementById("adModal");
-
-            if (splash && introLogo && targetLogo) {
-                setTimeout(() => {
-                    const targetRect = targetLogo.getBoundingClientRect();
-                    const introRect = introLogo.getBoundingClientRect();
-
-                    const deltaX = targetRect.left - introRect.left + (targetRect.width - introRect.width) / 2;
-                    const deltaY = targetRect.top - introRect.top + (targetRect.height - introRect.height) / 2;
-
-                    introLogo.style.transition = "transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease";
-                    const scaleFactor = targetRect.width / introRect.width;
-                    introLogo.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleFactor})`;
-                    
-                    setTimeout(() => { splash.style.opacity = "0"; }, 600);
-                    setTimeout(() => {
-                        splash.style.display = "none";
-                        setTimeout(() => {
-                            if (adModal) {
-                                showCurrentAd();
-                                adModal.classList.add("show");
-                            }
-                        }, 1000);
-                    }, 900);
-                }, 800);
-            }
-
-            updatePreview();
-        });
-
-        function showCurrentAd() {
-            const adImage = document.getElementById("adImage");
-            const adCounter = document.getElementById("adCounter");
-            if (adImage && adCounter) {
-                adImage.src = adImagesList[currentAdIndex];
-                adCounter.innerText = `โฆษณา ${currentAdIndex + 1} จาก ${adImagesList.length}`;
-            }
-        }
-
-        function nextAd() {
-            const adModal = document.getElementById("adModal");
-            currentAdIndex++;
-            if (currentAdIndex < adImagesList.length) {
-                showCurrentAd();
-            } else {
-                if (adModal) adModal.classList.remove("show");
-            }
-        }
-
-        function openProductModal(imgSrc, price, desc) {
-            const modal = document.getElementById("productModal");
-            document.getElementById("modalProductImg").src = imgSrc;
-            document.getElementById("modalProductPrice").innerText = price;
-            document.getElementById("modalProductDesc").innerText = desc;
-            if (modal) modal.classList.add("show");
-        }
-
-        function closeProductModal() {
-            const modal = document.getElementById("productModal");
-            if (modal) modal.classList.remove("show");
-        }
-
-        function toggleMenu() {
-            const menu = document.getElementById("dropdownMenu");
-            menu.style.display = (menu.style.display === "block") ? "none" : "block";
-        }
-
-        function toggleContact(event) {
-            event.stopPropagation();
-            const contactBox = document.getElementById("contactDropdown");
-            const arrowIcon = document.getElementById("arrowIcon");
-
-            if (contactBox.style.display === "block") {
-                contactBox.style.display = "none";
-                arrowIcon.style.transform = "rotate(0deg)";
-            } else {
-                contactBox.style.display = "block";
-                arrowIcon.style.transform = "rotate(180deg)";
-            }
-        }
-
-        function openBioPage() {
-            document.getElementById("dropdownMenu").style.display = "none";
-            document.getElementById("bioPage").style.display = "block";
-        }
-
-        function closeBioPage() {
-            document.getElementById("bioPage").style.display = "none";
-        }
-
-        function updatePreview() {
-            const name = document.getElementById("inputName").value || "ชื่อของคุณ";
-            const profileUrl = document.getElementById("inputProfileUrl").value || "https://via.placeholder.com/150?text=Profile";
-            const bgUrl = document.getElementById("inputBgUrl").value;
-
-            document.getElementById("previewName").innerText = name;
-            document.getElementById("previewAvatar").src = profileUrl;
-
-            const previewScreen = document.getElementById("previewScreen");
-            if (bgUrl) {
-                previewScreen.style.backgroundImage = `url('${bgUrl}')`;
-            } else {
-                previewScreen.style.backgroundImage = "none";
-            }
-
-            const linksContainer = document.getElementById("previewLinksContainer");
-            linksContainer.innerHTML = "";
-
-            const fb = document.getElementById("inputFb").value;
-            const ig = document.getElementById("inputIg").value;
-            const line = document.getElementById("inputLine").value;
-            const tiktok = document.getElementById("inputTiktok").value;
-
-            if (fb) addPreviewLinkBtn(linksContainer, '<i class="fa-brands fa-facebook"></i> Facebook', fb);
-            if (ig) addPreviewLinkBtn(linksContainer, '<i class="fa-brands fa-instagram"></i> Instagram', ig);
-            if (line) addPreviewLinkBtn(linksContainer, '<i class="fa-brands fa-line"></i> LINE', line);
-            if (tiktok) addPreviewLinkBtn(linksContainer, '<i class="fa-brands fa-tiktok"></i> TikTok', tiktok);
-
-            if (!fb && !ig && !line && !tiktok) {
-                linksContainer.innerHTML = '<div style="color:rgba(255,255,255,0.7); font-size:12px; text-align:center;">(เพิ่มลิงก์ปุ่มจะแสดงที่นี่)</div>';
-            }
-        }
-
-        function addPreviewLinkBtn(container, htmlText, url) {
-            const a = document.createElement("a");
-            a.className = "preview-link-btn";
-            a.href = url;
-            a.target = "_blank";
-            a.innerHTML = htmlText;
-            container.appendChild(a);
-        }
-
-        function generateLink() {
-            const name = document.getElementById("inputName").value;
-            if (!name) {
-                alert("กรุณากรอกชื่อโปรไฟล์ของคุณด้วยนะครับ");
-                return;
-            }
-
-            const data = {
-                name: name,
-                profile: document.getElementById("inputProfileUrl").value,
-                bg: document.getElementById("inputBgUrl").value,
-                fb: document.getElementById("inputFb").value,
-                ig: document.getElementById("inputIg").value,
-                line: document.getElementById("inputLine").value,
-                tiktok: document.getElementById("inputTiktok").value
-            };
-
-            const encodedData = encodeURIComponent(JSON.stringify(data));
-            const baseUrl = window.location.origin + window.location.pathname;
-            const finalUrl = `${baseUrl}?bio_name=${encodeURIComponent(name)}#data=${encodedData}`;
-
-            document.getElementById("finalUrlText").value = finalUrl;
-            document.getElementById("btnTestOpen").href = finalUrl;
-            document.getElementById("generatedResult").style.display = "block";
-        }
-
-        function copyGeneratedUrl() {
-            const copyText = document.getElementById("finalUrlText");
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(copyText.value).then(() => {
-                    alert("🎉 คัดลอกลิงก์ Bio สำเร็จ!");
-                }).catch(() => {
-                    fallbackCopyText(copyText);
-                });
-            } else {
-                fallbackCopyText(copyText);
-            }
-        }
-
-        function fallbackCopyText(inputElement) {
-            inputElement.focus();
-            inputElement.select();
-            inputElement.setSelectionRange(0, 99999);
-            try {
-                document.execCommand('copy');
-                alert("🎉 คัดลอกลิงก์ Bio สำเร็จ!");
-            } catch (err) {
-                alert("⚠️ กรุณากดค้างที่กล่องข้อความแล้วเลือก 'คัดลอก' (Copy)");
-            }
-        }
-
-        function renderFullBioPageFromUrl(params) {
-            let bioData = null;
-            try {
-                const hash = window.location.hash;
-                if (hash.startsWith("#data=")) {
-                    const jsonStr = decodeURIComponent(hash.replace("#data=", ""));
-                    bioData = JSON.parse(jsonStr);
-                }
-            } catch(e) { console.error(e); }
-
-            if (bioData) {
-                document.getElementById("homePage").style.display = "none";
-                document.querySelector(".top-banner").style.display = "none";
-                
-                const viewPage = document.getElementById("viewBioFullPage");
-                viewPage.style.display = "flex";
-                if (bioData.bg) viewPage.style.backgroundImage = `url('${bioData.bg}')`;
-                
-                document.getElementById("displayAvatar").src = bioData.profile || "https://via.placeholder.com/150";
-                document.getElementById("displayName").innerText = bioData.name;
-
-                const displayLinks = document.getElementById("displayLinks");
-                displayLinks.innerHTML = "";
-
-                if (bioData.fb) addPreviewLinkBtn(displayLinks, '<i class="fa-brands fa-facebook"></i> Facebook', bioData.fb);
-                if (bioData.ig) addPreviewLinkBtn(displayLinks, '<i class="fa-brands fa-instagram"></i> Instagram', bioData.ig);
-                if (bioData.line) addPreviewLinkBtn(displayLinks, '<i class="fa-brands fa-line"></i> LINE', bioData.line);
-                if (bioData.tiktok) addPreviewLinkBtn(displayLinks, '<i class="fa-brands fa-tiktok"></i> TikTok', bioData.tiktok);
-            }
-        }
-
-        window.addEventListener("click", function(event) {
-            const menu = document.getElementById("dropdownMenu");
-            const btn = document.querySelector(".menu-toggle-btn");
-            const productModal = document.getElementById("productModal");
-
-            if (menu && btn && !menu.contains(event.target) && !btn.contains(event.target)) {
-                menu.style.display = "none";
-                const contactBox = document.getElementById("contactDropdown");
-                const arrowIcon = document.getElementById("arrowIcon");
-                if (contactBox) contactBox.style.display = "none";
-                if (arrowIcon) arrowIcon.style.transform = "rotate(0deg)";
-            }
-
-            if (event.target === productModal) closeProductModal();
-        });
-    </script>
+    <!-- 📍 จุดเชื่อมที่ 1: ดึงโค้ด JavaScript แยกไฟล์มาใช้งาน -->
+    <script src="script.js"></script>
 </body>
 </html>
+
