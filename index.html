@@ -1241,16 +1241,46 @@
             const baseUrl = window.location.origin + window.location.pathname;
             const finalUrl = `${baseUrl}?bio_name=${encodeURIComponent(name)}#data=${encodedData}`;
 
+            // แจ้งเตือนถ้ารูปถ่ายขนาดใหญ่เกินไป
+            if (finalUrl.length > 50000) {
+                alert("⚠️ ขนาดรูปภาพใหญ่เกินไป อาจทำให้แชร์ลิงก์ไม่ได้ แนะนำให้ใช้รูปที่มีขนาดเล็กกว่านี้นะครับ");
+            }
+
             document.getElementById("finalUrlText").value = finalUrl;
             document.getElementById("btnTestOpen").href = finalUrl;
             document.getElementById("generatedResult").style.display = "block";
         }
 
+        /* ฟังก์ชันคัดลอกลิงก์ฉบับแก้ไข รองรับมือถือและแอปทุกประเภท */
         function copyGeneratedUrl() {
             const copyText = document.getElementById("finalUrlText");
-            copyText.select();
-            navigator.clipboard.writeText(copyText.value);
-            alert("คัดลอกลิงก์ Bio สำเร็จ! สามารถนำไปแปะหน้าโซเชียลหรือแชร์ให้คนอื่นเปิดดูได้เลย");
+            
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(copyText.value).then(() => {
+                    alert("🎉 คัดลอกลิงก์ Bio สำเร็จ! นำไปแปะหน้าโซเชียลหรือแชร์ให้คนอื่นเปิดดูได้เลย");
+                }).catch(() => {
+                    fallbackCopyText(copyText);
+                });
+            } else {
+                fallbackCopyText(copyText);
+            }
+        }
+
+        function fallbackCopyText(inputElement) {
+            inputElement.focus();
+            inputElement.select();
+            inputElement.setSelectionRange(0, 99999);
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert("🎉 คัดลอกลิงก์ Bio สำเร็จ! นำไปแปะหน้าโซเชียลหรือแชร์ให้คนอื่นเปิดดูได้เลย");
+                } else {
+                    alert("⚠️ ไม่สามารถคัดลอกอัตโนมัติได้ กรุณากดค้างที่กล่องข้อความเพื่อกดคัดลอกเองครับ");
+                }
+            } catch (err) {
+                alert("⚠️ กรุณากดค้างที่กล่องข้อความแล้วเลือก 'คัดลอก' (Copy)");
+            }
         }
 
         // Render Page When Shared User Opens Link
