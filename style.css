@@ -14,11 +14,14 @@ body { font-family: 'Prompt', sans-serif; background-color: #FFFFFF; color: #001
 .product-modal-box { text-align: center; }
 .ad-modal-overlay.show .ad-modal-box, .product-modal-overlay.show .product-modal-box { transform: scale(1); }
 
-/* ปุ่มกากบาทโฆษณา (เก็บไว้ปกติ) แต่ซ่อนปุ่มกากบาทของหน้าต่างรายละเอียดสินค้าไม่ให้มี */
+/* ปุ่มกากบาทโฆษณา และซ่อนกากบาทอื่นๆ */
 .ad-close-btn { position: absolute; top: 15px; right: 15px; background: transparent; border: 2px solid #0018F9; color: #0018F9; width: 34px; height: 34px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; z-index: 10; }
 .ad-close-btn:hover { background-color: #0018F9; color: #FFFFFF; transform: scale(1.1); }
 
-.product-close-btn { display: none !important; } /* ซ่อนกากบาทในหน้าดูรายละเอียดสินค้าเรียบร้อย */
+.product-close-btn { display: none !important; }
+
+/* ซ่อนปุ่มกากบาทหน้าพรีวิวเว็บลูกค้าเรียบร้อย */
+.close-full-bio-btn { display: none !important; }
 
 .ad-modal-title, .product-modal-title { font-size: 18px; font-weight: 700; color: #0018F9; text-align: center; margin-bottom: 15px; }
 .product-modal-title { font-size: 20px; }
@@ -147,42 +150,3 @@ input:checked + .slider:before { transform: translateX(20px); }
 .custom-alert-message { font-size: 14px; color: #444; margin-bottom: 20px; line-height: 1.5; }
 .custom-alert-btn { width: 100%; padding: 12px; background: #0018F9; color: #FFFFFF; border: none; border-radius: 15px; font-family: 'Prompt', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 5px 15px rgba(0, 24, 249, 0.3); transition: all 0.2s ease; }
 .custom-alert-btn:hover { background: #0013cb; transform: translateY(-2px); }
-.preview-circle-btn { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: #FFFFFF; font-size: 22px; background: rgba(255, 255, 255, 0.18) !important; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.45); box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.3); transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); position: relative; }
-.preview-circle-btn:hover { transform: translateY(-4px) scale(1.1); background: rgba(255, 255, 255, 0.3) !important; border-color: rgba(255, 255, 255, 0.8); box-shadow: 0 12px 25px -4px rgba(0, 0, 0, 0.4); }
-
-.dome-settings-panel { background: #f0f4ff; border: 2px dashed #0018F9; border-radius: 15px; padding: 12px 15px; margin-bottom: 18px; }
-.flex-between { display: flex; justify-content: space-between; align-items: center; }
-
-.switch-toggle { position: relative; display: inline-block; width: 44px; height: 24px; }
-.switch-toggle input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
-.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-input:checked + .slider { background-color: #0018F9; }
-input:checked + .slider:before { transform: translateX(20px); }
-
-.music-player-box { position: relative; z-index: 2; margin-top: auto; padding-top: 15px; width: 100%; }
-.music-card { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 15px; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 255, 255, 0.3); color: white; }
-.music-info { display: flex; align-items: center; gap: 8px; font-size: 12px; }
-.music-btn { background: white; color: #0018F9; border: none; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; }
-
-.generated-result-container { margin-top: 20px; background-color: #eef2ff; border: 2px dashed #0018F9; border-radius: 15px; padding: 15px; text-align: center; display: none; }
-
-#viewBioFullPage { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-size: cover; background-position: center; z-index: 100000; align-items: center; justify-content: center; }
-#viewBioFullPage::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1; }
-.bio-display-box { position: relative; z-index: 2; width: 90%; max-width: 400px; display: flex; flex-direction: column; }
-.close-full-bio-btn { position: absolute; top: 20px; right: 20px; z-index: 10; background: rgba(255,255,255,0.8); border: none; color: #0018F9; width: 40px; height: 40px; border-radius: 50%; font-size: 18px; cursor: pointer; }
-
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@media (max-width: 850px) { .bio-creator-container { grid-template-columns: 1fr; } .preview-wrapper { margin-top: 30px; } }
-
-.custom-alert-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 99999; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-.custom-alert-overlay.show { opacity: 1; visibility: visible; }
-.custom-alert-box { background: #FFFFFF; border: 3px solid #0018F9; border-radius: 25px; width: 90%; max-width: 360px; padding: 30px 20px 20px 20px; text-align: center; box-shadow: 0 20px 40px rgba(0, 24, 249, 0.3); transform: scale(0.7) translateY(20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-.custom-alert-overlay.show .custom-alert-box { transform: scale(1) translateY(0); }
-.custom-alert-icon { width: 60px; height: 60px; background: #eef2ff; color: #0018F9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 15px auto; border: 2px solid #0018F9; animation: pulseIcon 1.5s infinite; }
-@keyframes pulseIcon { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 24, 249, 0.4); } 70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(0, 24, 249, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 24, 249, 0); } }
-.custom-alert-title { font-size: 20px; font-weight: 700; color: #0018F9; margin-bottom: 8px; }
-.custom-alert-message { font-size: 14px; color: #444; margin-bottom: 20px; line-height: 1.5; }
-.custom-alert-btn { width: 100%; padding: 12px; background: #0018F9; color: #FFFFFF; border: none; border-radius: 15px; font-family: 'Prompt', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 5px 15px rgba(0, 24, 249, 0.3); transition: all 0.2s ease; }
-.custom-alert-btn:hover { background: #0013cb; transform: translateY(-2px); }
-
