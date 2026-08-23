@@ -1,4 +1,3 @@
-// 📍 API Key ของ ImgBB
 const IMGBB_API_KEY = "c043b00fe27b1322e754c9752bbcb5c6";
 
 const adImagesList = [
@@ -8,8 +7,9 @@ const adImagesList = [
 ];
 
 let currentAdIndex = 0;
+let previewAudio = new Audio();
+let fullAudio = new Audio();
 
-// ⚡ ระบบ Alert แบบเท่ๆ (Custom Alert)
 function showAlert(message, title = "แจ้งเตือน", iconClass = "fa-circle-info") {
     const alertOverlay = document.getElementById("customAlert");
     const alertTitle = document.getElementById("alertTitle");
@@ -86,7 +86,6 @@ document.addEventListener("DOMContentLoaded", function() {
     updatePreview();
 });
 
-// ⚡ ฟังก์ชันสำหรับย่อขนาดรูปภาพก่อนอัปโหลด (ช่วยให้อัปโหลดเร็วขึ้นมากๆ)
 function compressImage(file, maxWidth = 800, quality = 0.7) {
     return new Promise((resolve) => {
         const reader = new FileReader();
@@ -118,7 +117,6 @@ function compressImage(file, maxWidth = 800, quality = 0.7) {
     });
 }
 
-// ⚡ ฟังก์ชันสำหรับอัปโหลดรูปภาพไปฝากไว้ที่ ImgBB (มีระบบย่อรูป)
 async function uploadImageToImgBB(fileInputId, hiddenUrlInputId) {
     const fileInput = document.getElementById(fileInputId);
     const hiddenInput = document.getElementById(hiddenUrlInputId);
@@ -135,7 +133,6 @@ async function uploadImageToImgBB(fileInputId, hiddenUrlInputId) {
 
     try {
         const compressedBlob = await compressImage(fileInput.files[0], 800, 0.7);
-
         const formData = new FormData();
         formData.append("image", compressedBlob, "upload.jpg");
 
@@ -222,15 +219,34 @@ function openBioPage() {
 
 function closeBioPage() {
     document.getElementById("bioPage").style.display = "none";
+    previewAudio.pause();
 }
 
+function closeFullBioPage() {
+    document.getElementById("viewBioFullPage").style.display = "none";
+    document.getElementById("homePage").style.display = "flex";
+    document.querySelector(".top-banner").style.display = "flex";
+    fullAudio.pause();
+}
+
+// ⚡ ฟังก์ชันแสดงตัวอย่าง Real-time Preview Update
 function updatePreview() {
     const name = document.getElementById("inputName").value || "ชื่อของคุณ";
+    const caption = document.getElementById("inputCaption").value || "แคปชั่นโปรไฟล์";
     const profileUrl = document.getElementById("inputProfileUrl").value || "https://via.placeholder.com/150?text=Profile";
     const bgUrl = document.getElementById("inputBgUrl").value;
+    const alignClass = document.getElementById("selectAlign").value;
+    const btnColor = document.getElementById("inputBtnColor").value;
+    const btnRadius = document.getElementById("selectRadius").value;
+    const musicUrl = document.getElementById("inputMusic").value;
+    const isIphoneGlass = document.getElementById("toggleIphoneGlass").checked;
 
     document.getElementById("previewName").innerText = name;
+    document.getElementById("previewCaption").innerText = caption;
     document.getElementById("previewAvatar").src = profileUrl;
+
+    const contentBox = document.getElementById("previewContentBox");
+    contentBox.className = `screen-content ${alignClass}`;
 
     const previewScreen = document.getElementById("previewScreen");
     if (bgUrl) {
@@ -247,23 +263,70 @@ function updatePreview() {
     const line = document.getElementById("inputLine").value;
     const tiktok = document.getElementById("inputTiktok").value;
 
-    if (fb) addPreviewLinkBtn(linksContainer, '<i class="fa-brands fa-facebook"></i> Facebook', fb);
-    if (ig) addPreviewLinkBtn(linksContainer, '<i class="fa-brands fa-instagram"></i> Instagram', ig);
-    if (line) addPreviewLinkBtn(linksContainer, '<i class="fa-brands fa-line"></i> LINE', line);
-    if (tiktok) addPreviewLinkBtn(linksContainer, '<i class="fa-brands fa-tiktok"></i> TikTok', tiktok);
+    if (fb) addLinkBtn(linksContainer, '<i class="fa-brands fa-facebook"></i> Facebook', fb, btnColor, btnRadius, isIphoneGlass);
+    if (ig) addLinkBtn(linksContainer, '<i class="fa-brands fa-instagram"></i> Instagram', ig, btnColor, btnRadius, isIphoneGlass);
+    if (line) addLinkBtn(linksContainer, '<i class="fa-brands fa-line"></i> LINE', line, btnColor, btnRadius, isIphoneGlass);
+    if (tiktok) addLinkBtn(linksContainer, '<i class="fa-brands fa-tiktok"></i> TikTok', tiktok, btnColor, btnRadius, isIphoneGlass);
 
     if (!fb && !ig && !line && !tiktok) {
         linksContainer.innerHTML = '<div style="color:rgba(255,255,255,0.7); font-size:12px; text-align:center;">(เพิ่มลิงก์ปุ่มจะแสดงที่นี่)</div>';
     }
+
+    const musicBox = document.getElementById("previewMusicBox");
+    if (musicUrl) {
+        musicBox.style.display = "block";
+        previewAudio.src = musicUrl;
+    } else {
+        musicBox.style.display = "none";
+        previewAudio.pause();
+    }
 }
 
-function addPreviewLinkBtn(container, htmlText, url) {
+// 📱 สร้างปุ่มโซเชียลลิงก์สไตล์ iPhone Glass Dome
+function addLinkBtn(container, htmlText, url, textColor, borderRadius, isIphoneGlass) {
     const a = document.createElement("a");
-    a.className = "preview-link-btn";
     a.href = url;
     a.target = "_blank";
     a.innerHTML = htmlText;
+    a.style.color = textColor;
+    a.style.borderRadius = borderRadius;
+
+    if (isIphoneGlass) {
+        a.className = "preview-link-btn iphone-glass-dome";
+    } else {
+        a.className = "preview-link-btn flat-btn";
+        a.style.backgroundColor = "#ffffff";
+        a.style.color = "#0018F9";
+    }
+
     container.appendChild(a);
+}
+
+function toggleAudioPreview() {
+    const icon = document.getElementById("musicIcon");
+    if (previewAudio.paused) {
+        previewAudio.play();
+        icon.className = "fa-solid fa-pause";
+    } else {
+        previewAudio.pause();
+        icon.className = "fa-solid fa-play";
+    }
+}
+
+function closeAudioPreview() {
+    previewAudio.pause();
+    document.getElementById("previewMusicBox").style.display = "none";
+}
+
+function toggleAudioFull() {
+    const icon = document.getElementById("fullMusicIcon");
+    if (fullAudio.paused) {
+        fullAudio.play();
+        icon.className = "fa-solid fa-pause";
+    } else {
+        fullAudio.pause();
+        icon.className = "fa-solid fa-play";
+    }
 }
 
 function generateLink() {
@@ -275,8 +338,14 @@ function generateLink() {
 
     const data = {
         name: name,
+        caption: document.getElementById("inputCaption").value,
         profile: document.getElementById("inputProfileUrl").value,
         bg: document.getElementById("inputBgUrl").value,
+        align: document.getElementById("selectAlign").value,
+        btnColor: document.getElementById("inputBtnColor").value,
+        btnRadius: document.getElementById("selectRadius").value,
+        music: document.getElementById("inputMusic").value,
+        isIphoneGlass: document.getElementById("toggleIphoneGlass").checked,
         fb: document.getElementById("inputFb").value,
         ig: document.getElementById("inputIg").value,
         line: document.getElementById("inputLine").value,
@@ -338,14 +407,27 @@ function renderFullBioPageFromUrl(params) {
         
         document.getElementById("displayAvatar").src = bioData.profile || "https://via.placeholder.com/150";
         document.getElementById("displayName").innerText = bioData.name;
+        document.getElementById("displayCaption").innerText = bioData.caption || "";
+
+        const displayBox = document.getElementById("displayContentBox");
+        displayBox.className = `bio-display-box ${bioData.align || 'align-center'}`;
 
         const displayLinks = document.getElementById("displayLinks");
         displayLinks.innerHTML = "";
 
-        if (bioData.fb) addPreviewLinkBtn(displayLinks, '<i class="fa-brands fa-facebook"></i> Facebook', bioData.fb);
-        if (bioData.ig) addPreviewLinkBtn(displayLinks, '<i class="fa-brands fa-instagram"></i> Instagram', bioData.ig);
-        if (bioData.line) addPreviewLinkBtn(displayLinks, '<i class="fa-brands fa-line"></i> LINE', bioData.line);
-        if (bioData.tiktok) addPreviewLinkBtn(displayLinks, '<i class="fa-brands fa-tiktok"></i> TikTok', bioData.tiktok);
+        const isIphoneGlass = bioData.isIphoneGlass !== false;
+        const textColor = bioData.btnColor || '#ffffff';
+        const radius = bioData.btnRadius || '20px';
+
+        if (bioData.fb) addLinkBtn(displayLinks, '<i class="fa-brands fa-facebook"></i> Facebook', bioData.fb, textColor, radius, isIphoneGlass);
+        if (bioData.ig) addLinkBtn(displayLinks, '<i class="fa-brands fa-instagram"></i> Instagram', bioData.ig, textColor, radius, isIphoneGlass);
+        if (bioData.line) addLinkBtn(displayLinks, '<i class="fa-brands fa-line"></i> LINE', bioData.line, textColor, radius, isIphoneGlass);
+        if (bioData.tiktok) addLinkBtn(displayLinks, '<i class="fa-brands fa-tiktok"></i> TikTok', bioData.tiktok, textColor, radius, isIphoneGlass);
+
+        if (bioData.music) {
+            document.getElementById("displayMusicBox").style.display = "block";
+            fullAudio.src = bioData.music;
+        }
     }
 }
 
