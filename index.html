@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chin Code</title>
+    <title>Chin Code - บริการรับทำเว็บไซต์ & Bio Link ฟรี</title>
     <!-- นำเข้าฟอนต์ Prompt -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- นำเข้า Font Awesome สำหรับไอคอน -->
@@ -52,7 +52,7 @@
             100% { transform: scale(1.08); }
         }
 
-        /* --- Popup Advertisement Modal Styling (คงเดิม ไม่แตะต้อง) --- */
+        /* Popup Advertisement Modal Styling */
         .ad-modal-overlay {
             position: fixed;
             top: 0;
@@ -151,7 +151,7 @@
             font-weight: 600;
         }
 
-        /* --- Product Detail Modal Styling (กล่องรายละเอียดสินค้าเมื่อกดที่รูป) --- */
+        /* Product Modal Styling */
         .product-modal-overlay {
             position: fixed;
             top: 0;
@@ -309,23 +309,29 @@
             box-shadow: 0 10px 25px rgba(0, 24, 249, 0.15);
             overflow: hidden;
             z-index: 99;
-            width: 180px;
+            width: 200px;
             animation: fadeInMenu 0.3s ease;
         }
 
-        .contact-menu-trigger {
+        .menu-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 18px;
+            padding: 12px 18px;
             color: #0018F9;
             text-decoration: none;
             font-weight: 600;
-            font-size: 15px;
+            font-size: 14px;
+            border-bottom: 1px solid #f0f2ff;
             transition: background-color 0.2s, color 0.2s;
+            cursor: pointer;
         }
 
-        .contact-menu-trigger:hover {
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
             background-color: #0018F9;
             color: #FFFFFF;
         }
@@ -458,7 +464,7 @@
             filter: drop-shadow(0 5px 10px rgba(0, 24, 249, 0.3));
         }
 
-        /* Portfolio Section (ส่วนสินค้า) */
+        /* Portfolio Section */
         .portfolio-section {
             width: 100%;
             display: flex;
@@ -524,46 +530,294 @@
             z-index: 10;
         }
 
+        /* --- FULL PAGE BIO LINK CREATOR STYLES --- */
+        #bioPage {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #f8f9ff;
+            z-index: 10000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .bio-page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1100px;
+            margin: 0 auto 20px auto;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e5ff;
+        }
+
+        .btn-back-home {
+            background-color: #0018F9;
+            color: #FFFFFF;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-family: 'Prompt', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+
+        .btn-back-home:hover {
+            transform: scale(1.05);
+        }
+
+        .bio-creator-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 30px;
+        }
+
+        .bio-editor-card {
+            background: #FFFFFF;
+            border: 3px solid #0018F9;
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,24,249,0.08);
+        }
+
+        .editor-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0018F9;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group-custom {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group-custom label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #0018F9;
+            margin-bottom: 6px;
+        }
+
+        .input-custom {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #ccd5ff;
+            border-radius: 12px;
+            font-family: 'Prompt', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-custom:focus {
+            border-color: #0018F9;
+        }
+
+        .file-upload-btn {
+            display: inline-block;
+            background-color: #f0f2ff;
+            color: #0018F9;
+            border: 2px dashed #0018F9;
+            padding: 10px 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+
+        .file-upload-btn:hover {
+            background-color: #e0e5ff;
+        }
+
+        .video-notice-box {
+            background-color: #fff0f0;
+            border: 1px solid #ff4d4d;
+            border-radius: 12px;
+            padding: 10px;
+            font-size: 12px;
+            color: #d90000;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        /* Phone Preview Container */
+        .preview-wrapper {
+            position: sticky;
+            top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preview-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0018F9;
+            margin-bottom: 10px;
+        }
+
+        .phone-mockup {
+            width: 320px;
+            height: 580px;
+            background-color: #111;
+            border-radius: 40px;
+            border: 8px solid #333;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px 20px 20px;
+            box-sizing: border-box;
+            background-color: #1a1a2e;
+            position: relative;
+        }
+
+        .phone-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.35);
+            z-index: 1;
+        }
+
+        .screen-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .preview-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid #FFFFFF;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-bottom: 12px;
+            background-color: #fff;
+        }
+
+        .preview-name-text {
+            color: #FFFFFF;
+            font-size: 18px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .preview-links-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .preview-link-btn {
+            width: 100%;
+            padding: 10px 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #0018F9;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .generated-result-container {
+            margin-top: 20px;
+            background-color: #eef2ff;
+            border: 2px dashed #0018F9;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        /* --- DISPLAY BIO LINK FULL PAGE VIEW (สำหรับคนที่เปิดลิงก์) --- */
+        #viewBioFullPage {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            z-index: 100000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #viewBioFullPage::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 1;
+        }
+
+        .bio-display-box {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 768px) {
-            .top-banner {
-                height: 55px;
-                border-bottom-left-radius: 25px;
-                border-bottom-right-radius: 25px;
+        @media (max-width: 850px) {
+            .bio-creator-container {
+                grid-template-columns: 1fr;
             }
-
-            .main-logo {
-                width: 150px;
-            }
-
-            .main-title {
-                font-size: 28px;
-            }
-
-            .social-icon-btn {
-                font-size: 40px;
-            }
-
-            .section-title {
-                font-size: 24px;
-                margin-bottom: 25px;
-            }
-
-            .portfolio-card {
-                height: 220px;
-                border-radius: 20px;
-                border-width: 3px;
-            }
-
-            .product-price-badge {
-                top: 12px;
-                right: 12px;
-                padding: 5px 12px;
-                font-size: 13px;
+            .preview-wrapper {
+                margin-top: 30px;
             }
         }
     </style>
@@ -575,39 +829,32 @@
         <img src="https://cdn.phototourl.com/free/2026-08-18-2b12c8b4-e50b-4169-b89b-580dbde96f9b.png" alt="Intro Logo" class="intro-logo" id="introLogo">
     </div>
 
-    <!-- Popup Advertisement Modal (โฆษณาตอนเปิดเว็บ - คงเดิม ไม่แตะต้อง) -->
+    <!-- Popup Advertisement Modal -->
     <div id="adModal" class="ad-modal-overlay">
         <div class="ad-modal-box">
             <button class="ad-close-btn" onclick="nextAd()" aria-label="Close Advertisement">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-
             <h3 class="ad-modal-title" id="adTitle"></h3>
-
             <div class="ad-image-container">
                 <img id="adImage" src="" alt="Advertisement" class="ad-img">
             </div>
-
             <div class="ad-counter" id="adCounter"></div>
         </div>
     </div>
 
-    <!-- Product Detail Modal (กล่องรายละเอียดสินค้า เมื่อคลิกที่รูปสินค้า) -->
+    <!-- Product Detail Modal -->
     <div id="productModal" class="product-modal-overlay">
         <div class="product-modal-box">
             <button class="product-close-btn" onclick="closeProductModal()" aria-label="Close Details">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-
             <h3 class="product-modal-title" id="modalProductTitle">Chin code</h3>
-
             <div class="product-modal-img-container">
                 <div class="modal-price-badge" id="modalProductPrice">70.-</div>
                 <img id="modalProductImg" src="" alt="Product Detail" class="product-modal-img">
             </div>
-
             <p class="product-modal-desc" id="modalProductDesc">ทำเว็บ bio link ราคาประหยัด สนใจติดต่อได้ทุกช่องทาง</p>
-
             <div class="product-contact-title">ช่องทางการติดต่อ</div>
             <div class="social-circles-container">
                 <a href="https://www.instagram.com/chin_code.io?igsh=MXFlZTMxY3JrM2I3bA==" target="_blank" class="social-circle-btn" title="Instagram">
@@ -620,14 +867,12 @@
         </div>
     </div>
 
-    <!-- Top Logo Pattern Section -->
+    <!-- MAIN HOMEPAGE CONTENT -->
     <header class="top-banner">
         <div class="logo-pattern-strip" id="logoPatternStrip"></div>
     </header>
 
-    <!-- Main Container -->
-    <main class="main-container">
-        
+    <main class="main-container" id="homePage">
         <!-- ปุ่ม 3 ขีดสีน้ำเงิน -->
         <button class="menu-toggle-btn" onclick="toggleMenu()" aria-label="Menu">
             <i class="fa-solid fa-bars"></i>
@@ -635,11 +880,13 @@
 
         <!-- เมนูดรอปดาวน์ -->
         <div id="dropdownMenu" class="dropdown-menu">
-            <a href="#" onclick="toggleContact(event)" class="contact-menu-trigger">
+            <div class="menu-item" onclick="openBioPage()">
+                <span><i class="fa-solid fa-wand-magic-sparkles"></i>  Bio Link (free)</span>
+            </div>
+            <div class="menu-item" onclick="toggleContact(event)">
                 <span>ติดต่อ</span>
                 <i class="fa-solid fa-chevron-down arrow-icon" id="arrowIcon"></i>
-            </a>
-            
+            </div>
             <div id="contactDropdown" class="contact-dropdown">
                 <div class="social-circles-container">
                     <a href="https://www.instagram.com/chin_code.io?igsh=MXFlZTMxY3JrM2I3bA==" target="_blank" class="social-circle-btn" title="Instagram">
@@ -657,9 +904,7 @@
             <div class="main-logo-container" id="targetMainLogo">
                 <img src="https://cdn.phototourl.com/free/2026-08-18-2b12c8b4-e50b-4169-b89b-580dbde96f9b.png" alt="Chin Code Logo" class="main-logo">
             </div>
-
             <h1 class="main-title">บริการรับทำเว็บไซต์</h1>
-
             <div class="social-icons-container">
                 <a href="https://www.instagram.com/chin_code.io?igsh=MXFlZTMxY3JrM2I3bA==" target="_blank" class="social-icon-btn" aria-label="Instagram">
                     <i class="fa-brands fa-instagram"></i>
@@ -670,46 +915,138 @@
             </div>
         </section>
 
-        <!-- Portfolio Section (ส่วนสินค้า: คลิกที่รูปเพื่อเปิดดูรายละเอียดและปุ่มติดต่อ) -->
+        <!-- Portfolio Section -->
         <section class="portfolio-section">
             <h2 class="section-title">สินค้า</h2>
-
             <div class="portfolio-cards-wrapper">
-                <!-- สินค้าชิ้นที่ 1 (ราคา 70.-) -->
                 <div class="portfolio-card" onclick="openProductModal('https://cdn.phototourl.com/free/2026-08-19-cbdaeafd-f399-4fd2-9114-28a65252e61f.png', '70.-', 'เว็บไซต์ BIO LINK คุณสามารถทำแบบไหนก็ได้ตามที่คุณต้องการ ขอแค่บอกเรามา')">
                     <div class="product-price-badge">70.-</div>
                     <img src="https://cdn.phototourl.com/free/2026-08-19-cbdaeafd-f399-4fd2-9114-28a65252e61f.png" alt="Chin code" class="portfolio-img">
                 </div>
-
-                <!-- สินค้าชิ้นที่ 2 (ราคา 70.-) -->
                 <div class="portfolio-card" onclick="openProductModal('https://cdn.phototourl.com/free/2026-08-19-e4aa6f1e-2f6d-41dc-9497-7f37d49b7147.png', '70.-', 'เว็บไซต์ บอกรักแฟน คุณมีของขวัญสุดพิเศษให้แฟนคุณรึยัง มาทำเป้นเว็บไซต์ดูสิ บอกเราได้เลยนะอยากทำแบบไหนเกี่ยวกับแฟนของคุณ ')">
                     <div class="product-price-badge">70.-</div>
                     <img src="https://cdn.phototourl.com/free/2026-08-19-e4aa6f1e-2f6d-41dc-9497-7f37d49b7147.png" alt="Chin code" class="portfolio-img">
                 </div>
-
-                <!-- สินค้าชิ้นที่ 3 (ราคา 150.-) -->
                 <div class="portfolio-card" onclick="openProductModal('https://cdn.phototourl.com/free/2026-08-19-ec5a52f4-f9c9-46d3-9d90-8510365f1619.png', '150.-', 'เว็บสำหรับทำเพื่อ ยื่น มหาลัย หรือมีโปรเจ็กที่จะทำสามารถบอกพวกเราทำได้ครับ')">
                     <div class="product-price-badge">150.-</div>
                     <img src="https://cdn.phototourl.com/free/2026-08-19-ec5a52f4-f9c9-46d3-9d90-8510365f1619.png" alt="Chin code" class="portfolio-img">
                 </div>
-                
-        <!-- Portfolio Section (ส่วนสินค้า: คลิกที่รูปเพื่อเปิดดูรายละเอียดและปุ่มติดต่อ) -->
-        
-                <!-- สินค้าชิ้นที่ 4 (ใหม่) -->
                 <div class="portfolio-card" onclick="openProductModal('https://cdn.phototourl.com/free/2026-08-20-68575836-1658-4f04-b501-ad9c9f68ddb0.png', '1-100,000.-', 'อั้นนี้คือเว็บไซต์ ทำตามที่ลูกค้าบอก ลูกค้าต้องการเว็บไชต์อะไร บอกมาได้เลย ราคาจะขึ้นอยู่กับความ ยากง่าย ของเว็บไซต์')">
                     <div class="product-price-badge">1-100,000.-</div>
-                    <img src="https://cdn.phototourl.com/free/2026-08-20-68575836-1658-4f04-b501-ad9c9f68ddb0.png" alt="Chin code" width="200" class="portfolio-img">
+                    <img src="https://cdn.phototourl.com/free/2026-08-20-68575836-1658-4f04-b501-ad9c9f68ddb0.png" alt="Chin code" class="portfolio-img">
                 </div>
             </div>
         </section>
-
-
-              
-          
     </main>
 
+    <!-- FULL PAGE BIO LINK CREATOR SECTION -->
+    <div id="bioPage">
+        <div class="bio-page-header">
+            <button class="btn-back-home" onclick="closeBioPage()">
+                <i class="fa-solid fa-arrow-left"></i> กลับหน้าหลัก
+            </button>
+            <h2 style="font-size: 20px; font-weight:700; color:#0018F9;"> Bio Link (free)</h2>
+        </div>
+
+        <div class="bio-creator-container">
+            <!-- Left Side: Form Editor -->
+            <div class="bio-editor-card">
+                <div class="editor-title">
+                    <i class="fa-solid fa-pen-to-square"></i> กรอกข้อมูล Bio Link ของคุณ
+                </div>
+
+                <div class="form-group-custom">
+                    <label>ชื่อโปรไฟล์ / ข้อความหลัก</label>
+                    <input type="text" id="inputName" class="input-custom" placeholder="เช่น Chin Code" oninput="updatePreview()">
+                </div>
+
+                <div class="form-group-custom">
+                    <label>อัปโหลดรูปโปรไฟล์</label>
+                    <label class="file-upload-btn">
+                        <i class="fa-solid fa-image"></i> เลือกรูป Profile จากเครื่อง
+                        <input type="file" id="fileProfile" accept="image/*" style="display:none;" onchange="handleFileSelect(event, 'profile')">
+                    </label>
+                </div>
+
+                <div class="form-group-custom">
+                    <label>อัปโหลดรูปพื้นหลัง (Background)</label>
+                    <label class="file-upload-btn">
+                        <i class="fa-solid fa-file-image"></i> เลือกรูป พื้นหลัง จากเครื่อง
+                        <input type="file" id="fileBg" accept="image/*" style="display:none;" onchange="handleFileSelect(event, 'bg')">
+                    </label>
+                    <div class="video-notice-box">
+                        <i class="fa-solid fa-circle-exclamation"></i> <strong>หมายเหตุ:</strong> เวอร์ชันฟรีรองรับเฉพาะรูปภาพ หากต้องการใช้ <strong>"วิดีโอเป็นพื้นหลัง"</strong> หรือตกแต่งเอฟเฟกต์พิเศษ สามารถติดต่อสั่งทำกับเราได้ครับ!
+                    </div>
+                </div>
+
+                <hr style="margin: 20px 0; border: none; border-top: 1px solid #e0e5ff;">
+
+                <div class="editor-title" style="font-size: 16px;">
+                    <i class="fa-solid fa-link"></i> ลิงก์โซเชียลมีเดีย (เว้นว่างไว้หากไม่ใส่)
+                </div>
+
+                <div class="form-group-custom">
+                    <label><i class="fa-brands fa-facebook"></i> Facebook Link</label>
+                    <input type="url" id="inputFb" class="input-custom" placeholder="https://facebook.com/..." oninput="updatePreview()">
+                </div>
+
+                <div class="form-group-custom">
+                    <label><i class="fa-brands fa-instagram"></i> Instagram Link</label>
+                    <input type="url" id="inputIg" class="input-custom" placeholder="https://instagram.com/..." oninput="updatePreview()">
+                </div>
+
+                <div class="form-group-custom">
+                    <label><i class="fa-brands fa-line"></i> LINE Link</label>
+                    <input type="url" id="inputLine" class="input-custom" placeholder="https://line.me/ti/p/..." oninput="updatePreview()">
+                </div>
+
+                <div class="form-group-custom">
+                    <label><i class="fa-brands fa-tiktok"></i> TikTok Link</label>
+                    <input type="url" id="inputTiktok" class="input-custom" placeholder="https://tiktok.com/@..." oninput="updatePreview()">
+                </div>
+
+                <button type="button" onclick="generateLink()" class="btn-back-home" style="width:100%; justify-content:center; padding: 14px; font-size: 16px; margin-top:20px;">
+                    <i class="fa-solid fa-paper-plane"></i> สร้าง Bio Link ของฉัน
+                </button>
+
+                <div id="generatedResult" class="generated-result-container">
+                    <div style="font-size: 13px; font-weight:700; color:#0018F9; margin-bottom: 8px;">🎉 ลิงก์ Bio ของคุณพร้อมใช้งานแล้ว!</div>
+                    <input type="text" id="finalUrlText" class="input-custom" readonly style="text-align: center; margin-bottom: 10px; background: #fff;">
+                    <div style="display:flex; gap:10px; justify-content:center;">
+                        <button onclick="copyGeneratedUrl()" class="btn-back-home" style="background:#0018F9; font-size:13px; padding: 8px 12px;"><i class="fa-regular fa-copy"></i> คัดลอกลิงก์</button>
+                        <a id="btnTestOpen" href="#" target="_blank" class="btn-back-home" style="background:#00c853; text-decoration:none; font-size:13px; padding: 8px 12px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> ทดลองเปิด</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Real-time Phone Preview -->
+            <div class="preview-wrapper">
+                <div class="preview-title"><i class="fa-solid fa-mobile-screen"></i> แสดงผลตัวอย่างแบบเรียลไทม์</div>
+                <div class="phone-mockup">
+                    <div class="phone-screen" id="previewScreen">
+                        <div class="screen-content">
+                            <img id="previewAvatar" src="https://via.placeholder.com/150?text=Profile" class="preview-avatar" alt="Avatar">
+                            <div id="previewName" class="preview-name-text">ชื่อของคุณ</div>
+                            <div class="preview-links-list" id="previewLinksContainer">
+                                <!-- Links render dynamically here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FULL PAGE DISPLAY FOR READERS -->
+    <div id="viewBioFullPage">
+        <div class="bio-display-box">
+            <img id="displayAvatar" src="" class="preview-avatar" style="width:110px; height:110px;" alt="Profile">
+            <h1 id="displayName" class="preview-name-text" style="font-size:24px;"></h1>
+            <div id="displayLinks" class="preview-links-list" style="gap:15px;"></div>
+        </div>
+    </div>
+
     <script>
-        // รายชื่อรูปภาพโฆษณาตอนเปิดเว็บ (คงเดิมตามต้นฉบับ ไม่แตะต้อง)
         const adImagesList = [
             "https://cdn.phototourl.com/free/2026-08-18-8aac3d24-5fb6-4ca9-af05-f0e72fb5cd20.jpg",
             "https://cdn.phototourl.com/free/2026-08-18-9af73a5b-aed4-479d-b2c4-3a8bfffa1400.png",
@@ -717,11 +1054,19 @@
         ];
         
         let currentAdIndex = 0;
+        let profileBase64 = "https://via.placeholder.com/150?text=Profile";
+        let bgBase64 = "";
 
         document.addEventListener("DOMContentLoaded", function() {
+            // เช็คว่ากดเข้าลิงก์ที่มีข้อมูล Bio Link หรือไม่
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has("bio_name")) {
+                renderFullBioPageFromUrl(urlParams);
+                return;
+            }
+
             const strip = document.getElementById("logoPatternStrip");
             const logoUrl = "https://cdn.phototourl.com/free/2026-08-18-2b12c8b4-e50b-4169-b89b-580dbde96f9b.png";
-            
             const screenWidth = window.innerWidth;
             const logoCount = screenWidth < 768 ? 12 : 25; 
 
@@ -750,23 +1095,20 @@
                     const scaleFactor = targetRect.width / introRect.width;
                     introLogo.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleFactor})`;
                     
-                    setTimeout(() => {
-                        splash.style.opacity = "0";
-                    }, 600);
-
+                    setTimeout(() => { splash.style.opacity = "0"; }, 600);
                     setTimeout(() => {
                         splash.style.display = "none";
-                        
                         setTimeout(() => {
                             if (adModal) {
                                 showCurrentAd();
                                 adModal.classList.add("show");
                             }
                         }, 1000);
-
                     }, 900);
                 }, 800);
             }
+
+            updatePreview();
         });
 
         function showCurrentAd() {
@@ -781,45 +1123,33 @@
         function nextAd() {
             const adModal = document.getElementById("adModal");
             currentAdIndex++;
-
             if (currentAdIndex < adImagesList.length) {
                 showCurrentAd();
             } else {
-                if (adModal) {
-                    adModal.classList.remove("show");
-                }
+                if (adModal) adModal.classList.remove("show");
             }
         }
 
-        // ฟังก์ชันเปิด-ปิดกล่องรายละเอียดสินค้า
         function openProductModal(imgSrc, price, desc) {
             const modal = document.getElementById("productModal");
             document.getElementById("modalProductImg").src = imgSrc;
             document.getElementById("modalProductPrice").innerText = price;
             document.getElementById("modalProductDesc").innerText = desc;
-            if (modal) {
-                modal.classList.add("show");
-            }
+            if (modal) modal.classList.add("show");
         }
 
         function closeProductModal() {
             const modal = document.getElementById("productModal");
-            if (modal) {
-                modal.classList.remove("show");
-            }
+            if (modal) modal.classList.remove("show");
         }
 
         function toggleMenu() {
             const menu = document.getElementById("dropdownMenu");
-            if (menu.style.display === "block") {
-                menu.style.display = "none";
-            } else {
-                menu.style.display = "block";
-            }
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
         }
 
         function toggleContact(event) {
-            event.preventDefault();
+            event.stopPropagation();
             const contactBox = document.getElementById("contactDropdown");
             const arrowIcon = document.getElementById("arrowIcon");
 
@@ -832,11 +1162,134 @@
             }
         }
 
+        /* FULL PAGE BIO LINK LOGIC */
+        function openBioPage() {
+            document.getElementById("dropdownMenu").style.display = "none";
+            document.getElementById("bioPage").style.display = "block";
+        }
+
+        function closeBioPage() {
+            document.getElementById("bioPage").style.display = "none";
+        }
+
+        function handleFileSelect(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                if (type === 'profile') {
+                    profileBase64 = e.target.result;
+                    document.getElementById("previewAvatar").src = profileBase64;
+                } else if (type === 'bg') {
+                    bgBase64 = e.target.result;
+                    document.getElementById("previewScreen").style.backgroundImage = `url(${bgBase64})`;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updatePreview() {
+            const name = document.getElementById("inputName").value || "ชื่อของคุณ";
+            document.getElementById("previewName").innerText = name;
+
+            const linksContainer = document.getElementById("previewLinksContainer");
+            linksContainer.innerHTML = "";
+
+            const fb = document.getElementById("inputFb").value;
+            const ig = document.getElementById("inputIg").value;
+            const line = document.getElementById("inputLine").value;
+            const tiktok = document.getElementById("inputTiktok").value;
+
+            if (fb) addPreviewLinkBtn(linksContainer, '<i class="fa-brands fa-facebook"></i> Facebook', fb);
+            if (ig) addPreviewLinkBtn(linksContainer, '<i class="fa-brands fa-instagram"></i> Instagram', ig);
+            if (line) addPreviewLinkBtn(linksContainer, '<i class="fa-brands fa-line"></i> LINE', line);
+            if (tiktok) addPreviewLinkBtn(linksContainer, '<i class="fa-brands fa-tiktok"></i> TikTok', tiktok);
+
+            if (!fb && !ig && !line && !tiktok) {
+                linksContainer.innerHTML = '<div style="color:rgba(255,255,255,0.7); font-size:12px; text-align:center;">(เพิ่มลิงก์ปุ่มจะแสดงที่นี่)</div>';
+            }
+        }
+
+        function addPreviewLinkBtn(container, htmlText, url) {
+            const a = document.createElement("a");
+            a.className = "preview-link-btn";
+            a.href = url;
+            a.target = "_blank";
+            a.innerHTML = htmlText;
+            container.appendChild(a);
+        }
+
+        function generateLink() {
+            const name = document.getElementById("inputName").value;
+            if (!name) {
+                alert("กรุณากรอกชื่อโปรไฟล์ของคุณด้วยนะครับ");
+                return;
+            }
+
+            const data = {
+                name: name,
+                profile: profileBase64,
+                bg: bgBase64,
+                fb: document.getElementById("inputFb").value,
+                ig: document.getElementById("inputIg").value,
+                line: document.getElementById("inputLine").value,
+                tiktok: document.getElementById("inputTiktok").value
+            };
+
+            const encodedData = encodeURIComponent(JSON.stringify(data));
+            const baseUrl = window.location.origin + window.location.pathname;
+            const finalUrl = `${baseUrl}?bio_name=${encodeURIComponent(name)}#data=${encodedData}`;
+
+            document.getElementById("finalUrlText").value = finalUrl;
+            document.getElementById("btnTestOpen").href = finalUrl;
+            document.getElementById("generatedResult").style.display = "block";
+        }
+
+        function copyGeneratedUrl() {
+            const copyText = document.getElementById("finalUrlText");
+            copyText.select();
+            navigator.clipboard.writeText(copyText.value);
+            alert("คัดลอกลิงก์ Bio สำเร็จ! สามารถนำไปแปะหน้าโซเชียลหรือแชร์ให้คนอื่นเปิดดูได้เลย");
+        }
+
+        // Render Page When Shared User Opens Link
+        function renderFullBioPageFromUrl(params) {
+            let bioData = null;
+            try {
+                const hash = window.location.hash;
+                if (hash.startsWith("#data=")) {
+                    const jsonStr = decodeURIComponent(hash.replace("#data=", ""));
+                    bioData = JSON.parse(jsonStr);
+                }
+            } catch(e) { console.error(e); }
+
+            if (bioData) {
+                document.getElementById("homePage").style.display = "none";
+                document.querySelector(".top-banner").style.display = "none";
+                
+                const viewPage = document.getElementById("viewBioFullPage");
+                viewPage.style.display = "flex";
+                if (bioData.bg) viewPage.style.backgroundImage = `url(${bioData.bg})`;
+                
+                document.getElementById("displayAvatar").src = bioData.profile || "https://via.placeholder.com/150";
+                document.getElementById("displayName").innerText = bioData.name;
+
+                const displayLinks = document.getElementById("displayLinks");
+                displayLinks.innerHTML = "";
+
+                if (bioData.fb) addPreviewLinkBtn(displayLinks, '<i class="fa-brands fa-facebook"></i> Facebook', bioData.fb);
+                if (bioData.ig) addPreviewLinkBtn(displayLinks, '<i class="fa-brands fa-instagram"></i> Instagram', bioData.ig);
+                if (bioData.line) addPreviewLinkBtn(displayLinks, '<i class="fa-brands fa-line"></i> LINE', bioData.line);
+                if (bioData.tiktok) addPreviewLinkBtn(displayLinks, '<i class="fa-brands fa-tiktok"></i> TikTok', bioData.tiktok);
+            }
+        }
+
         window.addEventListener("click", function(event) {
             const menu = document.getElementById("dropdownMenu");
             const btn = document.querySelector(".menu-toggle-btn");
             const productModal = document.getElementById("productModal");
-            
+
             if (menu && btn && !menu.contains(event.target) && !btn.contains(event.target)) {
                 menu.style.display = "none";
                 const contactBox = document.getElementById("contactDropdown");
@@ -845,10 +1298,7 @@
                 if (arrowIcon) arrowIcon.style.transform = "rotate(0deg)";
             }
 
-            // ปิด modal สินค้าเมื่อคลิกพื้นที่ด้านนอกกล่อง
-            if (event.target === productModal) {
-                closeProductModal();
-            }
+            if (event.target === productModal) closeProductModal();
         });
     </script>
 </body>
