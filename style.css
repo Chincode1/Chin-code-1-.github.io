@@ -17,10 +17,15 @@ body { font-family: 'Prompt', sans-serif; background-color: #FFFFFF; color: #001
 .ad-close-btn:hover, .product-close-btn:hover { background-color: #0018F9; color: #FFFFFF; transform: scale(1.1); }
 .ad-modal-title, .product-modal-title { font-size: 18px; font-weight: 700; color: #0018F9; text-align: center; margin-bottom: 15px; }
 .product-modal-title { font-size: 20px; }
-.ad-image-container { width: 100%; height: 280px; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background-color: #f0f2ff; display: flex; align-items: center; justify-content: center; }
-.product-modal-img-container { width: 100%; height: 250px; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background-color: #f0f2ff; position: relative; }
-.ad-img { width: 100%; height: 100%; object-fit: contain; border-radius: 15px; }
-.product-modal-img { width: 100%; height: 100%; object-fit: cover; }
+
+/* แบนเนอร์โฆษณา เต็ม 100% */
+.ad-image-container { width: 100%; height: auto; max-height: none; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background-color: #f0f2ff; display: flex; align-items: center; justify-content: center; }
+.ad-img { width: 100%; height: auto; object-fit: contain; border-radius: 15px; display: block; }
+
+/* หน้าต่างกดดูรายละเอียดสินค้า (แก้ไขให้แสดงผลเต็ม 100% ไม่ย่อส่วน) */
+.product-modal-img-container { width: 100%; height: auto; max-height: none; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background-color: #f0f2ff; position: relative; display: flex; align-items: center; justify-content: center; }
+.product-modal-img { width: 100%; height: auto; object-fit: contain; border-radius: 15px; display: block; }
+
 .modal-price-badge { position: absolute; top: 12px; right: 12px; background-color: #0018F9; color: #FFFFFF; padding: 6px 14px; font-size: 14px; font-weight: 700; border-radius: 20px; box-shadow: 0 4px 10px rgba(0, 24, 249, 0.3); z-index: 5; }
 .ad-counter { text-align: center; font-size: 13px; color: #555; font-weight: 600; }
 .product-modal-desc { font-size: 14px; color: #333; margin-bottom: 20px; font-weight: 400; }
@@ -56,9 +61,9 @@ body { font-family: 'Prompt', sans-serif; background-color: #FFFFFF; color: #001
 .portfolio-section { width: 100%; display: flex; flex-direction: column; align-items: flex-start; }
 .section-title { font-size: 28px; font-weight: 700; color: #0018F9; margin-bottom: 35px; text-align: left; }
 .portfolio-cards-wrapper { display: flex; flex-direction: column; gap: 30px; width: 100%; }
-.portfolio-card { width: 100%; height: 380px; border: 4px solid #0018F9; border-radius: 35px; overflow: hidden; background-color: #FFFFFF; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); box-shadow: 0 8px 20px rgba(0, 24, 249, 0.05); cursor: pointer; position: relative; }
+.portfolio-card { width: 100%; height: auto; border: 4px solid #0018F9; border-radius: 35px; overflow: hidden; background-color: #FFFFFF; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); box-shadow: 0 8px 20px rgba(0, 24, 249, 0.05); cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center; }
 .portfolio-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 24, 249, 0.15); }
-.portfolio-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.portfolio-img { width: 100%; height: auto; object-fit: contain; display: block; transition: transform 0.5s ease; }
 .portfolio-card:hover .portfolio-img { transform: scale(1.03); }
 .product-price-badge { position: absolute; top: 20px; right: 20px; background-color: #0018F9; color: #FFFFFF; padding: 8px 18px; font-size: 16px; font-weight: 700; border-radius: 25px; box-shadow: 0 4px 15px rgba(0, 24, 249, 0.4); z-index: 10; }
 
@@ -92,54 +97,16 @@ body { font-family: 'Prompt', sans-serif; background-color: #FFFFFF; color: #001
 .preview-caption-text { color: rgba(255, 255, 255, 0.85); font-size: 12px; margin-bottom: 20px; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
 .preview-links-list { width: 100%; display: flex; flex-direction: column; gap: 14px; position: relative; z-index: 3; }
 
-/* 📱 🌟 โครงสร้างปุ่มทั่วไป 🌟 */
-.preview-link-btn {
-    width: 100%;
-    padding: 14px 20px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-    box-sizing: border-box;
-}
+.preview-link-btn { width: 100%; padding: 14px 20px; text-decoration: none; font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 12px; position: relative; overflow: hidden; transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); box-sizing: border-box; }
+.preview-link-btn.iphone-glass-dome { background: rgba(255, 255, 255, 0.15) !important; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 16px !important; box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.3); }
+.preview-link-btn.iphone-glass-dome::before { display: none !important; }
+.preview-link-btn.iphone-glass-dome:hover, .preview-link-btn.iphone-glass-dome:active { transform: translateY(-2px) scale(1.01); background: rgba(255, 255, 255, 0.25) !important; border-color: rgba(255, 255, 255, 0.7); box-shadow: 0 12px 25px -4px rgba(0, 0, 0, 0.4); }
+.preview-link-btn.flat-btn { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); border-radius: 16px; }
 
-/* 🔥 โดมแก้วใสสม่ำเสมอเท่ากันทั่วทั้งปุ่ม (ไม่มีแถบไล่สี) */
-.preview-link-btn.iphone-glass-dome {
-    background: rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 16px !important;
-    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.3);
-}
+.preview-circles-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; width: 100%; margin: 10px 0; }
+.preview-circle-btn { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; color: #FFFFFF; font-size: 22px; background: rgba(255, 255, 255, 0.18) !important; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.45); box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.3); transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); position: relative; }
+.preview-circle-btn:hover { transform: translateY(-4px) scale(1.1); background: rgba(255, 255, 255, 0.3) !important; border-color: rgba(255, 255, 255, 0.8); box-shadow: 0 12px 25px -4px rgba(0, 0, 0, 0.4); }
 
-/* ปิดแถบไฮไลท์ไล่ระดับสีด้านบน */
-.preview-link-btn.iphone-glass-dome::before {
-    display: none !important;
-}
-
-/* เมื่อเอาเมาส์ชี้หรือกด ให้สว่างขึ้นเท่ากันทั้งปุ่ม */
-.preview-link-btn.iphone-glass-dome:hover,
-.preview-link-btn.iphone-glass-dome:active {
-    transform: translateY(-2px) scale(1.01);
-    background: rgba(255, 255, 255, 0.25) !important;
-    border-color: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 12px 25px -4px rgba(0, 0, 0, 0.4);
-}
-
-/* ปุ่มแบบปกติ (เมื่อปิดสวิตช์โดมแก้ว) */
-.preview-link-btn.flat-btn {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 16px;
-}
-
-/* Settings Controls UI */
 .dome-settings-panel { background: #f0f4ff; border: 2px dashed #0018F9; border-radius: 15px; padding: 12px 15px; margin-bottom: 18px; }
 .flex-between { display: flex; justify-content: space-between; align-items: center; }
 
@@ -150,7 +117,6 @@ body { font-family: 'Prompt', sans-serif; background-color: #FFFFFF; color: #001
 input:checked + .slider { background-color: #0018F9; }
 input:checked + .slider:before { transform: translateX(20px); }
 
-/* Music Player Bar */
 .music-player-box { position: relative; z-index: 2; margin-top: auto; padding-top: 15px; width: 100%; }
 .music-card { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 15px; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255, 255, 255, 0.3); color: white; }
 .music-info { display: flex; align-items: center; gap: 8px; font-size: 12px; }
@@ -158,7 +124,6 @@ input:checked + .slider:before { transform: translateX(20px); }
 
 .generated-result-container { margin-top: 20px; background-color: #eef2ff; border: 2px dashed #0018F9; border-radius: 15px; padding: 15px; text-align: center; display: none; }
 
-/* Full Screen Bio Display */
 #viewBioFullPage { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-size: cover; background-position: center; z-index: 100000; align-items: center; justify-content: center; }
 #viewBioFullPage::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1; }
 .bio-display-box { position: relative; z-index: 2; width: 90%; max-width: 400px; display: flex; flex-direction: column; }
@@ -167,7 +132,6 @@ input:checked + .slider:before { transform: translateX(20px); }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 850px) { .bio-creator-container { grid-template-columns: 1fr; } .preview-wrapper { margin-top: 30px; } }
 
-/* Custom Alert Style */
 .custom-alert-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 99999; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .custom-alert-overlay.show { opacity: 1; visibility: visible; }
 .custom-alert-box { background: #FFFFFF; border: 3px solid #0018F9; border-radius: 25px; width: 90%; max-width: 360px; padding: 30px 20px 20px 20px; text-align: center; box-shadow: 0 20px 40px rgba(0, 24, 249, 0.3); transform: scale(0.7) translateY(20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
