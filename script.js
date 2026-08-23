@@ -222,14 +222,6 @@ function closeBioPage() {
     previewAudio.pause();
 }
 
-function closeFullBioPage() {
-    document.getElementById("viewBioFullPage").style.display = "none";
-    document.getElementById("homePage").style.display = "flex";
-    document.querySelector(".top-banner").style.display = "flex";
-    fullAudio.pause();
-}
-
-// ⚡ ฟังก์ชันแสดงตัวอย่าง Real-time Preview Update
 function updatePreview() {
     const name = document.getElementById("inputName").value || "ชื่อของคุณ";
     const caption = document.getElementById("inputCaption").value || "แคปชั่นโปรไฟล์";
@@ -282,7 +274,6 @@ function updatePreview() {
     }
 }
 
-// 📱 สร้างปุ่มโซเชียลลิงก์สไตล์ iPhone Glass Dome
 function addLinkBtn(container, htmlText, url, textColor, borderRadius, isIphoneGlass) {
     const a = document.createElement("a");
     a.href = url;
