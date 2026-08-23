@@ -3,195 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chin Code - บริการรับทำเว็บไซต์ & Bio Link ฟรี</title>
+    <title>Chin Code</title>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Prompt', sans-serif; background-color: #FFFFFF; color: #0018F9; overflow-x: hidden; }
-        .intro-splash { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease, visibility 0.5s ease; }
-        .intro-logo { width: 220px; height: auto; position: absolute; animation: pulseLogo 1s infinite alternate; }
-        @keyframes pulseLogo { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
-        .ad-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 9998; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
-        .ad-modal-overlay.show { opacity: 1; visibility: visible; }
-        .ad-modal-box { background-color: #FFFFFF; border: 3px solid #0018F9; border-radius: 25px; width: 90%; max-width: 420px; padding: 25px 20px 20px 20px; position: relative; box-shadow: 0 15px 35px rgba(0, 24, 249, 0.25); transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .ad-modal-overlay.show .ad-modal-box { transform: scale(1); }
-        .ad-close-btn { position: absolute; top: 15px; right: 15px; background: transparent; border: 2px solid #0018F9; color: #0018F9; width: 34px; height: 34px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; z-index: 10; }
-        .ad-close-btn:hover { background-color: #0018F9; color: #FFFFFF; transform: scale(1.1); }
-        .ad-modal-title { font-size: 18px; font-weight: 700; color: #0018F9; text-align: center; margin-bottom: 15px; }
-        .ad-image-container { width: 100%; height: 280px; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background-color: #f0f2ff; display: flex; align-items: center; justify-content: center; }
-        .ad-img { width: 100%; height: 100%; object-fit: contain; border-radius: 15px; }
-        .ad-counter { text-align: center; font-size: 13px; color: #555; font-weight: 600; }
-        .product-modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 9999; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
-        .product-modal-overlay.show { opacity: 1; visibility: visible; }
-        .product-modal-box { background-color: #FFFFFF; border: 3px solid #0018F9; border-radius: 25px; width: 90%; max-width: 420px; padding: 25px 20px 20px 20px; position: relative; box-shadow: 0 15px 35px rgba(0, 24, 249, 0.25); transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; }
-        .product-modal-overlay.show .product-modal-box { transform: scale(1); }
-        .product-close-btn { position: absolute; top: 15px; right: 15px; background: transparent; border: 2px solid #0018F9; color: #0018F9; width: 34px; height: 34px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; z-index: 10; }
-        .product-close-btn:hover { background-color: #0018F9; color: #FFFFFF; transform: scale(1.1); }
-        .product-modal-title { font-size: 20px; font-weight: 700; color: #0018F9; margin-bottom: 15px; }
-        .product-modal-img-container { width: 100%; height: 250px; border-radius: 15px; overflow: hidden; margin-bottom: 15px; background-color: #f0f2ff; position: relative; }
-        .product-modal-img { width: 100%; height: 100%; object-fit: cover; }
-        .modal-price-badge { position: absolute; top: 12px; right: 12px; background-color: #0018F9; color: #FFFFFF; padding: 6px 14px; font-size: 14px; font-weight: 700; border-radius: 20px; box-shadow: 0 4px 10px rgba(0, 24, 249, 0.3); z-index: 5; }
-        .product-modal-desc { font-size: 14px; color: #333; margin-bottom: 20px; font-weight: 400; }
-        .product-contact-title { font-size: 15px; font-weight: 600; color: #0018F9; margin-bottom: 12px; }
-        .main-container { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px 20px; display: flex; flex-direction: column; align-items: center; position: relative; }
-        .menu-toggle-btn { position: absolute; top: 15px; right: 20px; background: transparent; border: none; color: #0018F9; font-size: 26px; cursor: pointer; z-index: 100; transition: transform 0.2s ease; }
-        .menu-toggle-btn:hover { transform: scale(1.15); }
-        .dropdown-menu { display: none; position: absolute; top: 55px; right: 20px; background-color: #FFFFFF; border: 2px solid #0018F9; border-radius: 15px; box-shadow: 0 10px 25px rgba(0, 24, 249, 0.15); overflow: hidden; z-index: 99; width: 200px; animation: fadeInMenu 0.3s ease; }
-        .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; color: #0018F9; text-decoration: none; font-weight: 600; font-size: 14px; border-bottom: 1px solid #f0f2ff; transition: background-color 0.2s, color 0.2s; cursor: pointer; }
-        .menu-item:last-child { border-bottom: none; }
-        .menu-item:hover { background-color: #0018F9; color: #FFFFFF; }
-        .arrow-icon { font-size: 12px; transition: transform 0.3s ease; }
-        .contact-dropdown { display: none; padding: 15px; background-color: #f4f6ff; text-align: center; border-top: 1px solid #e0e5ff; }
-        .social-circles-container { display: flex; justify-content: center; gap: 15px; }
-        .social-circle-btn { width: 42px; height: 42px; background-color: #0018F9; color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 18px; box-shadow: 0 4px 10px rgba(0, 24, 249, 0.3); transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease; }
-        .social-circle-btn:hover { transform: scale(1.2); background-color: #0013cb; }
-        @keyframes fadeInMenu { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .top-banner { background-color: #07156B; width: 100%; height: 70px; position: relative; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; overflow: hidden; display: flex; align-items: flex-start; padding-top: 10px; }
-        .logo-pattern-strip { display: flex; white-space: nowrap; width: 100%; justify-content: space-around; align-items: center; padding: 0 10px; }
-        .mini-logo { height: 22px; width: auto; object-fit: contain; opacity: 0.85; filter: brightness(0) invert(1); }
-        .hero-section { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; margin-bottom: 60px; }
-        .main-logo-container { margin-top: 20px; margin-bottom: 30px; }
-        .main-logo { width: 200px; height: auto; object-fit: contain; }
-        .main-title { font-size: 38px; font-weight: 700; color: #0018F9; margin-bottom: 25px; letter-spacing: -0.5px; animation: fadeInUp 0.8s ease-out; }
-        .social-icons-container { display: flex; gap: 25px; justify-content: center; align-items: center; animation: fadeInUp 1s ease-out; }
-        .social-icon-btn { color: #0018F9; font-size: 50px; text-decoration: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; align-items: center; justify-content: center; }
-        .social-icon-btn:hover { transform: scale(1.2) rotate(5deg); filter: drop-shadow(0 5px 10px rgba(0, 24, 249, 0.3)); }
-        .portfolio-section { width: 100%; display: flex; flex-direction: column; align-items: flex-start; }
-        .section-title { font-size: 28px; font-weight: 700; color: #0018F9; margin-bottom: 35px; text-align: left; }
-        .portfolio-cards-wrapper { display: flex; flex-direction: column; gap: 30px; width: 100%; }
-        .portfolio-card { width: 100%; height: 380px; border: 4px solid #0018F9; border-radius: 35px; overflow: hidden; background-color: #FFFFFF; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); box-shadow: 0 8px 20px rgba(0, 24, 249, 0.05); cursor: pointer; position: relative; }
-        .portfolio-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0, 24, 249, 0.15); }
-        .portfolio-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-        .portfolio-card:hover .portfolio-img { transform: scale(1.03); }
-        .product-price-badge { position: absolute; top: 20px; right: 20px; background-color: #0018F9; color: #FFFFFF; padding: 8px 18px; font-size: 16px; font-weight: 700; border-radius: 25px; box-shadow: 0 4px 15px rgba(0, 24, 249, 0.4); z-index: 10; }
-        #bioPage { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #f8f9ff; z-index: 10000; overflow-y: auto; padding: 20px; }
-        .bio-page-header { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto 20px auto; padding-bottom: 15px; border-bottom: 2px solid #e0e5ff; }
-        .btn-back-home { background-color: #0018F9; color: #FFFFFF; border: none; padding: 8px 18px; border-radius: 20px; font-family: 'Prompt', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: transform 0.2s; }
-        .btn-back-home:hover { transform: scale(1.05); }
-        .bio-creator-container { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 380px; gap: 30px; }
-        .bio-editor-card { background: #FFFFFF; border: 3px solid #0018F9; border-radius: 25px; padding: 25px; box-shadow: 0 10px 25px rgba(0,24,249,0.08); }
-        .editor-title { font-size: 22px; font-weight: 700; color: #0018F9; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .form-group-custom { margin-bottom: 15px; text-align: left; }
-        .form-group-custom label { display: block; font-size: 14px; font-weight: 600; color: #0018F9; margin-bottom: 6px; }
-        .input-custom { width: 100%; padding: 10px 14px; border: 2px solid #ccd5ff; border-radius: 12px; font-family: 'Prompt', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; }
-        .input-custom:focus { border-color: #0018F9; }
-        .video-notice-box { background-color: #eef2ff; border: 1px solid #0018F9; border-radius: 12px; padding: 10px; font-size: 12px; color: #0018F9; margin-top: 8px; line-height: 1.4; }
-        .preview-wrapper { position: sticky; top: 20px; display: flex; flex-direction: column; align-items: center; }
-        .preview-title { font-size: 16px; font-weight: 700; color: #0018F9; margin-bottom: 10px; }
-        .phone-mockup { width: 320px; height: 580px; background-color: #111; border-radius: 40px; border: 8px solid #333; box-shadow: 0 15px 30px rgba(0,0,0,0.2); overflow: hidden; position: relative; }
-        .phone-screen { width: 100%; height: 100%; background-size: cover; background-position: center; display: flex; flex-direction: column; align-items: center; padding: 40px 20px 20px 20px; box-sizing: border-box; background-color: #1a1a2e; position: relative; }
-        .phone-screen::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.35); z-index: 1; }
-        .screen-content { position: relative; z-index: 2; width: 100%; display: flex; flex-direction: column; align-items: center; }
-        .preview-avatar { width: 90px; height: 90px; border-radius: 50%; border: 3px solid #FFFFFF; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.3); margin-bottom: 12px; background-color: #fff; }
-        .preview-name-text { color: #FFFFFF; font-size: 18px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.6); margin-bottom: 25px; text-align: center; }
-        .preview-links-list { width: 100%; display: flex; flex-direction: column; gap: 12px; }
-        .preview-link-btn { width: 100%; padding: 10px 15px; background-color: rgba(255, 255, 255, 0.9); color: #0018F9; border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.2s; }
-        .generated-result-container { margin-top: 20px; background-color: #eef2ff; border: 2px dashed #0018F9; border-radius: 15px; padding: 15px; text-align: center; display: none; }
-        #viewBioFullPage { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-size: cover; background-position: center; z-index: 100000; align-items: center; justify-content: center; }
-        #viewBioFullPage::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1; }
-        .bio-display-box { position: relative; z-index: 2; width: 90%; max-width: 400px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 850px) { .bio-creator-container { grid-template-columns: 1fr; } .preview-wrapper { margin-top: 30px; } }
-
-/* Custom Alert Style */
-.custom-alert-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.custom-alert-overlay.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-.custom-alert-box {
-    background: #FFFFFF;
-    border: 3px solid #0018F9;
-    border-radius: 25px;
-    width: 90%;
-    max-width: 360px;
-    padding: 30px 20px 20px 20px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0, 24, 249, 0.3);
-    transform: scale(0.7) translateY(20px);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.custom-alert-overlay.show .custom-alert-box {
-    transform: scale(1) translateY(0);
-}
-
-.custom-alert-icon {
-    width: 60px;
-    height: 60px;
-    background: #eef2ff;
-    color: #0018F9;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    margin: 0 auto 15px auto;
-    border: 2px solid #0018F9;
-    animation: pulseIcon 1.5s infinite;
-}
-
-@keyframes pulseIcon {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 24, 249, 0.4); }
-    70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(0, 24, 249, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 24, 249, 0); }
-}
-
-.custom-alert-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #0018F9;
-    margin-bottom: 8px;
-}
-
-.custom-alert-message {
-    font-size: 14px;
-    color: #444;
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
-
-.custom-alert-btn {
-    width: 100%;
-    padding: 12px;
-    background: #0018F9;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 15px;
-    font-family: 'Prompt', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0, 24, 249, 0.3);
-    transition: all 0.2s ease;
-}
-
-.custom-alert-btn:hover {
-    background: #0013cb;
-    transform: translateY(-2px);
-}
-
-      
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -246,7 +61,7 @@
 
         <div id="dropdownMenu" class="dropdown-menu">
             <div class="menu-item" onclick="openBioPage()">
-                <span><i class="fa-solid fa-wand-magic-sparkles"></i>  Bio Link (free)</span>
+                <span><i class="fa-solid fa-wand-magic-sparkles"></i> Bio Link (free)</span>
             </div>
             <div class="menu-item" onclick="toggleContact(event)">
                 <span>ติดต่อ</span>
@@ -321,7 +136,46 @@
                     <input type="text" id="inputName" class="input-custom" placeholder="เช่น Chin Code" oninput="updatePreview()">
                 </div>
 
-                <!-- เปลี่ยนเป็นช่องเลือกรูปไฟล์เพื่ออัปโหลดไป ImgBB ได้ทันที -->
+                <div class="form-group-custom">
+                    <label>แคปชั่น / คำอธิบายสั้นๆ</label>
+                    <input type="text" id="inputCaption" class="input-custom" placeholder="เช่น Welcome to my profile!" oninput="updatePreview()">
+                </div>
+
+                <div class="form-group-custom">
+                    <label><i class="fa-solid fa-align-left"></i> ตำแหน่งโปรไฟล์</label>
+                    <select id="selectAlign" class="select-custom" onchange="updatePreview()">
+                        <option value="align-center">จัดตรงกลาง (Center)</option>
+                        <option value="align-left">ชิดซ้าย (Left)</option>
+                        <option value="align-right">ชิดขวา (Right)</option>
+                    </select>
+                </div>
+
+                <!-- NEW: iPhone Glass Dome Option Controls for Social Links -->
+                <div class="dome-settings-panel">
+                    <div class="form-group-custom flex-between" style="margin-bottom:0;">
+                        <label><i class="fa-brands fa-apple"></i> โดมแก้ว iPhone สำหรับปุ่มลิงก์</label>
+                        <label class="switch-toggle">
+                            <input type="checkbox" id="toggleIphoneGlass" checked onchange="updatePreview()">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group-custom" style="display: flex; gap: 10px;">
+                    <div style="flex: 1;">
+                        <label>สีข้อความปุ่ม</label>
+                        <input type="color" id="inputBtnColor" class="input-custom" value="#ffffff" style="height: 40px; padding: 2px;" onchange="updatePreview()">
+                    </div>
+                    <div style="flex: 1;">
+                        <label>ความกลมมนขอบ iPhone Dome</label>
+                        <select id="selectRadius" class="select-custom" onchange="updatePreview()">
+                            <option value="20px">iPhone Curved (20px)</option>
+                            <option value="30px">Pill / Capsule (30px)</option>
+                            <option value="10px">Slight Curved (10px)</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-group-custom">
                     <label>รูปโปรไฟล์ (อัปโหลดรูปภาพ)</label>
                     <input type="file" id="fileProfile" accept="image/*" class="input-custom" onchange="uploadImageToImgBB('fileProfile', 'inputProfileUrl')">
@@ -334,15 +188,17 @@
                     <input type="file" id="fileBg" accept="image/*" class="input-custom" onchange="uploadImageToImgBB('fileBg', 'inputBgUrl')">
                     <input type="hidden" id="inputBgUrl">
                     <span id="statusBg" style="font-size: 12px; color: #0018F9;"></span>
-                    <div class="video-notice-box">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> <strong>Chin code :</strong>
-                    </div>
+                </div>
+
+                <div class="form-group-custom">
+                    <label><i class="fa-solid fa-music"></i> เพลงประกอบ (วาง URL ไฟล์ .mp3)</label>
+                    <input type="url" id="inputMusic" class="input-custom" placeholder="https://example.com/music.mp3" oninput="updatePreview()">
                 </div>
 
                 <hr style="margin: 20px 0; border: none; border-top: 1px solid #e0e5ff;">
 
                 <div class="editor-title" style="font-size: 16px;">
-                    <i class="fa-solid fa-link"></i> ลิงก์โซเชียลมีเดีย (เว้นว่างไว้หากไม่ใส่)
+                    <i class="fa-solid fa-link"></i> ลิงก์โซเชียลมีเดีย
                 </div>
 
                 <div class="form-group-custom">
@@ -383,10 +239,26 @@
                 <div class="preview-title"><i class="fa-solid fa-mobile-screen"></i> แสดงผลตัวอย่างแบบเรียลไทม์</div>
                 <div class="phone-mockup">
                     <div class="phone-screen" id="previewScreen">
-                        <div class="screen-content">
+                        <div class="screen-content align-center" id="previewContentBox">
                             <img id="previewAvatar" src="https://via.placeholder.com/150?text=Profile" class="preview-avatar" alt="Avatar">
                             <div id="previewName" class="preview-name-text">ชื่อของคุณ</div>
+                            <div id="previewCaption" class="preview-caption-text">แคปชั่นโปรไฟล์</div>
+                            
+                            <!-- Social Links Container with iPhone Glass Dome -->
                             <div class="preview-links-list" id="previewLinksContainer"></div>
+                        </div>
+                        
+                        <div class="music-player-box" id="previewMusicBox" style="display:none;">
+                            <div class="music-card">
+                                <div class="music-info">
+                                    <i class="fa-solid fa-compact-disc fa-spin"></i>
+                                    <span>Background Music</span>
+                                </div>
+                                <div style="display: flex; gap: 5px;">
+                                    <button class="music-btn" onclick="toggleAudioPreview()"><i id="musicIcon" class="fa-solid fa-play"></i></button>
+                                    <button class="music-btn" onclick="closeAudioPreview()"><i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -395,27 +267,37 @@
     </div>
 
     <div id="viewBioFullPage">
-        <div class="bio-display-box">
+        <button class="close-full-bio-btn" onclick="closeFullBioPage()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="bio-display-box" id="displayContentBox">
             <img id="displayAvatar" src="" class="preview-avatar" style="width:110px; height:110px;" alt="Profile">
             <h1 id="displayName" class="preview-name-text" style="font-size:24px;"></h1>
+            <div id="displayCaption" class="preview-caption-text"></div>
+            
             <div id="displayLinks" class="preview-links-list" style="gap:15px;"></div>
+            
+            <div class="music-player-box" id="displayMusicBox" style="display:none; margin-top:20px;">
+                <div class="music-card">
+                    <div class="music-info">
+                        <i class="fa-solid fa-compact-disc fa-spin"></i>
+                        <span>Background Music</span>
+                    </div>
+                    <button class="music-btn" onclick="toggleAudioFull()"><i id="fullMusicIcon" class="fa-solid fa-play"></i></button>
+                </div>
+            </div>
         </div>
     </div>
-  <!-- Custom Alert Modal (กล่องแจ้งเตือนสุดเท่) -->
-<div id="customAlert" class="custom-alert-overlay">
-    <div class="custom-alert-box">
-        <div class="custom-alert-icon" id="alertIcon">
-            <i class="fa-solid fa-circle-info"></i>
+
+    <div id="customAlert" class="custom-alert-overlay">
+        <div class="custom-alert-box">
+            <div class="custom-alert-icon" id="alertIcon">
+                <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div class="custom-alert-title" id="alertTitle">แจ้งเตือน</div>
+            <div class="custom-alert-message" id="alertMessage">ข้อความแจ้งเตือนจะแสดงที่นี่</div>
+            <button class="custom-alert-btn" onclick="closeCustomAlert()">ตกลง</button>
         </div>
-        <div class="custom-alert-title" id="alertTitle">แจ้งเตือน</div>
-        <div class="custom-alert-message" id="alertMessage">ข้อความแจ้งเตือนจะแสดงที่นี่</div>
-        <button class="custom-alert-btn" onclick="closeCustomAlert()">ตกลง</button>
     </div>
-</div>
 
-
-    <!-- 📍 จุดเชื่อมที่ 1: ดึงโค้ด JavaScript แยกไฟล์มาใช้งาน -->
     <script src="script.js"></script>
 </body>
 </html>
-
