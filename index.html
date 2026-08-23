@@ -279,7 +279,6 @@
             position: relative;
         }
 
-        /* ปุ่ม 3 ขีดสีน้ำเงิน */
         .menu-toggle-btn {
             position: absolute;
             top: 15px;
@@ -297,7 +296,6 @@
             transform: scale(1.15);
         }
 
-        /* เมนูดรอปดาวน์ */
         .dropdown-menu {
             display: none;
             position: absolute;
@@ -530,7 +528,7 @@
             z-index: 10;
         }
 
-        /* --- FULL PAGE BIO LINK CREATOR STYLES --- */
+        /* FULL PAGE BIO LINK CREATOR STYLES */
         #bioPage {
             display: none;
             position: fixed;
@@ -626,25 +624,6 @@
 
         .input-custom:focus {
             border-color: #0018F9;
-        }
-
-        .file-upload-btn {
-            display: inline-block;
-            background-color: #f0f2ff;
-            color: #0018F9;
-            border: 2px dashed #0018F9;
-            padding: 10px 15px;
-            border-radius: 12px;
-            cursor: pointer;
-            width: 100%;
-            text-align: center;
-            font-weight: 600;
-            font-size: 13px;
-            transition: background 0.2s;
-        }
-
-        .file-upload-btn:hover {
-            background-color: #e0e5ff;
         }
 
         .video-notice-box {
@@ -773,7 +752,7 @@
             display: none;
         }
 
-        /* --- DISPLAY BIO LINK FULL PAGE VIEW (สำหรับคนที่เปิดลิงก์) --- */
+        /* DISPLAY BIO LINK FULL PAGE VIEW */
         #viewBioFullPage {
             display: none;
             position: fixed;
@@ -873,12 +852,10 @@
     </header>
 
     <main class="main-container" id="homePage">
-        <!-- ปุ่ม 3 ขีดสีน้ำเงิน -->
         <button class="menu-toggle-btn" onclick="toggleMenu()" aria-label="Menu">
             <i class="fa-solid fa-bars"></i>
         </button>
 
-        <!-- เมนูดรอปดาวน์ -->
         <div id="dropdownMenu" class="dropdown-menu">
             <div class="menu-item" onclick="openBioPage()">
                 <span><i class="fa-solid fa-wand-magic-sparkles"></i>  Bio Link (free)</span>
@@ -899,7 +876,6 @@
             </div>
         </div>
 
-        <!-- Hero Section -->
         <section class="hero-section">
             <div class="main-logo-container" id="targetMainLogo">
                 <img src="https://cdn.phototourl.com/free/2026-08-18-2b12c8b4-e50b-4169-b89b-580dbde96f9b.png" alt="Chin Code Logo" class="main-logo">
@@ -915,7 +891,6 @@
             </div>
         </section>
 
-        <!-- Portfolio Section -->
         <section class="portfolio-section">
             <h2 class="section-title">สินค้า</h2>
             <div class="portfolio-cards-wrapper">
@@ -949,7 +924,6 @@
         </div>
 
         <div class="bio-creator-container">
-            <!-- Left Side: Form Editor -->
             <div class="bio-editor-card">
                 <div class="editor-title">
                     <i class="fa-solid fa-pen-to-square"></i> กรอกข้อมูล Bio Link ของคุณ
@@ -961,21 +935,15 @@
                 </div>
 
                 <div class="form-group-custom">
-                    <label>อัปโหลดรูปโปรไฟล์</label>
-                    <label class="file-upload-btn">
-                        <i class="fa-solid fa-image"></i> เลือกรูป Profile จากเครื่อง
-                        <input type="file" id="fileProfile" accept="image/*" style="display:none;" onchange="handleFileSelect(event, 'profile')">
-                    </label>
+                    <label>ลิงก์ URL รูปโปรไฟล์ (Image URL)</label>
+                    <input type="url" id="inputProfileUrl" class="input-custom" placeholder="https://example.com/my-photo.jpg" oninput="updatePreview()">
                 </div>
 
                 <div class="form-group-custom">
-                    <label>อัปโหลดรูปพื้นหลัง (Background)</label>
-                    <label class="file-upload-btn">
-                        <i class="fa-solid fa-file-image"></i> เลือกรูป พื้นหลัง จากเครื่อง
-                        <input type="file" id="fileBg" accept="image/*" style="display:none;" onchange="handleFileSelect(event, 'bg')">
-                    </label>
+                    <label>ลิงก์ URL รูปพื้นหลัง (Background URL)</label>
+                    <input type="url" id="inputBgUrl" class="input-custom" placeholder="https://example.com/my-bg.jpg" oninput="updatePreview()">
                     <div class="video-notice-box">
-                        <i class="fa-solid fa-circle-exclamation"></i> <strong>หมายเหตุ:</strong> เวอร์ชันฟรีรองรับเฉพาะรูปภาพ หากต้องการใช้ <strong>"วิดีโอเป็นพื้นหลัง"</strong> หรือตกแต่งเอฟเฟกต์พิเศษ สามารถติดต่อสั่งทำกับเราได้ครับ!
+                        <i class="fa-solid fa-circle-exclamation"></i> <strong>คำแนะนำ:</strong> นำลิงก์รูปภาพมาใส่เพื่อช่วยให้ URL สั้นลงและเปิดได้เร็ว ไม่ค้างครับ!
                     </div>
                 </div>
 
@@ -1019,7 +987,7 @@
                 </div>
             </div>
 
-            <!-- Right Side: Real-time Phone Preview -->
+            <!-- Preview -->
             <div class="preview-wrapper">
                 <div class="preview-title"><i class="fa-solid fa-mobile-screen"></i> แสดงผลตัวอย่างแบบเรียลไทม์</div>
                 <div class="phone-mockup">
@@ -1027,9 +995,7 @@
                         <div class="screen-content">
                             <img id="previewAvatar" src="https://via.placeholder.com/150?text=Profile" class="preview-avatar" alt="Avatar">
                             <div id="previewName" class="preview-name-text">ชื่อของคุณ</div>
-                            <div class="preview-links-list" id="previewLinksContainer">
-                                <!-- Links render dynamically here -->
-                            </div>
+                            <div class="preview-links-list" id="previewLinksContainer"></div>
                         </div>
                     </div>
                 </div>
@@ -1037,7 +1003,7 @@
         </div>
     </div>
 
-    <!-- FULL PAGE DISPLAY FOR READERS -->
+    <!-- DISPLAY BIO PAGE -->
     <div id="viewBioFullPage">
         <div class="bio-display-box">
             <img id="displayAvatar" src="" class="preview-avatar" style="width:110px; height:110px;" alt="Profile">
@@ -1054,11 +1020,8 @@
         ];
         
         let currentAdIndex = 0;
-        let profileBase64 = "https://via.placeholder.com/150?text=Profile";
-        let bgBase64 = "";
 
         document.addEventListener("DOMContentLoaded", function() {
-            // เช็คว่ากดเข้าลิงก์ที่มีข้อมูล Bio Link หรือไม่
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has("bio_name")) {
                 renderFullBioPageFromUrl(urlParams);
@@ -1162,7 +1125,6 @@
             }
         }
 
-        /* FULL PAGE BIO LINK LOGIC */
         function openBioPage() {
             document.getElementById("dropdownMenu").style.display = "none";
             document.getElementById("bioPage").style.display = "block";
@@ -1172,26 +1134,20 @@
             document.getElementById("bioPage").style.display = "none";
         }
 
-        function handleFileSelect(event, type) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                if (type === 'profile') {
-                    profileBase64 = e.target.result;
-                    document.getElementById("previewAvatar").src = profileBase64;
-                } else if (type === 'bg') {
-                    bgBase64 = e.target.result;
-                    document.getElementById("previewScreen").style.backgroundImage = `url(${bgBase64})`;
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-
         function updatePreview() {
             const name = document.getElementById("inputName").value || "ชื่อของคุณ";
+            const profileUrl = document.getElementById("inputProfileUrl").value || "https://via.placeholder.com/150?text=Profile";
+            const bgUrl = document.getElementById("inputBgUrl").value;
+
             document.getElementById("previewName").innerText = name;
+            document.getElementById("previewAvatar").src = profileUrl;
+
+            const previewScreen = document.getElementById("previewScreen");
+            if (bgUrl) {
+                previewScreen.style.backgroundImage = `url('${bgUrl}')`;
+            } else {
+                previewScreen.style.backgroundImage = "none";
+            }
 
             const linksContainer = document.getElementById("previewLinksContainer");
             linksContainer.innerHTML = "";
@@ -1229,8 +1185,8 @@
 
             const data = {
                 name: name,
-                profile: profileBase64,
-                bg: bgBase64,
+                profile: document.getElementById("inputProfileUrl").value,
+                bg: document.getElementById("inputBgUrl").value,
                 fb: document.getElementById("inputFb").value,
                 ig: document.getElementById("inputIg").value,
                 line: document.getElementById("inputLine").value,
@@ -1241,23 +1197,16 @@
             const baseUrl = window.location.origin + window.location.pathname;
             const finalUrl = `${baseUrl}?bio_name=${encodeURIComponent(name)}#data=${encodedData}`;
 
-            // แจ้งเตือนถ้ารูปถ่ายขนาดใหญ่เกินไป
-            if (finalUrl.length > 50000) {
-                alert("⚠️ ขนาดรูปภาพใหญ่เกินไป อาจทำให้แชร์ลิงก์ไม่ได้ แนะนำให้ใช้รูปที่มีขนาดเล็กกว่านี้นะครับ");
-            }
-
             document.getElementById("finalUrlText").value = finalUrl;
             document.getElementById("btnTestOpen").href = finalUrl;
             document.getElementById("generatedResult").style.display = "block";
         }
 
-        /* ฟังก์ชันคัดลอกลิงก์ฉบับแก้ไข รองรับมือถือและแอปทุกประเภท */
         function copyGeneratedUrl() {
             const copyText = document.getElementById("finalUrlText");
-            
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(copyText.value).then(() => {
-                    alert("🎉 คัดลอกลิงก์ Bio สำเร็จ! นำไปแปะหน้าโซเชียลหรือแชร์ให้คนอื่นเปิดดูได้เลย");
+                    alert("🎉 คัดลอกลิงก์ Bio สำเร็จ!");
                 }).catch(() => {
                     fallbackCopyText(copyText);
                 });
@@ -1270,20 +1219,14 @@
             inputElement.focus();
             inputElement.select();
             inputElement.setSelectionRange(0, 99999);
-
             try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    alert("🎉 คัดลอกลิงก์ Bio สำเร็จ! นำไปแปะหน้าโซเชียลหรือแชร์ให้คนอื่นเปิดดูได้เลย");
-                } else {
-                    alert("⚠️ ไม่สามารถคัดลอกอัตโนมัติได้ กรุณากดค้างที่กล่องข้อความเพื่อกดคัดลอกเองครับ");
-                }
+                document.execCommand('copy');
+                alert("🎉 คัดลอกลิงก์ Bio สำเร็จ!");
             } catch (err) {
                 alert("⚠️ กรุณากดค้างที่กล่องข้อความแล้วเลือก 'คัดลอก' (Copy)");
             }
         }
 
-        // Render Page When Shared User Opens Link
         function renderFullBioPageFromUrl(params) {
             let bioData = null;
             try {
@@ -1300,7 +1243,7 @@
                 
                 const viewPage = document.getElementById("viewBioFullPage");
                 viewPage.style.display = "flex";
-                if (bioData.bg) viewPage.style.backgroundImage = `url(${bioData.bg})`;
+                if (bioData.bg) viewPage.style.backgroundImage = `url('${bioData.bg}')`;
                 
                 document.getElementById("displayAvatar").src = bioData.profile || "https://via.placeholder.com/150";
                 document.getElementById("displayName").innerText = bioData.name;
