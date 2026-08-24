@@ -177,6 +177,52 @@ async function uploadImageForBuilder(fileInput) {
     }
 }
 
+async function uploadCanvasBgImage(fileInput) {
+    if (!fileInput.files[0]) return;
+    showAlert("กำลังอัปโหลดรูปพื้นหลัง...", "โปรดรอสักครู่", "fa-spinner");
+
+    try {
+        const compressedBlob = await compressImage(fileInput.files[0], 1200, 0.8);
+        const formData = new FormData();
+        formData.append("image", compressedBlob, "bg.jpg");
+
+        const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            builderCanvasBgUrl = result.data.url;
+            builderCanvasBgColor = "";
+            applyCanvasBackground();
+            showAlert("ตั้งค่ารูปพื้นหลังสำเร็จ!", "สำเร็จ", "fa-circle-check");
+        } else {
+            showAlert("อัปโหลดรูปไม่สำเร็จ", "ผิดพลาด", "fa-circle-xmark");
+        }
+    } catch (error) {
+        showAlert("เชื่อมต่อระบบฝากรูปไม่สำเร็จ", "ผิดพลาด", "fa-wifi");
+    }
+}
+
+function updateCanvasBgColor(color) {
+    builderCanvasBgColor = color;
+    builderCanvasBgUrl = "";
+    applyCanvasBackground();
+}
+
+function applyCanvasBackground() {
+    const canvas = document.getElementById("builderCanvas");
+    if (!canvas) return;
+    if (builderCanvasBgUrl) {
+        canvas.style.backgroundImage = `url('${builderCanvasBgUrl}')`;
+        canvas.style.backgroundColor = "transparent";
+    } else {
+        canvas.style.backgroundImage = "none";
+        canvas.style.backgroundColor = builderCanvasBgColor || "#ffffff";
+    }
+}
+
 function showCurrentAd() {
     const adImage = document.getElementById("adImage");
     const adCounter = document.getElementById("adCounter");
@@ -475,15 +521,17 @@ function renderFullBioPageFromUrl(params) {
     }
 }
 
-/* WEBSITE BUILDER LOGIC WITH NEW SHAPES & CUSTOM LINKS */
 let builderElements = [];
 let selectedElementId = null;
+let builderCanvasBgColor = "#ffffff";
+let builderCanvasBgUrl = "";
 
 function openWebsiteBuilder() {
     const dropdownMenu = document.getElementById("dropdownMenu");
     const builderPage = document.getElementById("websiteBuilderPage");
     if (dropdownMenu) dropdownMenu.style.display = "none";
     if (builderPage) builderPage.style.display = "flex";
+    applyCanvasBackground();
     renderCanvas();
 }
 
@@ -504,17 +552,17 @@ function addBuilderElement(type) {
     let newElement = {
         id: id,
         type: type,
-        content: type === 'heading' ? 'หัวข้อเว็บไซต์ของคุณ' : (type === 'text' ? 'พิมพ์ข้อความรายละเอียดที่นี่...' : (type === 'image' ? 'https://via.placeholder.com/400x250?text=Upload+Image' : (type === 'button' || type === 'custom-link' ? 'กดไปที่ลิงก์' : ''))),
+        content: type === 'heading' ? 'หัวข้อเว็บไซต์ของคุณ' : (type === 'text' ? 'พิมพ์ข้อความรายละเอียดที่นี่...' : (type === 'image' ? 'https://via.placeholder.com/400x250?text=Upload+Image' : (type === 'button' || type === 'custom-link' ? 'กดไปที่ลิงก์' : 'รูปทรงตกแต่ง'))),
         url: (type === 'button' || type === 'custom-link') ? 'https://example.com' : '',
-        color: '#0018F9',
-        textColor: '#ffffff',
-        fontSize: type === 'heading' ? '28px' : '16px',
+        color: '#0018F9',       /* เปลี่ยนสีเริ่มต้นรูปทรงเป็นสีน้ำเงิน */
+        textColor: '#0018F9',   /* เปลี่ยนสีข้อความเริ่มต้น 4 ข้อความตั้งต้นเป็นสีน้ำเงิน */
+        fontSize: type === 'heading' ? '28px' : '15px',
         align: 'center',
         x: 30,
-        y: builderElements.length * 90 + 30,
-        width: '200px',
-        height: '120px',
-        borderRadius: '10px',
+        y: builderElements.length * 80 + 20,
+        width: 220,
+        height: 100,
+        borderRadius: '8px',
         col1Content: 'ข้อความคอลัมน์ซ้าย',
         col2Content: 'ข้อความคอลัมน์ขวา'
     };
@@ -543,7 +591,8 @@ function renderCanvas() {
         div.className = `canvas-item ${el.id === selectedElementId ? 'selected' : ''}`;
         div.style.left = (el.x || 20) + 'px';
         div.style.top = (el.y || 20) + 'px';
-        div.style.cursor = 'grab';
+        div.style.width = (el.width || 220) + 'px';
+        div.style.height = (el.height || 100) + 'px';
 
         const startDrag = (clientX, clientY) => {
             selectedElementId = el.id;
@@ -551,8 +600,11 @@ function renderCanvas() {
 
             let lastX = clientX;
             let lastY = clientY;
-            div.style.cursor = 'grabbing';
             div.style.zIndex = '1000';
+
+            const guideV = document.getElementById("guideLineV");
+            const guideH = document.getElementById("guideLineH");
+            const useSnap = document.getElementById("toggleSnapGrid")?.checked ?? true;
 
             const onMove = (moveX, moveY) => {
                 let dx = moveX - lastX;
@@ -566,6 +618,37 @@ function renderCanvas() {
 
                 if (el.x < 0) el.x = 0;
                 if (el.y < 0) el.y = 0;
+
+                if (useSnap) {
+                    let snappedV = false;
+                    let snappedH = false;
+                    const canvasWidth = canvas.clientWidth;
+
+                    let elCenterX = el.x + (el.width / 2);
+                    if (Math.abs(elCenterX - (canvasWidth / 2)) < 8) {
+                        el.x = (canvasWidth / 2) - (el.width / 2);
+                        if (guideV) {
+                            guideV.style.left = "50%";
+                            guideV.style.display = "block";
+                        }
+                        snappedV = true;
+                    }
+                    if (!snappedV && guideV) guideV.style.display = "none";
+
+                    let elCenterY = el.y + (el.height / 2);
+                    if (Math.abs(elCenterY - 300) < 8) {
+                        el.y = 300 - (el.height / 2);
+                        if (guideH) {
+                            guideH.style.top = "300px";
+                            guideH.style.display = "block";
+                        }
+                        snappedH = true;
+                    }
+                    if (!snappedH && guideH) guideH.style.display = "none";
+                } else {
+                    if (guideV) guideV.style.display = "none";
+                    if (guideH) guideH.style.display = "none";
+                }
 
                 div.style.left = el.x + 'px';
                 div.style.top = el.y + 'px';
@@ -584,7 +667,11 @@ function renderCanvas() {
                 window.removeEventListener('touchmove', onTouchMove);
                 window.removeEventListener('touchend', onEnd);
                 
-                div.style.cursor = 'grab';
+                const guideV = document.getElementById("guideLineV");
+                const guideH = document.getElementById("guideLineH");
+                if (guideV) guideV.style.display = "none";
+                if (guideH) guideH.style.display = "none";
+
                 div.style.zIndex = '';
                 renderCanvas();
             };
@@ -596,13 +683,13 @@ function renderCanvas() {
         };
 
         div.onmousedown = (e) => {
-            if (e.target.closest('.item-actions')) return;
+            if (e.target.closest('.item-actions') || e.target.closest('.resize-handle')) return;
             e.preventDefault();
             startDrag(e.clientX, e.clientY);
         };
 
         div.ontouchstart = (e) => {
-            if (e.target.closest('.item-actions')) return;
+            if (e.target.closest('.item-actions') || e.target.closest('.resize-handle')) return;
             if (e.touches && e.touches[0]) {
                 startDrag(e.touches[0].clientX, e.touches[0].clientY);
             }
@@ -615,6 +702,35 @@ function renderCanvas() {
             renderProperties();
         };
 
+        const handle = document.createElement("div");
+        handle.className = "resize-handle";
+        handle.onmousedown = (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            let startW = el.width || 220;
+            let startH = el.height || 100;
+            let startX = e.clientX;
+            let startY = e.clientY;
+
+            const onResizeMove = (me) => {
+                let dw = me.clientX - startX;
+                let dh = me.clientY - startY;
+                el.width = Math.max(80, startW + dw);
+                el.height = Math.max(40, startH + dh);
+                div.style.width = el.width + 'px';
+                div.style.height = el.height + 'px';
+            };
+
+            const onResizeEnd = () => {
+                window.removeEventListener('mousemove', onResizeMove);
+                window.removeEventListener('mouseup', onResizeEnd);
+                renderProperties();
+            };
+
+            window.addEventListener('mousemove', onResizeMove);
+            window.addEventListener('mouseup', onResizeEnd);
+        };
+
         div.innerHTML = `
             <div class="item-actions">
                 <button class="item-act-btn" onclick="duplicateElement('${el.id}')" title="คัดลอก"><i class="fa-solid fa-copy"></i></button>
@@ -622,52 +738,45 @@ function renderCanvas() {
             </div>
             ${renderElementInnerHtml(el)}
         `;
+        div.appendChild(handle);
         canvas.appendChild(div);
     });
 }
 
-function allowDrop(event) {
-    event.preventDefault();
-}
-
-function dropElement(event) {
-    event.preventDefault();
-}
+function allowDrop(event) { event.preventDefault(); }
+function dropElement(event) { event.preventDefault(); }
 
 function renderElementInnerHtml(el) {
-    let style = `color: ${el.color}; font-size: ${el.fontSize}; text-align: ${el.align}; width: 100%;`;
+    let style = `color: ${el.textColor || '#0018F9'}; font-size: ${el.fontSize}; text-align: ${el.align}; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center;`;
     
     if (el.type === 'heading') {
         return `<h2 style="${style}; font-weight:700;">${el.content}</h2>`;
     } else if (el.type === 'text') {
         return `<p style="${style}">${el.content}</p>`;
     } else if (el.type === 'image') {
-        return `<div style="text-align:${el.align};"><img src="${el.content}" style="max-width:100%; max-height:280px; object-fit:cover; border-radius:10px;" alt="Image"></div>`;
+        return `<div style="text-align:${el.align}; width:100%; height:100%; display:flex; align-items:center; justify-content:center;"><img src="${el.content}" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:6px;" alt="Image"></div>`;
     } else if (el.type === 'button') {
-        return `<div style="text-align:${el.align};"><a href="${el.url || '#'}" target="_blank" style="display:inline-block; background:${el.color}; color:${el.textColor}; padding:12px 28px; border-radius:12px; font-weight:600; text-decoration:none; box-shadow:0 4px 10px rgba(0,0,0,0.15);">${el.content}</a></div>`;
+        return `<div style="text-align:${el.align}; width:100%; height:100%; display:flex; align-items:center; justify-content:center;"><a href="${el.url || '#'}" target="_blank" style="background:${el.color}; color:${el.textColor}; padding:8px 20px; border-radius:8px; font-weight:600; text-decoration:none; box-shadow:0 4px 10px rgba(0,0,0,0.15);">${el.content}</a></div>`;
     } else if (el.type === 'custom-link') {
-        return `<div style="text-align:${el.align};"><a href="${el.url || '#'}" target="_blank" style="display:inline-block; background:${el.color}; color:${el.textColor}; padding:14px 30px; border-radius:25px; font-weight:700; font-size:16px; text-decoration:none; box-shadow:0 4px 15px rgba(0,24,249,0.3);"><i class="fa-solid fa-link"></i> ${el.content}</a></div>`;
+        return `<div style="text-align:${el.align}; width:100%; height:100%; display:flex; align-items:center; justify-content:center;"><a href="${el.url || '#'}" target="_blank" style="background:${el.color}; color:${el.textColor}; padding:10px 24px; border-radius:20px; font-weight:700; font-size:14px; text-decoration:none; box-shadow:0 4px 15px rgba(0,24,249,0.3);"><i class="fa-solid fa-link"></i> ${el.content}</a></div>`;
     } else if (el.type === 'row') {
         return `
             <div class="builder-row-container">
-                <div class="builder-column" style="text-align:${el.align};">${el.col1Content}</div>
-                <div class="builder-column" style="text-align:${el.align};">${el.col2Content}</div>
+                <div class="builder-column" style="text-align:${el.align}; color:${el.textColor};">${el.col1Content}</div>
+                <div class="builder-column" style="text-align:${el.align}; color:${el.textColor};">${el.col2Content}</div>
             </div>
         `;
     } else if (el.type.startsWith('shape-')) {
-        let shapeStyle = `width: ${el.width || '180px'}; height: ${el.height || '100px'}; background-color: ${el.color}; display: flex; align-items: center; justify-content: center; color: ${el.textColor}; font-weight: 600; padding: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1);`;
+        let shapeStyle = `width: 100%; height: 100%; background-color: ${el.color}; display: flex; align-items: center; justify-content: center; color: ${el.textColor}; font-weight: 600; padding: 6px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1);`;
         
-        if (el.type === 'shape-rect') {
-            shapeStyle += ` border-radius: ${el.borderRadius || '4px'};`;
-        } else if (el.type === 'shape-square') {
-            shapeStyle += ` width: ${el.width || '120px'}; height: ${el.width || '120px'}; border-radius: 4px;`;
+        if (el.type === 'shape-rect' || el.type === 'shape-square') {
+            shapeStyle += ` border-radius: 6px;`;
         } else if (el.type === 'shape-rounded') {
-            shapeStyle += ` border-radius: 25px;`;
+            shapeStyle += ` border-radius: 20px;`;
         } else if (el.type === 'shape-circle') {
-            let size = el.width || '120px';
-            shapeStyle += ` width: ${size}; height: ${size}; border-radius: 50%;`;
+            shapeStyle += ` border-radius: 50%;`;
         } else if (el.type === 'shape-triangle') {
-            return `<div style="width: 0; height: 0; border-left: 60px solid transparent; border-right: 60px solid transparent; border-bottom: 100px solid ${el.color}; display:inline-block; filter: drop-shadow(0 4px 5px rgba(0,0,0,0.15));" title="Triangle Shape"></div>`;
+            return `<div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;"><div style="width: 0; height: 0; border-left: 40px solid transparent; border-right: 40px solid transparent; border-bottom: 70px solid ${el.color}; filter: drop-shadow(0 4px 5px rgba(0,0,0,0.15));" title="Triangle"></div></div>`;
         }
 
         return `<div style="${shapeStyle}">${el.content}</div>`;
@@ -681,7 +790,7 @@ function renderProperties() {
     if (!container) return;
 
     if (!selectedElementId) {
-        container.innerHTML = `<div style="color:#888; font-size:13px; text-align:center; padding-top:20px;">คลิกเลือกองค์ประกอบบนหน้าจอตรงกลางเพื่อแก้ไข</div>`;
+        container.innerHTML = `<div style="color:#888; font-size:13px; text-align:center; padding-top:10px;">คลิกเลือกองค์ประกอบเพื่อแก้ไข</div>`;
         return;
     }
 
@@ -712,7 +821,7 @@ function renderProperties() {
         if (el.type === 'image') {
             html += `
                 <div class="form-group-custom">
-                    <label>หรืออัปโหลดรูปภาพใหม่</label>
+                    <label>อัปโหลดรูปภาพใหม่</label>
                     <input type="file" accept="image/*" class="input-custom" onchange="uploadImageForBuilder(this)">
                 </div>
             `;
@@ -721,39 +830,35 @@ function renderProperties() {
         if (el.type === 'button' || el.type === 'custom-link') {
             html += `
                 <div class="form-group-custom">
-                    <label><i class="fa-solid fa-link"></i> ลิงก์ URL ปลายทางของลูกค้า</label>
+                    <label>ลิงก์ URL ปลายทาง</label>
                     <input type="url" class="input-custom" value="${el.url}" placeholder="https://..." oninput="updateSelectedElementProp('url', this.value)">
-                </div>
-                <div class="form-group-custom">
-                    <label>สีข้อความ / ไอคอน</label>
-                    <input type="color" class="input-custom" value="${el.textColor.startsWith('#') ? el.textColor : '#ffffff'}" style="height:40px; padding:2px;" onchange="updateSelectedElementProp('textColor', this.value)">
-                </div>
-            `;
-        }
-
-        if (el.type.startsWith('shape-')) {
-            html += `
-                <div class="form-group-custom" style="display:flex; gap:10px;">
-                    <div style="flex:1;">
-                        <label>ความกว้าง (Width)</label>
-                        <input type="text" class="input-custom" value="${el.width || '180px'}" oninput="updateSelectedElementProp('width', this.value)">
-                    </div>
-                    <div style="flex:1;">
-                        <label>ความสูง (Height)</label>
-                        <input type="text" class="input-custom" value="${el.height || '100px'}" oninput="updateSelectedElementProp('height', this.value)">
-                    </div>
-                </div>
-                <div class="form-group-custom">
-                    <label>สีตัวอักษรในกล่องทรง</label>
-                    <input type="color" class="input-custom" value="${el.textColor.startsWith('#') ? el.textColor : '#ffffff'}" style="height:40px; padding:2px;" onchange="updateSelectedElementProp('textColor', this.value)">
                 </div>
             `;
         }
 
         html += `
-            <div class="form-group-custom">
-                <label>สีหลัก / สีพื้นหลังกล่อง</label>
-                <input type="color" class="input-custom" value="${el.color.startsWith('#') ? el.color : '#0018F9'}" style="height:40px; padding:2px;" onchange="updateSelectedElementProp('color', this.value)">
+            <div class="form-group-custom" style="display:flex; gap:8px;">
+                <div style="flex:1;">
+                    <label>ความกว้าง (Width)</label>
+                    <input type="number" class="input-custom" value="${el.width}" oninput="updateSelectedElementProp('width', parseInt(this.value))">
+                </div>
+                <div style="flex:1;">
+                    <label>ความสูง (Height)</label>
+                    <input type="number" class="input-custom" value="${el.height}" oninput="updateSelectedElementProp('height', parseInt(this.value))">
+                </div>
+            </div>
+        `;
+
+        html += `
+            <div class="form-group-custom" style="display:flex; gap:8px;">
+                <div style="flex:1;">
+                    <label>สีหลัก/พื้นหลัง</label>
+                    <input type="color" class="input-custom" value="${el.color.startsWith('#') ? el.color : '#0018F9'}" style="height:36px; padding:2px;" onchange="updateSelectedElementProp('color', this.value)">
+                </div>
+                <div style="flex:1;">
+                    <label>สีข้อความ</label>
+                    <input type="color" class="input-custom" value="${el.textColor.startsWith('#') ? el.textColor : '#0018F9'}" style="height:36px; padding:2px;" onchange="updateSelectedElementProp('textColor', this.value)">
+                </div>
             </div>
         `;
     }
@@ -804,14 +909,28 @@ function duplicateElement(id) {
 }
 
 function saveWebsiteBuilder() {
-    localStorage.setItem("chinCodeWebsiteData", JSON.stringify(builderElements));
+    const dataToSave = {
+        elements: builderElements,
+        bgColor: builderCanvasBgColor,
+        bgUrl: builderCanvasBgUrl
+    };
+    localStorage.setItem("chinCodeWebsiteData", JSON.stringify(dataToSave));
     showAlert("บันทึกเว็บไซต์สำเร็จเรียบร้อย!", "สำเร็จ", "fa-floppy-disk");
 }
 
 function loadWebsiteBuilderData() {
     const saved = localStorage.getItem("chinCodeWebsiteData");
     if (saved) {
-        try { builderElements = JSON.parse(saved); } catch(e) {}
+        try {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed)) {
+                builderElements = parsed;
+            } else {
+                builderElements = parsed.elements || [];
+                builderCanvasBgColor = parsed.bgColor || "#ffffff";
+                builderCanvasBgUrl = parsed.bgUrl || "";
+            }
+        } catch(e) {}
     }
 }
 
@@ -821,14 +940,21 @@ function previewWebsiteBuilder() {
     if (!overlay || !container) return;
 
     container.innerHTML = "";
-    container.style.position = "relative";
-    container.style.minHeight = "600px";
+    if (builderCanvasBgUrl) {
+        container.style.backgroundImage = `url('${builderCanvasBgUrl}')`;
+        container.style.backgroundColor = "transparent";
+    } else {
+        container.style.backgroundImage = "none";
+        container.style.backgroundColor = builderCanvasBgColor || "#ffffff";
+    }
 
     builderElements.forEach(el => {
         const div = document.createElement("div");
         div.style.position = "absolute";
         div.style.left = (el.x || 20) + "px";
         div.style.top = (el.y || 20) + "px";
+        div.style.width = (el.width || 220) + "px";
+        div.style.height = (el.height || 100) + "px";
         div.innerHTML = renderElementInnerHtml(el);
         container.appendChild(div);
     });
@@ -847,9 +973,15 @@ function generateWebsiteShareUrl() {
         return;
     }
 
-    const encodedData = encodeURIComponent(JSON.stringify(builderElements));
+    const payload = {
+        elements: builderElements,
+        bgColor: builderCanvasBgColor,
+        bgUrl: builderCanvasBgUrl
+    };
+
+    const encodedData = encodeURIComponent(JSON.stringify(payload));
     const baseUrl = window.location.origin + window.location.pathname;
-    const finalUrl = `${baseUrl}?web_data=true#elements=${encodedData}`;
+    const finalUrl = `${baseUrl}?web_data=true#data=${encodedData}`;
 
     const finalWebsiteUrlText = document.getElementById("finalWebsiteUrlText");
     const btnTestWebsiteOpen = document.getElementById("btnTestWebsiteOpen");
@@ -878,15 +1010,17 @@ function copyWebsiteShareUrl() {
 }
 
 function renderPublishedWebsiteFromUrl(params) {
-    let elements = [];
+    let payload = null;
     try {
         const hash = window.location.hash;
-        if (hash.startsWith("#elements=")) {
-            elements = JSON.parse(decodeURIComponent(hash.replace("#elements=", "")));
+        if (hash.startsWith("#data=")) {
+            payload = JSON.parse(decodeURIComponent(hash.replace("#data=", "")));
+        } else if (hash.startsWith("#elements=")) {
+            payload = { elements: JSON.parse(decodeURIComponent(hash.replace("#elements=", ""))), bgColor: "#ffffff", bgUrl: "" };
         }
     } catch(e) { console.error(e); }
 
-    if (elements.length > 0) {
+    if (payload && payload.elements) {
         const homePage = document.getElementById("homePage");
         const topBanner = document.querySelector(".top-banner");
         if (homePage) homePage.style.display = "none";
@@ -894,17 +1028,28 @@ function renderPublishedWebsiteFromUrl(params) {
 
         const pubPage = document.getElementById("publishedWebsitePage");
         const container = document.getElementById("publishedContentContainer");
-        if (pubPage) pubPage.style.display = "block";
+        if (pubPage) {
+            pubPage.style.display = "block";
+            if (payload.bgUrl) {
+                pubPage.style.backgroundImage = `url('${payload.bgUrl}')`;
+                pubPage.style.backgroundColor = "transparent";
+            } else {
+                pubPage.style.backgroundImage = "none";
+                pubPage.style.backgroundColor = payload.bgColor || "#ffffff";
+            }
+        }
         if (container) {
             container.innerHTML = "";
             container.style.position = "relative";
             container.style.minHeight = "800px";
 
-            elements.forEach(el => {
+            payload.elements.forEach(el => {
                 const div = document.createElement("div");
                 div.style.position = "absolute";
                 div.style.left = (el.x || 20) + "px";
                 div.style.top = (el.y || 20) + "px";
+                div.style.width = (el.width || 220) + "px";
+                div.style.height = (el.height || 100) + "px";
                 div.innerHTML = renderElementInnerHtml(el);
                 container.appendChild(div);
             });
