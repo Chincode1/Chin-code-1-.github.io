@@ -63,6 +63,9 @@
             <div class="menu-item" onclick="openBioPage()">
                 <span><i class="fa-solid fa-wand-magic-sparkles"></i> Bio Link (free)</span>
             </div>
+            <div class="menu-item" onclick="openWebsiteBuilder()">
+                <span><i class="fa-solid fa-desktop"></i> สร้างเว็บไซต์</span>
+            </div>
             <div class="menu-item" onclick="toggleContact(event)">
                 <span>ติดต่อ</span>
                 <i class="fa-solid fa-chevron-down arrow-icon" id="arrowIcon"></i>
@@ -264,7 +267,85 @@
         </div>
     </div>
 
-    <!-- หน้าแสดงผล Full Bio ของลูกค้า (ไม่มีปุ่มกากบาทแล้ว) -->
+    <!-- Website Builder Page -->
+    <div id="websiteBuilderPage" class="builder-fullscreen">
+        <div class="builder-topbar">
+            <button class="btn-back-home" onclick="closeWebsiteBuilder()">
+                <i class="fa-solid fa-arrow-left"></i> กลับหน้าหลัก
+            </button>
+            <div class="builder-actions-center">
+                <div class="device-switchers">
+                    <button class="device-btn active" onclick="setBuilderDevice('desktop')" title="Desktop View"><i class="fa-solid fa-desktop"></i></button>
+                    <button class="device-btn" onclick="setBuilderDevice('tablet')" title="Tablet View"><i class="fa-solid fa-tablet-screen-button"></i></button>
+                    <button class="device-btn" onclick="setBuilderDevice('mobile')" title="Mobile View"><i class="fa-solid fa-mobile-screen"></i></button>
+                </div>
+            </div>
+            <div class="builder-actions-right">
+                <button class="btn-back-home" style="background:#00c853;" onclick="previewWebsiteBuilder()"><i class="fa-solid fa-eye"></i> พรีวิวเว็บ</button>
+                <button class="btn-back-home" style="background:#9c27b0;" onclick="generateWebsiteShareUrl()"><i class="fa-solid fa-share-nodes"></i> สร้างลิงก์เว็บส่วนตัว</button>
+                <button class="btn-back-home" onclick="saveWebsiteBuilder()"><i class="fa-solid fa-floppy-disk"></i> บันทึก</button>
+            </div>
+        </div>
+
+        <div class="builder-main-workspace">
+            <div class="builder-sidebar">
+                <div class="builder-sidebar-title"><i class="fa-solid fa-puzzle-piece"></i> เพิ่มองค์ประกอบ</div>
+                <div class="elements-grid">
+                    <div class="element-chip" onclick="addBuilderElement('heading')"><i class="fa-solid fa-heading"></i> เพิ่มหัวข้อ</div>
+                    <div class="element-chip" onclick="addBuilderElement('text')"><i class="fa-solid fa-font"></i> เพิ่มข้อความ</div>
+                    <div class="element-chip" onclick="addBuilderElement('image')"><i class="fa-solid fa-image"></i> เพิ่มรูปภาพ</div>
+                    <div class="element-chip" onclick="addBuilderElement('button')"><i class="fa-solid fa-square-caret-right"></i> เพิ่มปุ่มกด</div>
+                    <div class="element-chip" onclick="addBuilderElement('custom-link')"><i class="fa-solid fa-link"></i> เพิ่มลิงก์ URL (ปุ่มลิงก์ลูกค้า)</div>
+                    <div class="element-chip" onclick="addBuilderElement('row')"><i class="fa-solid fa-columns"></i> เพิ่มแถวแยก (ซ้าย-ขวา)</div>
+                    
+                    <div style="font-size: 13px; font-weight: 700; color: #0018F9; margin-top: 10px; margin-bottom: 5px;"><i class="fa-solid fa-shapes"></i> กล่องและรูปทรงตกแต่ง</div>
+                    <div class="element-chip" onclick="addBuilderElement('shape-rect')"><i class="fa-regular fa-square"></i> สี่เหลี่ยมผืนผ้า</div>
+                    <div class="element-chip" onclick="addBuilderElement('shape-square')"><i class="fa-solid fa-stop"></i> สี่เหลี่ยมจัตุรัส</div>
+                    <div class="element-chip" onclick="addBuilderElement('shape-rounded')"><i class="fa-solid fa-square-full" style="border-radius:6px;"></i> สี่เหลี่ยมมุมมน</div>
+                    <div class="element-chip" onclick="addBuilderElement('shape-circle')"><i class="fa-regular fa-circle"></i> วงกลม</div>
+                    <div class="element-chip" onclick="addBuilderElement('shape-triangle')"><i class="fa-solid fa-caret-up"></i> สามเหลี่ยม</div>
+                </div>
+            </div>
+
+            <div class="builder-canvas-area" id="canvasArea">
+                <div class="builder-canvas desktop" id="builderCanvas" ondragover="allowDrop(event)" ondrop="dropElement(event)">
+                    <div class="canvas-placeholder-text" id="canvasPlaceholder">คลิกเมนูด้านซ้ายเพื่อเพิ่มองค์ประกอบ ทรงเรขาคณิต หรือปุ่มลิงก์ จากนั้นลากวางอิสระได้ตามใจชอบ</div>
+                </div>
+            </div>
+
+            <div class="builder-properties">
+                <div class="builder-sidebar-title"><i class="fa-solid fa-sliders"></i> ตั้งค่าองค์ประกอบ</div>
+                <div id="propertiesContent" style="color:#555; font-size:13px; text-align:center; padding-top:20px;">
+                    คลิกเลือกองค์ประกอบบนหน้าจอตรงกลางเพื่อแก้ไขข้อความ รูปทรง ลิงก์ และสี
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Website Modal -->
+    <div id="websiteShareModal" class="custom-alert-overlay">
+        <div class="custom-alert-box" style="max-width: 450px;">
+            <div class="custom-alert-icon" style="background:#eef2ff; color:#0018F9;"><i class="fa-solid fa-globe"></i></div>
+            <div class="custom-alert-title">ลิงก์เว็บไซต์ของคุณพร้อมแล้ว!</div>
+            <div class="custom-alert-message">คุณสามารถคัดลอกลิงก์นี้ไปเปิดดูหรือส่งให้เพื่อนดูเว็บที่คุณสร้างได้ทันที</div>
+            <input type="text" id="finalWebsiteUrlText" class="input-custom" readonly style="text-align: center; margin-bottom: 15px; background: #fff;">
+            <div style="display:flex; gap:10px;">
+                <button class="custom-alert-btn" onclick="copyWebsiteShareUrl()"><i class="fa-regular fa-copy"></i> คัดลอกลิงก์</button>
+                <a id="btnTestWebsiteOpen" href="#" target="_blank" class="custom-alert-btn" style="background:#00c853; text-decoration:none; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-arrow-up-right-from-square"></i> เปิดเว็บ</a>
+            </div>
+            <button onclick="closeWebsiteShareModal()" style="margin-top:12px; background:transparent; border:none; color:#555; cursor:pointer; font-family:'Prompt'; font-size:13px;">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+
+    <!-- Fullscreen Preview Overlay -->
+    <div id="websitePreviewOverlay" class="preview-overlay-screen">
+        <div class="preview-top-bar">
+            <span>พรีวิวเว็บไซต์ของคุณ</span>
+            <button class="btn-back-home" onclick="closeWebsitePreview()"><i class="fa-solid fa-xmark"></i> กลับไปแก้ไข</button>
+        </div>
+        <div class="preview-render-container" id="previewRenderContainer" style="position:relative; min-height:600px;"></div>
+    </div>
+
     <div id="viewBioFullPage">
         <div class="bio-display-box" id="displayContentBox">
             <img id="displayAvatar" src="" class="preview-avatar" style="width:110px; height:110px;" alt="Profile">
@@ -283,6 +364,11 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Published Website View (Full Render Screen) -->
+    <div id="publishedWebsitePage" class="published-website-screen" style="position:relative; min-height:100vh;">
+        <div id="publishedContentContainer"></div>
     </div>
 
     <div id="customAlert" class="custom-alert-overlay">
