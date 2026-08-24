@@ -267,11 +267,10 @@
         </div>
     </div>
 
-    <!-- Website Builder Page -->
     <div id="websiteBuilderPage" class="builder-fullscreen">
         <div class="builder-topbar">
-            <button class="btn-back-home" onclick="closeWebsiteBuilder()">
-                <i class="fa-solid fa-arrow-left"></i> กลับหน้าหลัก
+            <button class="btn-back-home-sm" onclick="closeWebsiteBuilder()">
+                <i class="fa-solid fa-arrow-left"></i> หน้าหลัก
             </button>
             <div class="builder-actions-center">
                 <div class="device-switchers">
@@ -279,16 +278,29 @@
                     <button class="device-btn" onclick="setBuilderDevice('tablet')" title="Tablet View"><i class="fa-solid fa-tablet-screen-button"></i></button>
                     <button class="device-btn" onclick="setBuilderDevice('mobile')" title="Mobile View"><i class="fa-solid fa-mobile-screen"></i></button>
                 </div>
+                <label style="font-size:12px; font-weight:600; color:#0018F9; display:flex; align-items:center; gap:4px; cursor:pointer;">
+                    <input type="checkbox" id="toggleSnapGrid" checked style="accent-color:#0018F9;"> จัดระเบียบ (Snap)
+                </label>
             </div>
             <div class="builder-actions-right">
-                <button class="btn-back-home" style="background:#00c853;" onclick="previewWebsiteBuilder()"><i class="fa-solid fa-eye"></i> พรีวิวเว็บ</button>
-                <button class="btn-back-home" style="background:#9c27b0;" onclick="generateWebsiteShareUrl()"><i class="fa-solid fa-share-nodes"></i> สร้างลิงก์เว็บส่วนตัว</button>
-                <button class="btn-back-home" onclick="saveWebsiteBuilder()"><i class="fa-solid fa-floppy-disk"></i> บันทึก</button>
+                <button class="btn-back-home-sm" style="background:#00c853;" onclick="previewWebsiteBuilder()"><i class="fa-solid fa-eye"></i> พรีวิว</button>
+                <button class="btn-back-home-sm" style="background:#9c27b0;" onclick="generateWebsiteShareUrl()"><i class="fa-solid fa-share-nodes"></i> แชร์</button>
+                <button class="btn-back-home-sm" onclick="saveWebsiteBuilder()"><i class="fa-solid fa-floppy-disk"></i> บันทึก</button>
             </div>
         </div>
 
         <div class="builder-main-workspace">
             <div class="builder-sidebar">
+                <div class="builder-sidebar-title" style="margin-bottom:8px;"><i class="fa-solid fa-palette"></i> พื้นหลังเว็บไซต์</div>
+                <div class="canvas-bg-settings-box" style="margin-bottom: 20px;">
+                    <div style="font-size:12px; font-weight:600; color:#0018F9; margin-bottom:6px;">เลือกสีพื้นหลัง</div>
+                    <div style="display:flex; gap:8px; margin-bottom:8px;">
+                        <input type="color" id="canvasBgColorPicker" class="input-custom" value="#ffffff" style="height:32px; padding:2px; cursor:pointer;" onchange="updateCanvasBgColor(this.value)">
+                        <button class="btn-back-home-sm" style="flex:1; font-size:11px; justify-content:center;" onclick="document.getElementById('canvasBgFileInput').click()">อัปโหลดรูป</button>
+                        <input type="file" id="canvasBgFileInput" accept="image/*" style="display:none;" onchange="uploadCanvasBgImage(this)">
+                    </div>
+                </div>
+
                 <div class="builder-sidebar-title"><i class="fa-solid fa-puzzle-piece"></i> เพิ่มองค์ประกอบ</div>
                 <div class="elements-grid">
                     <div class="element-chip" onclick="addBuilderElement('heading')"><i class="fa-solid fa-heading"></i> เพิ่มหัวข้อ</div>
@@ -309,20 +321,21 @@
 
             <div class="builder-canvas-area" id="canvasArea">
                 <div class="builder-canvas desktop" id="builderCanvas" ondragover="allowDrop(event)" ondrop="dropElement(event)">
-                    <div class="canvas-placeholder-text" id="canvasPlaceholder">คลิกเมนูด้านซ้ายเพื่อเพิ่มองค์ประกอบ ทรงเรขาคณิต หรือปุ่มลิงก์ จากนั้นลากวางอิสระได้ตามใจชอบ</div>
+                    <div class="canvas-placeholder-text" id="canvasPlaceholder">คลิกเมนูด้านซ้ายเพื่อเพิ่มองค์ประกอบ จากนั้นลากและปรับขนาดได้อิสระเหมือน Canva</div>
+                    <div class="alignment-guide-line-v" id="guideLineV"></div>
+                    <div class="alignment-guide-line-h" id="guideLineH"></div>
                 </div>
             </div>
 
             <div class="builder-properties">
-                <div class="builder-sidebar-title"><i class="fa-solid fa-sliders"></i> ตั้งค่าองค์ประกอบ</div>
-                <div id="propertiesContent" style="color:#555; font-size:13px; text-align:center; padding-top:20px;">
-                    คลิกเลือกองค์ประกอบบนหน้าจอตรงกลางเพื่อแก้ไขข้อความ รูปทรง ลิงก์ และสี
+                <div class="builder-sidebar-title"><i class="fa-solid fa-sliders"></i> ตั้งค่าองค์ประกอบที่เลือก</div>
+                <div id="propertiesContent" style="color:#555; font-size:13px; text-align:center; padding-top:10px;">
+                    คลิกเลือกองค์ประกอบบนหน้าจอตรงกลางเพื่อแก้ไขขนาด ข้อความ สี หรือรูปภาพ
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Share Website Modal -->
     <div id="websiteShareModal" class="custom-alert-overlay">
         <div class="custom-alert-box" style="max-width: 450px;">
             <div class="custom-alert-icon" style="background:#eef2ff; color:#0018F9;"><i class="fa-solid fa-globe"></i></div>
@@ -337,11 +350,10 @@
         </div>
     </div>
 
-    <!-- Fullscreen Preview Overlay -->
     <div id="websitePreviewOverlay" class="preview-overlay-screen">
         <div class="preview-top-bar">
             <span>พรีวิวเว็บไซต์ของคุณ</span>
-            <button class="btn-back-home" onclick="closeWebsitePreview()"><i class="fa-solid fa-xmark"></i> กลับไปแก้ไข</button>
+            <button class="btn-back-home-sm" onclick="closeWebsitePreview()"><i class="fa-solid fa-xmark"></i> กลับไปแก้ไข</button>
         </div>
         <div class="preview-render-container" id="previewRenderContainer" style="position:relative; min-height:600px;"></div>
     </div>
@@ -366,7 +378,6 @@
         </div>
     </div>
 
-    <!-- Published Website View (Full Render Screen) -->
     <div id="publishedWebsitePage" class="published-website-screen" style="position:relative; min-height:100vh;">
         <div id="publishedContentContainer"></div>
     </div>
